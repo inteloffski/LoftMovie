@@ -12,6 +12,4 @@ import javax.inject.Singleton
 )
 interface CoreComponent {
 
-    fun provideContext(context: Context)
-
 }
