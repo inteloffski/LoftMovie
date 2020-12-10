@@ -5,12 +5,29 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.favorite.presentation.FavoriteFragmentViewModel
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
+import javax.inject.Provider
 
-class FavoriteViewModelFactory @Inject constructor(): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(FavoriteFragmentViewModel::class.java)){
-            return FavoriteFragmentViewModel() as T
+class FavoriteViewModelFactory @Inject constructor(
+    private val creators: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        var creator: Provider<out ViewModel>? = creators[modelClass]
+        if (creator == null) {
+            for ((key, value) in creators) {
+                if (modelClass.isAssignableFrom(key)) {
+                    creator = value
+                    break
+                }
+            }
         }
-        throw IllegalArgumentException("Unknown viewModel class")
+        if (creator == null) {
+            throw IllegalArgumentException("Unknown model class: $modelClass")
+        }
+        try {
+            @Suppress("UNCHECKED_CAST")
+            return creator.get() as T
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
     }
 }

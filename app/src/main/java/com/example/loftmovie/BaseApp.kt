@@ -12,10 +12,21 @@ class BaseApp: Application() {
 
 
 
+
+
+
+
     override fun onCreate() {
         super.onCreate()
-        initAppDI()
         initCoreDI()
+        initAppDI()
+    }
+
+
+    private fun initCoreDI() {
+        coreComponent = DaggerCoreComponent
+            .builder()
+            .build()
     }
 
     private fun initAppDI(){
@@ -23,12 +34,6 @@ class BaseApp: Application() {
             .coreComponent(coreComponent)
             .build()
             .inject(this)
-    }
-
-    private fun initCoreDI() {
-        coreComponent = DaggerCoreComponent
-            .builder()
-            .build()
     }
 
 

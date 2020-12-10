@@ -7,7 +7,8 @@ import dagger.Component
 
 @FeatureScope
 @Component(
-    dependencies = [CoreComponent::class]
+    dependencies = [CoreComponent::class],
+    modules = [PopularFragmentModule::class]
 )
 interface PopularComponent {
     fun inject(fragment: PopularFragment)
