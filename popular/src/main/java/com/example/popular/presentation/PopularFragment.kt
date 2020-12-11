@@ -12,11 +12,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.core.di.component.DaggerCoreComponent
 import com.example.popular.R
 import com.example.popular.di.DaggerPopularComponent
+import com.example.popular.di.PopularComponent
 import javax.inject.Inject
 
 
 const val TAG = "PopularFragment"
 class PopularFragment: Fragment(R.layout.fragment_popular) {
+
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -24,11 +27,7 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        DaggerPopularComponent
-            .builder()
-            .coreComponent(DaggerCoreComponent.builder().build())
-            .build()
-            .inject(this)
+        PopularComponent.injectFragment(this)
 
         if(viewModel != null){
             Log.d(TAG,"onAttach")

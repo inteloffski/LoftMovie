@@ -11,16 +11,18 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.core.di.component.DaggerCoreComponent
 import com.example.favorite.R
 import com.example.favorite.di.DaggerFavoriteComponent
+import com.example.favorite.di.FavoriteComponent
 import com.example.favorite.di.FavoriteViewModelFactory
 import javax.inject.Inject
 import kotlin.math.log
 
 
-
 const val TAG = "FavoriteFragment"
+
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
-
+    @Inject
+    lateinit var ctx: Context
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -28,14 +30,10 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        DaggerFavoriteComponent
-            .builder()
-            .coreComponent(DaggerCoreComponent.builder().build())
-            .build()
-            .inject(this)
+        FavoriteComponent.injectFragment(this)
 
-        if(viewModel != null){
-            Log.d(TAG,"onAttach")
+        if (viewModel != null && ctx != null) {
+            Log.d(TAG, "onAttach")
         }
     }
 
