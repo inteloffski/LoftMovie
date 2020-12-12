@@ -1,6 +1,5 @@
 package com.example.search.di
 
-import com.example.core.di.component.CoreComponent
 import com.example.core.di.scopes.FeatureScope
 import com.example.core_api.providers.AppWithFacade
 import com.example.core_api.providers.ProvidersFacade

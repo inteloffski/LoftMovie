@@ -1,15 +1,11 @@
 package com.example.loftmovie.di
 
 import android.app.Application
-import android.content.Context
-import com.example.core.di.component.CoreComponent
 import com.example.core.di.component.DaggerCoreComponent
 import com.example.core_api.providers.AppProvider
 import com.example.core_api.providers.DataProvider
 import com.example.core_api.providers.ProvidersFacade
-import com.example.di.DaggerMainActivityComponent
 import com.example.loftmovie.BaseApp
-import dagger.BindsInstance
 import dagger.Component
 
 @Component(

@@ -15,7 +15,7 @@ interface MainActivityModule {
     @Binds
     @IntoMap
     @ViewModelKey(MainActivityViewModel::class)
-    fun bindViewModel(viewmodel: MainActivityViewModel): ViewModel
+    fun bindViewModel(viewModel: MainActivityViewModel): ViewModel
 
     @Binds
     fun viewModelFactory(factory: MainViewModelFactory): ViewModelProvider.Factory

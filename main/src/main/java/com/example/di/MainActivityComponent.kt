@@ -1,7 +1,5 @@
 package com.example.di
 
-import com.example.core.di.component.CoreComponent
-import com.example.core.di.scopes.FeatureScope
 import com.example.core_api.providers.ProvidersFacade
 import com.example.main.MainActivity
 import dagger.Component

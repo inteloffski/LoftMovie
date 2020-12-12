@@ -1,4 +1,4 @@
 package com.example.core_api.providers
 
-interface ProvidersFacade: AppProvider, DataProvider {
+interface ProvidersFacade: AppProvider, DataProvider, NavigatorProvider {
 }

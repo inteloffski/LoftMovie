@@ -26,8 +26,9 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
 
 
     override fun onAttach(context: Context) {
+        SearchComponent.injectFragment(this)
         super.onAttach(context)
-       SearchComponent.injectFragment(this)
+
 
         if(viewModel != null){
             Log.d(TAG,"onAttach")

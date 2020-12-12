@@ -2,7 +2,6 @@ package com.example.popular.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.popular.presentation.PopularFragmentViewModel
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Provider
