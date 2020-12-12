@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.core.di.component.DaggerCoreComponent
+import com.example.core.navigation.FavoriteNavigator
 import com.example.favorite.R
 import com.example.favorite.di.DaggerFavoriteComponent
 import com.example.favorite.di.FavoriteComponent
@@ -21,8 +22,10 @@ const val TAG = "FavoriteFragment"
 
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
+    // @Inject lateinit var ctx: Context
+
     @Inject
-    lateinit var ctx: Context
+    lateinit var navigator: FavoriteNavigator
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -32,7 +35,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         super.onAttach(context)
         FavoriteComponent.injectFragment(this)
 
-        if (viewModel != null && ctx != null) {
+        if (viewModel != null && navigator != null) {
             Log.d(TAG, "onAttach")
         }
     }

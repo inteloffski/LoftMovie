@@ -6,8 +6,9 @@ import com.example.core_api.providers.AppWithFacade
 import com.example.core_api.providers.ProvidersFacade
 import com.example.favorite.presentation.FavoriteFragment
 import dagger.Component
+import javax.inject.Singleton
 
-@FeatureScope
+@Singleton
 @Component(
     dependencies = [ProvidersFacade::class],
     modules = [FavoriteFragmentModule::class]

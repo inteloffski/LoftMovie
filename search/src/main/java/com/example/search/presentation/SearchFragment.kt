@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.core.di.component.DaggerCoreComponent
 import com.example.search.R
 import com.example.search.di.DaggerSearchComponent
+import com.example.search.di.SearchComponent
 import com.example.search.di.SearchViewModelFactory
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import javax.inject.Inject
@@ -26,11 +27,7 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        DaggerSearchComponent
-            .builder()
-            .coreComponent(DaggerCoreComponent.builder().build())
-            .build()
-            .inject(this)
+       SearchComponent.injectFragment(this)
 
         if(viewModel != null){
             Log.d(TAG,"onAttach")
