@@ -1,17 +1,39 @@
 package com.example.loftmovie.di
 
-import com.example.core.di.component.CoreComponent
-import com.example.core.di.scopes.AppScope
-import com.example.loftmovie.BaseApp
+import android.app.Application
+import android.content.Context
+import com.example.core_api.providers.AppProvider
+import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
 
-
-@AppScope
+@Singleton
 @Component(
-    dependencies = [CoreComponent::class],
-    modules =[AppModule::class]
+    dependencies = [],
+    modules =[]
 )
-interface AppComponent {
-    fun inject(app: BaseApp)
+interface AppComponent: AppProvider {
+
+    companion object {
+
+        private var appComponent: AppProvider? = null
+
+        fun create(application: Application): AppProvider {
+            return appComponent ?: DaggerAppComponent
+                .builder()
+                .application(application.applicationContext)
+                .build().also {
+                    appComponent = it
+                }
+        }
+    }
+    @Component.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun application(context: Context): Builder
+
+        fun build(): AppComponent
+    }
 }

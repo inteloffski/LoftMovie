@@ -1,34 +1,26 @@
 package com.example.loftmovie
 
 import android.app.Application
-import android.content.Context
-import com.example.core.di.component.CoreComponent
-import com.example.core.di.component.DaggerCoreComponent
-import com.example.loftmovie.di.DaggerAppComponent
+import com.example.core_api.providers.AppWithFacade
+import com.example.core_api.providers.ProvidersFacade
+import com.example.loftmovie.di.FacadeComponent
 
-class BaseApp: Application() {
+class BaseApp: Application(), AppWithFacade {
 
-    lateinit var coreComponent: CoreComponent
-
-
+    companion object {
+        private var facadeComponent: FacadeComponent? = null
+    }
 
     override fun onCreate() {
         super.onCreate()
-        initAppDI()
-        initCoreDI()
+        (getFacade() as FacadeComponent).inject(this)
     }
 
-    private fun initAppDI(){
-        DaggerAppComponent.builder()
-            .coreComponent(coreComponent)
-            .build()
-            .inject(this)
-    }
 
-    private fun initCoreDI() {
-        coreComponent = DaggerCoreComponent
-            .builder()
-            .build()
+
+
+    override fun getFacade(): ProvidersFacade {
+        return facadeComponent ?: FacadeComponent.init(this).also { facadeComponent = it }
     }
 
 

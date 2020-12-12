@@ -1,0 +1,27 @@
+package com.example.favorite.di
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.core.di.viewmodel.ViewModelKey
+import com.example.favorite.data.FavoriteRepository
+import com.example.favorite.data.FavoriteRepositoryImpl
+import com.example.favorite.presentation.FavoriteFragmentViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
+
+@Module
+interface FavoriteFragmentModule {
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoriteFragmentViewModel::class)
+    fun bindViewModel(viewModel: FavoriteFragmentViewModel): ViewModel
+
+    @Binds
+    fun viewModelFactory(factory: FavoriteViewModelFactory): ViewModelProvider.Factory
+
+    @Binds
+    fun provideFavoriteRepository(repository: FavoriteRepositoryImpl): FavoriteRepository
+
+}

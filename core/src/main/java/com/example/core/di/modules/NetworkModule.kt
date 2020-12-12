@@ -2,7 +2,6 @@ package com.example.core.di.modules
 
 import com.example.core.BuildConfig
 import com.example.core.network.service.MovieService
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
