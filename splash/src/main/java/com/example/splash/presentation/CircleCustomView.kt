@@ -1,3 +1,5 @@
+package com.example.splash.presentation
+
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.content.Context
@@ -6,95 +8,78 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.LinearInterpolator
 import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
-const val toDegrees = 180/ PI
+
+const val toDegrees = 180f / PI
 
 class CircleCustomView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
-    var blackPaint: Paint
-    val firstCircle: Paint
-    val secondCircle: Paint
-
-    var firstRadius = 180f
-    var secondRadius = 240f
-
-
-
-
-    var xStart = firstRadius * cos((0f * toDegrees).toFloat())
-    var yStart = secondRadius * sin((0f * toDegrees ).toFloat())
-
-    var xEnd = secondRadius * cos((360f * toDegrees ).toFloat())
-    var yEnd = secondRadius * sin((360f * toDegrees ).toFloat())
-
-
-    val startX = height / 2f
-    val startY = width / 2f
-
-    var stopX = startX
-    var stopY = (startY - secondRadius)
-
+    private  var firstCirclePaint: Paint
+    private  var secondCirclePaint: Paint
+    private  var linePaint: Paint
+    private val firstRadius = 180f
+    private val secondRadius = 240f
+    private var lineAngle = -90
 
 
 
 
     init {
-        blackPaint = Paint().apply {
-            color = Color.BLACK
-            strokeWidth = 10f
+        firstCirclePaint = Paint().apply {
+            setFlags(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
+            setAntiAlias(true)
+            setColor(Color.BLACK)
+            setStyle(Paint.Style.STROKE)
+            setStrokeWidth(10f)
+        }
+        secondCirclePaint = Paint().apply {
+
+            setFlags(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
+            setAntiAlias(true)
+            setColor(Color.BLACK)
+            setStyle(Paint.Style.STROKE)
+            setStrokeWidth(40f)
+        }
+        linePaint = Paint().apply {
+            setFlags(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
+            setAntiAlias(true)
+            setColor(Color.BLACK)
+            setStrokeWidth(6f)
+            setStyle(Paint.Style.STROKE)
         }
 
-
-        firstCircle = Paint().apply {
-            color = Color.BLACK
-            strokeWidth = 6f
-            style = Paint.Style.STROKE
-        }
-
-        secondCircle = Paint().apply {
-            color = Color.BLACK
-            strokeWidth = 54f
-            style = Paint.Style.STROKE
-        }
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
+    override fun onDraw(canvas: Canvas) {
+        canvas.drawCircle(width / 2f, height / 2f, firstRadius, firstCirclePaint)
+        canvas.drawCircle(width / 2f, height / 2f, secondRadius, secondCirclePaint)
+        drawLine(canvas, secondRadius, lineAngle)
+    }
 
-
-
-        canvas?.drawLine(startX, startY, stopX, stopY, blackPaint)
-
-        canvas?.drawCircle(startX, startY, firstRadius, firstCircle)
-        canvas?.drawCircle(startX, startY, secondRadius, secondCircle)
+    private fun drawLine(canvas: Canvas, length: Float, angle: Int) {
+        val posX = (width / 2f + length * Math.cos(Math.toRadians(angle.toDouble()))).toFloat()
+        val posY = (height / 2f + length * Math.sin(Math.toRadians(angle.toDouble()))).toFloat()
+        canvas.drawLine(width / 2f, height / 2f, posX, posY, linePaint)
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        val xHolder =
-            PropertyValuesHolder.ofFloat("stopX", xStart, xEnd)
-
-        val yHolder =
-            PropertyValuesHolder.ofFloat("stopY",  yStart, yEnd)
-
-
-
-
-
-        ValueAnimator.ofPropertyValuesHolder(xHolder, yHolder).apply {
-            duration = 2000
-            startDelay = 500
-            interpolator = AccelerateInterpolator()
+        ValueAnimator.ofPropertyValuesHolder(
+            PropertyValuesHolder.ofInt("lineAngle", -90, 990)
+        ).apply {
+            duration = 3000
+            repeatMode = ValueAnimator.RESTART
+            interpolator = AccelerateDecelerateInterpolator()
             addUpdateListener {
-                stopX = it.getAnimatedValue("stopX") as Float
-                stopY = it.getAnimatedValue("stopY") as Float
+                lineAngle = it.getAnimatedValue("lineAngle") as Int
                 invalidate()
             }
         }.start()
     }
+
 }

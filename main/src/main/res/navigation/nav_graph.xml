@@ -5,7 +5,6 @@
     app:startDestination="@id/splashFragment">
 
 
-
     <fragment
         android:id="@+id/popularFragment"
         android:name="com.example.popular.presentation.PopularFragment"
@@ -21,10 +20,13 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.example.splash.presentation.SplashFragment"
-        android:label="SplashFragment" >
+        android:label="SplashFragment">
         <action
             android:id="@+id/action_splashFragment_to_popularFragment"
-            app:destination="@id/popularFragment" />
+            app:destination="@id/popularFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
 
 </navigation>
