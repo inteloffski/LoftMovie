@@ -2,7 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/popularFragment">
+    app:startDestination="@id/splashFragment">
+
+
 
     <fragment
         android:id="@+id/popularFragment"
@@ -16,4 +18,13 @@
         android:id="@+id/favoriteFragment"
         android:name="com.example.favorite.presentation.FavoriteFragment"
         android:label="FavoriteFragment" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.splash.presentation.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_popularFragment"
+            app:destination="@id/popularFragment" />
+    </fragment>
+
 </navigation>

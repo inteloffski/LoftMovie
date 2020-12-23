@@ -48,6 +48,7 @@ dependencies {
     implementation project(':search')
     implementation project(':popular')
     implementation project(':favorite')
+    implementation project(':splash')
 
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
     implementation "com.google.android.material:material:1.2.1"

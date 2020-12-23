@@ -1,4 +1,4 @@
-package com.example.splash
+package com.example.splash.presentation
 
 import android.animation.ValueAnimator
 import android.content.Context
