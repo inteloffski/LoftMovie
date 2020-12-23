@@ -1,5 +1,4 @@
-package com.example.splash.presentation
-
+import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
@@ -7,18 +6,40 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
-const val TAG = "CircleCustomView"
+const val toDegrees = 180/ PI
 
 class CircleCustomView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
-    val blackPaint: Paint
+    var blackPaint: Paint
     val firstCircle: Paint
     val secondCircle: Paint
 
     var firstRadius = 180f
     var secondRadius = 240f
+
+
+
+
+    var xStart = firstRadius * cos((0f * toDegrees).toFloat())
+    var yStart = secondRadius * sin((0f * toDegrees ).toFloat())
+
+    var xEnd = secondRadius * cos((360f * toDegrees ).toFloat())
+    var yEnd = secondRadius * sin((360f * toDegrees ).toFloat())
+
+
+    val startX = height / 2f
+    val startY = width / 2f
+
+    var stopX = startX
+    var stopY = (startY - secondRadius)
+
+
+
 
 
     init {
@@ -44,32 +65,34 @@ class CircleCustomView(context: Context?, attrs: AttributeSet?) : View(context, 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        val midHeight = height / 2f
-        val midWidth = width / 2f
 
-        val startPoint = midWidth
-        var endPoint = (midHeight - firstRadius)
 
-        canvas?.drawLine(midWidth, midHeight, startPoint,endPoint, blackPaint)
+        canvas?.drawLine(startX, startY, stopX, stopY, blackPaint)
 
-        canvas?.drawCircle(midWidth, midHeight, firstRadius, firstCircle)
-        canvas?.drawCircle(midWidth, midHeight, secondRadius, secondCircle)
+        canvas?.drawCircle(startX, startY, firstRadius, firstCircle)
+        canvas?.drawCircle(startX, startY, secondRadius, secondCircle)
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
 
-        val yStart = (width / 2) + firstRadius
-        val yEnd = (yStart - firstRadius)
+        val xHolder =
+            PropertyValuesHolder.ofFloat("stopX", xStart, xEnd)
+
+        val yHolder =
+            PropertyValuesHolder.ofFloat("stopY",  yStart, yEnd)
 
 
 
-        ValueAnimator.ofFloat(yStart, yEnd).apply {
+
+
+        ValueAnimator.ofPropertyValuesHolder(xHolder, yHolder).apply {
             duration = 2000
             startDelay = 500
-            interpolator = AccelerateDecelerateInterpolator()
+            interpolator = AccelerateInterpolator()
             addUpdateListener {
-                //endPoint = it.animatedValue as Float
+                stopX = it.getAnimatedValue("stopX") as Float
+                stopY = it.getAnimatedValue("stopY") as Float
                 invalidate()
             }
         }.start()

@@ -1,6 +1,7 @@
 package com.example.main
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -43,19 +44,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun initNavigation() {
 
-        // https://stackoverflow.com/questions/58320487/using-fragmentcontainerview-with-navigation-component
+
         val navController = findNavController(R.id.nav_host_fragment)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.splashFragment -> {
+                    bottomNav.visibility = View.GONE
+                }
+                else -> {
                     bottomNav.visibility = View.VISIBLE
+
                 }
 
             }
         }
 
     }
+
+
 
 }
