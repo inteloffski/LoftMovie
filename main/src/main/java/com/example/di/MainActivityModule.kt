@@ -3,6 +3,7 @@ package com.example.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.core.di.viewmodel.ViewModelKey
+import com.example.core.viewmodelfactory.ViewModelFactory
 import com.example.data.MainRepository
 import com.example.data.MainRepositoryImpl
 import com.example.main.MainActivityViewModel
@@ -18,7 +19,7 @@ interface MainActivityModule {
     fun bindViewModel(viewModel: MainActivityViewModel): ViewModel
 
     @Binds
-    fun viewModelFactory(factory: MainViewModelFactory): ViewModelProvider.Factory
+    fun viewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     fun provideUserRepository(repository: MainRepositoryImpl): MainRepository

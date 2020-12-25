@@ -1,20 +1,12 @@
 package com.example.search.presentation
 
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.example.core.di.component.DaggerCoreComponent
 import com.example.search.R
-import com.example.search.di.DaggerSearchComponent
 import com.example.search.di.SearchComponent
-import com.example.search.di.SearchViewModelFactory
-import kotlinx.android.synthetic.main.fragment_search.view.*
 import javax.inject.Inject
 
 const val TAG = "SearchFragment"

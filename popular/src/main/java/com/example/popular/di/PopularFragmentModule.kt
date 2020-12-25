@@ -3,6 +3,7 @@ package com.example.popular.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.core.di.viewmodel.ViewModelKey
+import com.example.core.viewmodelfactory.ViewModelFactory
 import com.example.popular.data.PopularRepository
 import com.example.popular.data.PopularRepositoryImpl
 import com.example.popular.presentation.PopularFragmentViewModel
@@ -19,7 +20,7 @@ interface PopularFragmentModule {
     fun bindViewModel(viewModel: PopularFragmentViewModel): ViewModel
 
     @Binds
-    fun viewModelFactory(factory: PopularViewModelFactory): ViewModelProvider.Factory
+    fun viewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     fun providePopularRepository(repository: PopularRepositoryImpl): PopularRepository

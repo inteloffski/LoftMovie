@@ -7,19 +7,17 @@ import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
-import kotlin.math.PI
-import kotlin.math.min
 
-
-const val toDegrees = 0.70710678118
 
 class CircleCustomView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
+
+    companion object{
+        const val numberConst = 0.70710678118
+    }
+
 
     private var firstCirclePaint: Paint
     private var secondCirclePaint: Paint
@@ -91,7 +89,7 @@ class CircleCustomView(context: Context?, attrs: AttributeSet?) : View(context, 
         val posY = (height / 2f + length * Math.sin(Math.toRadians(angle.toDouble()))).toFloat()
         canvas.drawLine(width / 2f, height / 2f, posX, posY, linePaint)
 
-        canvas.drawArc((width / 2f - toDegrees *backgroundRadius).toFloat() ,(height / 2f - toDegrees *backgroundRadius).toFloat(),(width / 2f + toDegrees *backgroundRadius).toFloat(), (height / 2f + toDegrees *backgroundRadius).toFloat()  ,-90F ,angle.toFloat() + 90f,true, blackStrokePaint )
+        canvas.drawArc((width / 2f - numberConst *backgroundRadius).toFloat() ,(height / 2f - numberConst *backgroundRadius).toFloat(),(width / 2f + numberConst *backgroundRadius).toFloat(), (height / 2f + numberConst *backgroundRadius).toFloat()  ,-90F ,angle.toFloat() + 90f,true, blackStrokePaint )
     }
 
     override fun onFinishInflate() {
