@@ -25,8 +25,7 @@
             android:id="@+id/action_splashFragment_to_popularFragment"
             app:destination="@id/popularFragment"
             app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:popUpToInclusive="true"/>
     </fragment>
 
 </navigation>

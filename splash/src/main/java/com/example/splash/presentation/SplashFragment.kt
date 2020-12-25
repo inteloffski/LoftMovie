@@ -49,7 +49,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         handler.postDelayed({
             navigator.navigateToPopular(navController)
 
-        }, 3000)
+        }, 3250)
     }
 
 
