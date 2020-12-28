@@ -38,6 +38,7 @@ class NetworkModule {
     fun provideRetrofitBuilder() =
         Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/")
+            .client(provideHttpClient(provideHttpLoggingInterceptor()))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
