@@ -6,12 +6,16 @@ import javax.inject.Inject
 import retrofit2.Response
 
 class PopularRepositoryImpl @Inject constructor(
-    private val networkService: MovieService
-): PopularRepository {
-    override suspend fun fetchPopularFilms() = networkService.getPopularFilms()
+    private val networkService: MovieService,
+) : PopularRepository {
 
 
-    override suspend fun fetchTopRatedFilms() = networkService.getTopRatedFilms()
+    override suspend fun fetchPopularFilms(page: Int): Response<FilmResultResponse> =
+        networkService.getPopularFilms(page)
+
+
+    override suspend fun fetchTopRatedFilms(page: Int): Response<FilmResultResponse> =
+        networkService.getTopRatedFilms(page)
 
 
 }

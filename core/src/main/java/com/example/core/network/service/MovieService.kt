@@ -24,17 +24,17 @@ interface MovieService {
     //Get a list of the current popular movies on TMDb. This list updates daily.
     @GET("3/movie/popular/")
     suspend fun getPopularFilms(
+        @Query("page") page: Int,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
-        @Query("page") page: Int = 1
     ): Response<FilmResultResponse>
 
     //Get the top rated movies on TMDb.
     @GET("/movie/top_rated")
     suspend fun getTopRatedFilms(
+        @Query("page") page: Int,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US" ,
-        @Query("page") page: Int = 1
     ): Response<FilmResultResponse>
 
     //Get the primary information about a movie.

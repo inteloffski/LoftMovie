@@ -6,8 +6,12 @@ import retrofit2.Response
 
 interface PopularRepository {
 
-    suspend fun fetchPopularFilms(): Response<FilmResultResponse>
+    suspend fun fetchPopularFilms(
+        page: Int
+    ): Response<FilmResultResponse>
 
-    suspend fun fetchTopRatedFilms(): Response<FilmResultResponse>
+    suspend fun fetchTopRatedFilms(
+        page: Int
+    ): Response<FilmResultResponse>
 }
 
