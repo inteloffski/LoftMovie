@@ -3,6 +3,8 @@ package com.example.popular.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,45 +15,55 @@ import kotlinx.android.synthetic.main.item_popular.view.*
 
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 
-class PopularFilmAdapter : RecyclerView.Adapter<PopularFilmAdapter.ArticleViewHolder>() {
+class PopularFilmAdapter : PagedListAdapter<Film, PopularFilmAdapter.FilmViewHolder>(filmDiffUtil) {
+
+    private val DATA_VIEW_TYPE = 1
+    private val FOOTER_VIEW_TYPE = 2
+
+    //var listFilm: MutableList<Film> = emptyList<Film>() as MutableList<Film>
 
 
-
-    inner class ArticleViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
-
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        return ArticleViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_popular,
-                parent,
-                false
-            )
-        )
+    override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
+        getItem(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_popular, parent, false)
+        return FilmViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        val film = differ.currentList[position]
-        holder.itemView.apply {
-            Glide.with(this).load(BASE_IMAGE_URL +film.posterPath).into(ivArticleImage)
+
+    companion object {
+        val filmDiffUtil = object : DiffUtil.ItemCallback<Film>() {
+            override fun areItemsTheSame(oldItem: Film, newItem: Film): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Film, newItem: Film): Boolean {
+                return oldItem == newItem
+            }
+
         }
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<Film>() {
-        override fun areItemsTheSame(oldItem: Film, newItem: Film): Boolean {
-            return oldItem.posterPath == newItem.posterPath
+    class FilmViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        var title: TextView = itemView.findViewById(R.id.tvTitle)
+
+        fun bind(film: Film) {
+            title.text = film.title
         }
 
-        override fun areContentsTheSame(oldItem: Film, newItem: Film): Boolean {
-            return oldItem == newItem
+
+        companion object {
+            fun create(parent: ViewGroup): FilmViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_popular, parent, false)
+                return FilmViewHolder(view)
+            }
         }
 
     }
 
-    val differ = AsyncListDiffer(this, differCallback)
+
 }

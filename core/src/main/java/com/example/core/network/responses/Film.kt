@@ -25,7 +25,7 @@ data class Film(
     @field:SerializedName("release_date")
     val releaseDate: String,
     @field:SerializedName("title")
-    val title: String,
+    var title: String,
     @field:SerializedName("video")
     val video: Boolean,
     @field:SerializedName("vote_average")

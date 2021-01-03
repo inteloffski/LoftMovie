@@ -1,6 +1,7 @@
 package com.example.popular.presentation
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.popular.R
 import com.example.popular.adapters.PopularFilmAdapter
@@ -37,34 +39,16 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
-        viewModel.popularFilm.observe(viewLifecycleOwner, Observer { response ->
-            when(response){
-                is Resource.Success -> {
-                    hideProgressBar()
-                    response.data?.let {
-                        adapter.differ.submitList(it.items)
-                    }
-                }
-                is Resource.Error ->{
-                    hideProgressBar()
-                    response.message?.let{
-                        Toast.makeText(activity, "An error occured: $it", Toast.LENGTH_LONG).show()
-                    }
-                }
-                is Resource.Loading -> {
-                    showProgressBar()
-                }
-
-            }
-
+        viewModel.filmList.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
         })
     }
 
     private fun setupRecyclerView() {
         adapter = PopularFilmAdapter()
         recycler.apply {
-            adapter = adapter
-            layoutManager = LinearLayoutManager(activity)
+            this.adapter = this@PopularFragment.adapter
+            layoutManager = GridLayoutManager(activity, 3)
         }
 
     }
