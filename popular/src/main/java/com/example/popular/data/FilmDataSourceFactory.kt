@@ -10,14 +10,14 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class FilmDataSourceFactory @Inject constructor(
-    private val repository: PopularRepository
+    private val service: MovieService,
 ): DataSource.Factory<Int, Film>() {
 
 
     val liveData = MutableLiveData<FilmDataSource>()
 
     override fun create(): DataSource<Int, Film> {
-        val filmDataSource = FilmDataSource(repository)
+        val filmDataSource = FilmDataSource(service)
         liveData.postValue(filmDataSource)
         return  filmDataSource
     }

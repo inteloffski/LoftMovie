@@ -15,7 +15,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class FilmDataSource @Inject constructor(
-    private val repository: PopularRepository
+    private val service: MovieService,
 ) : PageKeyedDataSource<Int, Film>() {
 
     val state: MutableLiveData<Resource<FilmResultResponse>> = MutableLiveData()
@@ -26,7 +26,7 @@ class FilmDataSource @Inject constructor(
     ){
         state.postValue(Resource.Loading())
         CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.fetchPopularFilms(page = 1)
+            val response = service.getPopularFilms(page = 1)
             if(response.isSuccessful){
                 response.body()?.let { resultResponse ->
                     state.postValue(Resource.Success(resultResponse))
@@ -41,7 +41,7 @@ class FilmDataSource @Inject constructor(
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Film>) {
         state.postValue(Resource.Loading())
         CoroutineScope(Dispatchers.IO).launch {
-            val response = repository.fetchPopularFilms(page = params.key)
+            val response = service.getPopularFilms(page = params.key)
             if(response.isSuccessful){
                 response.body()?.let { resultResponse ->
                     state.postValue(Resource.Success(resultResponse))

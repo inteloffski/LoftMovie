@@ -2,6 +2,7 @@ package com.example.popular.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.core.network.responses.Film
@@ -15,6 +16,15 @@ class PopularRepositoryImpl @Inject constructor(
     private val service: MovieService,
 ) : PopularRepository {
 
+    var filmDataSourceFactory: FilmDataSourceFactory
+
+    override lateinit var filmList: LiveData<PagedList<Film>>
+
+    init {
+        filmDataSourceFactory = FilmDataSourceFactory(service)
+        filmList = LivePagedListBuilder(filmDataSourceFactory, FilmDataSourceFactory.pagedListConfig()).build()
+    }
+
 
     override suspend fun fetchPopularFilms(page: Int): Response<FilmResultResponse> =
         service.getPopularFilms(page)
@@ -22,6 +32,15 @@ class PopularRepositoryImpl @Inject constructor(
 
     override suspend fun fetchTopRatedFilms(page: Int): Response<FilmResultResponse> =
         service.getTopRatedFilms(page)
+
+    override fun getState(): LiveData<Resource<FilmResultResponse>> = Transformations.switchMap(
+        filmDataSourceFactory.liveData,
+        FilmDataSource::state
+    )
+
+    override fun listIsEmpty(): Boolean {
+        return filmList.value?.isEmpty() ?: true
+    }
 
 
 }

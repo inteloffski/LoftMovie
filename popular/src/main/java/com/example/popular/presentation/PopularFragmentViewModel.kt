@@ -23,25 +23,17 @@ class PopularFragmentViewModel @Inject constructor(
     private val repository: PopularRepository
 ) : ViewModel() {
 
-    var filmDataSourceFactory: FilmDataSourceFactory
+    fun getState() = repository.getState()
 
-    val popularFilm: MutableLiveData<Resource<FilmResultResponse>> = MutableLiveData()
+    fun getListIsEmpty(): Boolean  = repository.listIsEmpty()
 
-    var filmList: LiveData<PagedList<Film>>
+    fun getFilmList() = repository.filmList
 
-    init {
-        filmDataSourceFactory = FilmDataSourceFactory(repository)
-        filmList = LivePagedListBuilder(filmDataSourceFactory, FilmDataSourceFactory.pagedListConfig()).build()
-    }
 
-    fun getState(): LiveData<Resource<FilmResultResponse>> = Transformations.switchMap(
-        filmDataSourceFactory.liveData,
-        FilmDataSource::state
-    )
 
-    fun listIsEmpty(): Boolean {
-        return filmList.value?.isEmpty() ?: true
-    }
+
+
+
 
 
 

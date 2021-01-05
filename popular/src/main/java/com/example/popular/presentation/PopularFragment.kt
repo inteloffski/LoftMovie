@@ -74,7 +74,7 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
     }
 
     private fun initPagingList(){
-        viewModel.filmList.observe(viewLifecycleOwner, Observer {
+        viewModel.getFilmList().observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
     }
@@ -85,7 +85,7 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
     }
 
     private fun showProgressBar() {
-        if(viewModel.listIsEmpty()) {
+        if(viewModel.getListIsEmpty()) {
             progressBar.visibility = View.VISIBLE
         } else {
             progressBar.visibility = View.GONE
