@@ -15,7 +15,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class FilmDataSource @Inject constructor(
-    private val repository: PopularRepository,
+    private val repository: PopularRepository
 ) : PageKeyedDataSource<Int, Film>() {
 
     val state: MutableLiveData<Resource<FilmResultResponse>> = MutableLiveData()

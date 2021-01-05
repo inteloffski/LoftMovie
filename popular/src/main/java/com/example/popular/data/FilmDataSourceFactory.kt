@@ -14,7 +14,7 @@ class FilmDataSourceFactory @Inject constructor(
 ): DataSource.Factory<Int, Film>() {
 
 
-    private val liveData = MutableLiveData<FilmDataSource>()
+    val liveData = MutableLiveData<FilmDataSource>()
 
     override fun create(): DataSource<Int, Film> {
         val filmDataSource = FilmDataSource(repository)

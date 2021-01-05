@@ -39,9 +39,10 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
-        viewModel.filmList.observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
-        })
+
+        initPagingList()
+        initState()
+
     }
 
     private fun setupRecyclerView() {
@@ -53,13 +54,42 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
 
     }
 
+    private fun initState() {
+        viewModel.getState().observe(viewLifecycleOwner, Observer { state ->
+            when(state){
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+                is Resource.Success -> {
+                    hideProgressBar()
+
+                }
+                is Resource.Error -> {
+                    hideProgressBar()
+
+                }
+            }
+
+        })
+    }
+
+    private fun initPagingList(){
+        viewModel.filmList.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+    }
+
     private fun hideProgressBar() {
         progressBar.visibility = View.INVISIBLE
         isLoading = false
     }
 
     private fun showProgressBar() {
-        progressBar.visibility = View.VISIBLE
+        if(viewModel.listIsEmpty()) {
+            progressBar.visibility = View.VISIBLE
+        } else {
+            progressBar.visibility = View.GONE
+        }
         isLoading = true
     }
 
