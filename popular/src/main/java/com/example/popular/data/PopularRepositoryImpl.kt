@@ -19,7 +19,7 @@ class PopularRepositoryImpl @Inject constructor(
 
     var filmDataSourceFactory: FilmDataSourceFactory
 
-    override lateinit var filmList: LiveData<PagedList<Film>>
+  private var filmList: LiveData<PagedList<Film>>
 
     init {
         filmDataSourceFactory = FilmDataSourceFactory(service, dao)
@@ -42,6 +42,12 @@ class PopularRepositoryImpl @Inject constructor(
     override fun listIsEmpty(): Boolean {
         return filmList.value?.isEmpty() ?: true
     }
+
+    override fun getFilmList(): LiveData<PagedList<Film>>{
+        return filmList
+    }
+
+
 
 
 }

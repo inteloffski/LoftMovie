@@ -14,7 +14,7 @@ class PopularFragmentViewModel @Inject constructor(
 
     fun getListIsEmpty(): Boolean  = repository.listIsEmpty()
 
-    fun getFilmList() = repository.filmList
+    fun getFilmList() = repository.getFilmList()
 
 
 

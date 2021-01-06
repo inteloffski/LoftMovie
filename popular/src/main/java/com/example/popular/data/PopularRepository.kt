@@ -10,7 +10,7 @@ import retrofit2.Response
 
 interface PopularRepository {
 
-    var filmList: LiveData<PagedList<Film>>
+
 
     suspend fun fetchPopularFilms(
         page: Int,
@@ -23,6 +23,10 @@ interface PopularRepository {
     fun getState(): LiveData<Resource<FilmResultResponse>>
 
     fun listIsEmpty(): Boolean
+
+    fun getFilmList(): LiveData<PagedList<Film>>
+
+
 
 }
 
