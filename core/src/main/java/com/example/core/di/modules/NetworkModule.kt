@@ -1,16 +1,12 @@
 package com.example.core.di.modules
 
 import com.example.core.BuildConfig
-import com.example.core.di.scopes.FeatureScope
 import com.example.core.network.service.MovieService
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -43,7 +39,6 @@ class NetworkModule {
         Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/")
             .client(provideHttpClient(provideHttpLoggingInterceptor()))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

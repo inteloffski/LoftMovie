@@ -2,7 +2,6 @@ package com.example.popular.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.core.di.scopes.FeatureScope
 import com.example.core.di.viewmodel.ViewModelKey
 import com.example.core.viewmodelfactory.ViewModelFactory
 import com.example.popular.data.PopularRepository
@@ -10,11 +9,7 @@ import com.example.popular.data.PopularRepositoryImpl
 import com.example.popular.presentation.PopularFragmentViewModel
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.multibindings.IntoMap
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import javax.inject.Singleton
 
 @Module
 interface PopularFragmentModule {

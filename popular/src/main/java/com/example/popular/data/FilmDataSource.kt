@@ -2,8 +2,8 @@ package com.example.popular.data
 
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import androidx.paging.PageKeyedDataSource
+import com.example.core.db.dao.FilmDao
 import com.example.core.network.responses.Film
 import com.example.core.network.responses.FilmResultResponse
 import com.example.core.network.service.MovieService
@@ -11,11 +11,11 @@ import com.example.popular.utils.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import javax.inject.Inject
 
 class FilmDataSource @Inject constructor(
     private val service: MovieService,
+    private val dao: FilmDao
 ) : PageKeyedDataSource<Int, Film>() {
 
     val state: MutableLiveData<Resource<FilmResultResponse>> = MutableLiveData()
@@ -30,6 +30,7 @@ class FilmDataSource @Inject constructor(
             if(response.isSuccessful){
                 response.body()?.let { resultResponse ->
                     state.postValue(Resource.Success(resultResponse))
+                    //dao.insertAll(resultResponse.items)
                     callback.onResult(resultResponse.items, null, 2)
                 }
 

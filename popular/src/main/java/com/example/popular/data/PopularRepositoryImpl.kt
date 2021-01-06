@@ -1,10 +1,10 @@
 package com.example.popular.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.example.core.db.dao.FilmDao
 import com.example.core.network.responses.Film
 import com.example.core.network.responses.FilmResultResponse
 import com.example.core.network.service.MovieService
@@ -14,6 +14,7 @@ import retrofit2.Response
 
 class PopularRepositoryImpl @Inject constructor(
     private val service: MovieService,
+    private val dao: FilmDao
 ) : PopularRepository {
 
     var filmDataSourceFactory: FilmDataSourceFactory
@@ -21,7 +22,7 @@ class PopularRepositoryImpl @Inject constructor(
     override lateinit var filmList: LiveData<PagedList<Film>>
 
     init {
-        filmDataSourceFactory = FilmDataSourceFactory(service)
+        filmDataSourceFactory = FilmDataSourceFactory(service, dao)
         filmList = LivePagedListBuilder(filmDataSourceFactory, FilmDataSourceFactory.pagedListConfig()).build()
     }
 
