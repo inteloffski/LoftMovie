@@ -21,7 +21,7 @@ import okhttp3.internal.notify
 import javax.inject.Inject
 
 
-class PopularFragment: Fragment(R.layout.fragment_popular) {
+class PopularFragment : Fragment(R.layout.fragment_popular) {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -41,7 +41,7 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
         setupRecyclerView()
 
         activity?.let {
-            if (viewModel.isNetworkAvailable(it)){
+            if (viewModel.isNetworkAvailable(it)) {
                 initPagingList()
                 initState()
             } else {
@@ -57,7 +57,7 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
 
     private fun initState() {
         viewModel.getState().observe(viewLifecycleOwner, Observer { state ->
-            when(state){
+            when (state) {
                 is Resource.Loading -> {
                     showProgressBar()
                 }
@@ -74,7 +74,7 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
         })
     }
 
-    private fun initPagingList(){
+    private fun initPagingList() {
         viewModel.getFilmList().observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
@@ -94,14 +94,14 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
         isLoading = false
     }
 
-    private fun readFilmDatabase(){
+    private fun readFilmDatabase() {
         viewModel.observeLocalPagedSets().observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
     }
 
     private fun showProgressBar() {
-        if(viewModel.getListIsEmpty()) {
+        if (viewModel.getListIsEmpty()) {
             progressBar.visibility = View.VISIBLE
         } else {
             progressBar.visibility = View.GONE
@@ -109,18 +109,25 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
         isLoading = true
     }
 
-    private fun showToast(){
-        Toast.makeText(activity,  "Check internet", Toast.LENGTH_SHORT).show()
+    private fun showToast() {
+        Toast.makeText(activity, "Check internet", Toast.LENGTH_SHORT).show()
     }
 
-    private fun swipeToRefresh(){
+    private fun swipeToRefresh() {
         swipe.setOnRefreshListener {
-            viewModel.refresh()
-            viewModel.getFilmList().observe(viewLifecycleOwner, Observer {
-                initState()
-                adapter.submitList(it)
-                swipe.isRefreshing = false
-            })
+            activity?.let {
+                if (viewModel.isNetworkAvailable(it)) {
+                    viewModel.refresh()
+                    viewModel.getFilmList().observe(viewLifecycleOwner, Observer {
+                        initState()
+                        adapter.submitList(it)
+                        swipe.isRefreshing = false
+                    })
+                } else {
+                    swipe.isRefreshing = false
+                    showToast()
+                }
+            }
         }
     }
 
