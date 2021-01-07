@@ -28,7 +28,7 @@ interface PopularRepository {
 
     fun observeLocalPagedSets(): LiveData<PagedList<Film>>
 
-
+    fun refresh()
 
 }
 

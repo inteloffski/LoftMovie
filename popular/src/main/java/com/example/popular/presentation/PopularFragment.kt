@@ -3,6 +3,7 @@ package com.example.popular.presentation
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import com.example.popular.adapters.PopularFilmAdapter
 import com.example.popular.di.PopularComponent
 import com.example.popular.utils.Resource
 import kotlinx.android.synthetic.main.fragment_popular.*
+import okhttp3.internal.notify
 import javax.inject.Inject
 
 
@@ -38,29 +40,18 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
-
-
-
         activity?.let {
             if (viewModel.isNetworkAvailable(it)){
                 initPagingList()
                 initState()
             } else {
                 readFilmDatabase()
+                showToast()
             }
 
 
         }
-
-
-    }
-
-    private fun setupRecyclerView() {
-        adapter = PopularFilmAdapter()
-        recycler.apply {
-            this.adapter = this@PopularFragment.adapter
-            layoutManager = GridLayoutManager(activity, 3)
-        }
+        swipeToRefresh()
 
     }
 
@@ -89,6 +80,15 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
         })
     }
 
+    private fun setupRecyclerView() {
+        adapter = PopularFilmAdapter()
+        recycler.apply {
+            this.adapter = this@PopularFragment.adapter
+            layoutManager = GridLayoutManager(activity, 3)
+        }
+
+    }
+
     private fun hideProgressBar() {
         progressBar.visibility = View.INVISIBLE
         isLoading = false
@@ -107,6 +107,21 @@ class PopularFragment: Fragment(R.layout.fragment_popular) {
             progressBar.visibility = View.GONE
         }
         isLoading = true
+    }
+
+    private fun showToast(){
+        Toast.makeText(activity,  "Check internet", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun swipeToRefresh(){
+        swipe.setOnRefreshListener {
+            viewModel.refresh()
+            viewModel.getFilmList().observe(viewLifecycleOwner, Observer {
+                initState()
+                adapter.submitList(it)
+                swipe.isRefreshing = false
+            })
+        }
     }
 
 }

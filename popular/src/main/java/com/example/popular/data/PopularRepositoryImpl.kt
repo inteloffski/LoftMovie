@@ -42,6 +42,7 @@ class PopularRepositoryImpl @Inject constructor(
         FilmDataSource::state
     )
 
+
     override fun listIsEmpty(): Boolean {
         return filmList.value?.isEmpty() ?: true
     }
@@ -58,6 +59,10 @@ class PopularRepositoryImpl @Inject constructor(
             dataSourceFactory,
             FilmDataSourceFactory.pagedListConfig()
         ).build()
+    }
+
+    override fun refresh(){
+        filmDataSourceFactory.liveData.value?.invalidate()
     }
 
 

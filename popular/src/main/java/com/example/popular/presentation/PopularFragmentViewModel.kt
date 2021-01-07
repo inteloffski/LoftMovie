@@ -43,6 +43,10 @@ class PopularFragmentViewModel @Inject constructor(
         return false
     }
 
+    fun refresh() = repository.refresh()
+
+
+
 
 }
 
