@@ -46,6 +46,7 @@ class FilmDataSource @Inject constructor(
             if(response.isSuccessful){
                 response.body()?.let { resultResponse ->
                     state.postValue(Resource.Success(resultResponse))
+                    dao.insertAll(resultResponse.items)
                     callback.onResult(resultResponse.items, params.key + 1)
                 }
 

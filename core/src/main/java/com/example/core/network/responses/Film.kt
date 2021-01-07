@@ -9,32 +9,32 @@ import java.io.Serializable
 )
 data class Film(
     @field:SerializedName("adult")
-    val adult: Boolean,
+    val adult: Boolean?,
     @field:SerializedName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     //@field:SerializedName("genre_ids")
     //val genreIds: List<Int>,
     @field:SerializedName("id")
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @field:SerializedName("original_language")
-    val originalLanguage: String,
+    val originalLanguage: String?,
     @field:SerializedName("original_title")
-    var originalTitle: String,
+    var originalTitle: String?,
     @field:SerializedName("overview")
-    var overview: String,
+    var overview: String?,
     @field:SerializedName("popularity")
-    val popularity: Double,
+    val popularity: Double?,
     @field:SerializedName("poster_path")
-    var posterPath: String,
+    var posterPath: String?,
     @field:SerializedName("release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
     @field:SerializedName("title")
-    var title: String,
+    var title: String?,
     @field:SerializedName("video")
-    val video: Boolean,
+    val video: Boolean?,
     @field:SerializedName("vote_average")
-    val voteAverage: Double,
+    val voteAverage: Double?,
     @field:SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int?
 ): Serializable

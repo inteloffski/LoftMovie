@@ -14,16 +14,17 @@ import retrofit2.Response
 
 class PopularRepositoryImpl @Inject constructor(
     private val service: MovieService,
-    private val dao: FilmDao
+    private val dao: FilmDao,
 ) : PopularRepository {
 
     var filmDataSourceFactory: FilmDataSourceFactory
 
-  private var filmList: LiveData<PagedList<Film>>
+    private var filmList: LiveData<PagedList<Film>>
 
     init {
         filmDataSourceFactory = FilmDataSourceFactory(service, dao)
-        filmList = LivePagedListBuilder(filmDataSourceFactory, FilmDataSourceFactory.pagedListConfig()).build()
+        filmList = LivePagedListBuilder(filmDataSourceFactory,
+            FilmDataSourceFactory.pagedListConfig()).build()
     }
 
 
@@ -34,6 +35,8 @@ class PopularRepositoryImpl @Inject constructor(
     override suspend fun fetchTopRatedFilms(page: Int): Response<FilmResultResponse> =
         service.getTopRatedFilms(page)
 
+
+
     override fun getState(): LiveData<Resource<FilmResultResponse>> = Transformations.switchMap(
         filmDataSourceFactory.liveData,
         FilmDataSource::state
@@ -43,11 +46,19 @@ class PopularRepositoryImpl @Inject constructor(
         return filmList.value?.isEmpty() ?: true
     }
 
-    override fun getFilmList(): LiveData<PagedList<Film>>{
+    override fun getFilmList(): LiveData<PagedList<Film>> {
         return filmList
     }
 
+    override fun observeLocalPagedSets(): LiveData<PagedList<Film>> {
+        val dataSourceFactory =
+            dao.getPagedFilm()
 
+        return LivePagedListBuilder(
+            dataSourceFactory,
+            FilmDataSourceFactory.pagedListConfig()
+        ).build()
+    }
 
 
 }

@@ -19,7 +19,7 @@ interface FilmDao {
     fun getPagedFilm(): DataSource.Factory<Int, Film>
 
     @Query("SELECT * FROM filmEntity")
-    fun getFilm(): LiveData<List<Film>>
+    fun getFilmAll(): LiveData<List<Film>>
 
 
 
