@@ -16,9 +16,6 @@ const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 
 class PopularFilmAdapter : PagedListAdapter<Film, PopularFilmAdapter.FilmViewHolder>(filmDiffUtil) {
 
-    private val DATA_VIEW_TYPE = 1
-    private val FOOTER_VIEW_TYPE = 2
-
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }

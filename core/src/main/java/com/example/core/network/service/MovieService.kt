@@ -26,7 +26,7 @@ interface MovieService {
     suspend fun getPopularFilms(
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("language") language: String = "en-US",
+        @Query("language") language: String = "ru-RU",
     ): Response<FilmResultResponse>
 
     //Get the top rated movies on TMDb.

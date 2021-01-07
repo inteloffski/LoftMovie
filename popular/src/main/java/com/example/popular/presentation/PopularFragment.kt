@@ -115,12 +115,13 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
 
     private fun swipeToRefresh() {
         swipe.setOnRefreshListener {
-            activity?.let {
-                if (viewModel.isNetworkAvailable(it)) {
+            activity?.let { activity ->
+                if (viewModel.isNetworkAvailable(activity)) {
                     viewModel.refresh()
-                    viewModel.getFilmList().observe(viewLifecycleOwner, Observer {
+                    viewModel.getFilmList().observe(viewLifecycleOwner, Observer { response ->
                         initState()
-                        adapter.submitList(it)
+                        adapter.notifyDataSetChanged()
+                        adapter.submitList(response)
                         swipe.isRefreshing = false
                     })
                 } else {
