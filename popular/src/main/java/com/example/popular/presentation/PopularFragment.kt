@@ -67,6 +67,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
                 }
                 is Resource.Error -> {
                     hideProgressBar()
+                    showToast()
 
                 }
             }
