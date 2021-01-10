@@ -3,6 +3,7 @@ package com.example.favorite.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.core.di.viewmodel.ViewModelKey
+import com.example.core.viewmodelfactory.ViewModelFactory
 import com.example.favorite.data.FavoriteRepository
 import com.example.favorite.data.FavoriteRepositoryImpl
 import com.example.favorite.presentation.FavoriteFragmentViewModel
@@ -19,7 +20,7 @@ interface FavoriteFragmentModule {
     fun bindViewModel(viewModel: FavoriteFragmentViewModel): ViewModel
 
     @Binds
-    fun viewModelFactory(factory: FavoriteViewModelFactory): ViewModelProvider.Factory
+    fun viewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     fun provideFavoriteRepository(repository: FavoriteRepositoryImpl): FavoriteRepository

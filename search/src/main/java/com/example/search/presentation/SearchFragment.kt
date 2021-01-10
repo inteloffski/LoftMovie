@@ -2,23 +2,22 @@ package com.example.search.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.example.core.di.component.DaggerCoreComponent
+import androidx.lifecycle.lifecycleScope
 import com.example.search.R
-import com.example.search.di.DaggerSearchComponent
 import com.example.search.di.SearchComponent
-import com.example.search.di.SearchViewModelFactory
-import kotlinx.android.synthetic.main.fragment_search.view.*
+import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-const val TAG = "SearchFragment"
-class SearchFragment: Fragment(R.layout.fragment_search) {
+
+
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -30,9 +29,18 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
         super.onAttach(context)
 
 
-        if(viewModel != null){
-            Log.d(TAG,"onAttach")
-        }
+
 
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+
+
+
+    }
+
+
 }

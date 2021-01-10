@@ -3,6 +3,7 @@ package com.example.search.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.core.di.viewmodel.ViewModelKey
+import com.example.core.viewmodelfactory.ViewModelFactory
 import com.example.search.data.SearchRepository
 import com.example.search.data.SearchRepositoryImpl
 import com.example.search.presentation.SearchFragmentViewModel
@@ -19,7 +20,7 @@ interface SearchFragmentModule {
     fun bindViewModel(viewModel: SearchFragmentViewModel): ViewModel
 
     @Binds
-    fun viewModelFactory(factory: SearchViewModelFactory): ViewModelProvider.Factory
+    fun viewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     fun providePopularRepository(repository: SearchRepositoryImpl): SearchRepository

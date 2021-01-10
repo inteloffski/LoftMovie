@@ -38,6 +38,7 @@ class NetworkModule {
     fun provideRetrofitBuilder() =
         Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/")
+            .client(provideHttpClient(provideHttpLoggingInterceptor()))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -45,4 +46,6 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideMovieService(retrofit: Retrofit) = retrofit.create(MovieService::class.java)
+
+
 }

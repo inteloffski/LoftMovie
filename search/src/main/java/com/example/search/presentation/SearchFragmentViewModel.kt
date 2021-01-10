@@ -5,6 +5,8 @@ import com.example.search.data.SearchRepository
 import javax.inject.Inject
 
 class SearchFragmentViewModel @Inject constructor(
-    private val repository: SearchRepository
-): ViewModel() {
+    private val repository: SearchRepository,
+) : ViewModel() {
+
+
 }
