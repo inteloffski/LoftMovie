@@ -19,6 +19,9 @@ class PopularFilmAdapter : PagedListAdapter<Film, PopularFilmAdapter.FilmViewHol
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
+        holder.itemView.setOnClickListener {view ->
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {

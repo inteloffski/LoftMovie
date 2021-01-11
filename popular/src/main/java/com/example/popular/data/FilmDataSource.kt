@@ -40,7 +40,7 @@ class FilmDataSource @Inject constructor(
                 }
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> state.postValue(Resource.Error("Check internet"))
+                    is UnknownHostException -> state.postValue(Resource.Error("No internet connection"))
                 }
             }
 
@@ -66,7 +66,7 @@ class FilmDataSource @Inject constructor(
 
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> state.postValue(Resource.Error("Check internet"))
+                    is UnknownHostException -> state.postValue(Resource.Error("No internet connection"))
                 }
             }
         }
