@@ -5,5 +5,6 @@ import com.example.detail.data.DetailRepository
 import javax.inject.Inject
 
 class DetailFragmentViewModel @Inject constructor(
-    private val repository: DetailRepository): ViewModel() {
+    private val repository: DetailRepository
+): ViewModel() {
 }

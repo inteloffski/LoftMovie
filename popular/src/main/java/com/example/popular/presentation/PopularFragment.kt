@@ -5,29 +5,33 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModelProvider
-import androidx.paging.PagedList
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.core.navigation.PopularNavigator
 import com.example.core.network.responses.Film
 import com.example.popular.R
 import com.example.popular.adapters.PopularFilmAdapter
 import com.example.popular.di.PopularComponent
 import com.example.popular.utils.Resource
 import kotlinx.android.synthetic.main.fragment_popular.*
-import okhttp3.internal.notify
 import javax.inject.Inject
 
 
-class PopularFragment : Fragment(R.layout.fragment_popular) {
+class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.Listener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by viewModels<PopularFragmentViewModel> { viewModelFactory }
 
     lateinit var adapter: PopularFilmAdapter
+
+    @Inject
+    lateinit var navigator: PopularNavigator
 
     var isLoading = false
 
@@ -82,11 +86,12 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
     }
 
     private fun setupRecyclerView() {
-        adapter = PopularFilmAdapter()
+        adapter = PopularFilmAdapter(this)
         recycler.apply {
             this.adapter = this@PopularFragment.adapter
             layoutManager = GridLayoutManager(activity, 3)
         }
+
 
     }
 
@@ -132,5 +137,11 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
             }
         }
     }
+
+    override fun onClick(v: View?) {
+        val navController = findNavController()
+        navigator.navigateToDetail(navController)
+    }
+
 
 }

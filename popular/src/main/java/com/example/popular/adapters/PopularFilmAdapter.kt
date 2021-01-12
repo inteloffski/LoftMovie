@@ -5,23 +5,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.findFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.core.navigation.PopularNavigator
 import com.example.core.network.responses.Film
 import com.example.popular.R
+import javax.inject.Inject
 
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 
-class PopularFilmAdapter : PagedListAdapter<Film, PopularFilmAdapter.FilmViewHolder>(filmDiffUtil) {
+class PopularFilmAdapter(private val listener: Listener) :
+    PagedListAdapter<Film, PopularFilmAdapter.FilmViewHolder>(filmDiffUtil) {
+
+
+    @Inject
+    lateinit var navigator: PopularNavigator
 
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
-        holder.itemView.setOnClickListener {view ->
-
-        }
+        listener.onClick(holder.itemView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
@@ -61,6 +68,10 @@ class PopularFilmAdapter : PagedListAdapter<Film, PopularFilmAdapter.FilmViewHol
                 return FilmViewHolder(view)
             }
         }
+
+    }
+
+    interface Listener : View.OnClickListener {
 
     }
 
