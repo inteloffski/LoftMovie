@@ -3,13 +3,11 @@ package com.example.detail.presentation
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.detail.R
-import com.example.detail.di.DaggerDetailComponent
 import com.example.detail.di.DetailComponent
 import javax.inject.Inject
 
@@ -21,6 +19,8 @@ import javax.inject.Inject
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
 
+    var titleFilm: String? = null
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by viewModels<DetailFragmentViewModel> { viewModelFactory }
@@ -28,5 +28,17 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onAttach(context: Context) {
         DetailComponent.injectFragment(this)
         super.onAttach(context)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        titleFilm = arguments?.getString("titleFilm")
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val textView: TextView = view.findViewById(R.id.titleName)
+        textView.text = titleFilm
     }
 }

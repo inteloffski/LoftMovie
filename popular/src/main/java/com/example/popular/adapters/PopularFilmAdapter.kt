@@ -1,12 +1,11 @@
 package com.example.popular.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.findFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +17,8 @@ import javax.inject.Inject
 
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 
+
+
 class PopularFilmAdapter(private val listener: Listener) :
     PagedListAdapter<Film, PopularFilmAdapter.FilmViewHolder>(filmDiffUtil) {
 
@@ -28,7 +29,13 @@ class PopularFilmAdapter(private val listener: Listener) :
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
-        listener.onClick(holder.itemView)
+        holder.itemView.setOnClickListener {
+            getItem(position)?.let {
+                listener.onMovieClicked(it)
+            }
+
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
@@ -71,7 +78,8 @@ class PopularFilmAdapter(private val listener: Listener) :
 
     }
 
-    interface Listener : View.OnClickListener {
+    interface Listener {
+        fun onMovieClicked(film: Film)
 
     }
 
