@@ -1,13 +1,11 @@
 package com.example.main
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.core_api.providers.AppWithFacade
 import com.example.di.MainActivityComponent

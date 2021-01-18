@@ -3,7 +3,7 @@ package com.example.detail.di
 
 import com.example.core_api.providers.AppWithFacade
 import com.example.core_api.providers.ProvidersFacade
-import com.example.detail.presentation.DetailFragment
+import com.example.detail.presentation.DetailPresentation.DetailFragment
 import dagger.Component
 
 

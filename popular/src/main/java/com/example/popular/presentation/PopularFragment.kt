@@ -140,7 +140,11 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     override fun onMovieClicked(film: Film) {
         val navController = findNavController()
         val bundle = bundleOf(
-            "titleFilm" to film.title
+            "titleFilm" to film.title,
+            "backdropPoster" to film.backdropPath,
+            "posterPath" to film.posterPath,
+            "releaseDate" to film.releaseDate,
+            "voteAverage" to film.voteAverage
         )
         navigator.navigateToDetail(navController, bundle)
         

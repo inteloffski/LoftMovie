@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.detail.presentation.DetailFragment"
+        android:name="com.example.detail.presentation.DetailPresentation.DetailFragment"
         android:label="DetailFragment" />
 
 </navigation>

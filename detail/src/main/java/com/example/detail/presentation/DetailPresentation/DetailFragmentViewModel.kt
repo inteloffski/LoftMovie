@@ -1,4 +1,4 @@
-package com.example.detail.presentation
+package com.example.detail.presentation.DetailPresentation
 
 import androidx.lifecycle.ViewModel
 import com.example.detail.data.DetailRepository
