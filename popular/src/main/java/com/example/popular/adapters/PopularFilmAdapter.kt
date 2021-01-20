@@ -1,18 +1,16 @@
 package com.example.popular.adapters
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.findNavController
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.navigation.PopularNavigator
-import com.example.core.network.responses.Film
+import com.example.core.network.responses.FilmDTO.Film
 import com.example.popular.R
 import javax.inject.Inject
 

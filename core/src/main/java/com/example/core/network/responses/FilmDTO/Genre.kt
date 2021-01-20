@@ -1,4 +1,4 @@
-package com.example.core.network.responses
+package com.example.core.network.responses.FilmDTO
 
 data class Genre(
     val id: Int,

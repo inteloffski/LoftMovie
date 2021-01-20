@@ -23,6 +23,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by viewModels<SplashFragmentViewModel> { viewModelFactory }
 
+
+
     override fun onAttach(context: Context) {
         SplashComponent.injectFragment(this)
         super.onAttach(context)

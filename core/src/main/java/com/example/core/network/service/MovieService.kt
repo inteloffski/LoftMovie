@@ -1,7 +1,7 @@
 package com.example.core.network.service
 
-import com.example.core.network.responses.FilmDetailsResponse
-import com.example.core.network.responses.FilmResultResponse
+import com.example.core.network.responses.ActorsDTO.Actors
+import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -44,6 +44,13 @@ interface MovieService {
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
     ): Response<FilmResultResponse>
+
+    @GET("/movie/{movie_id}/credits")
+    suspend fun getListActors(
+        @Path("movie_id") movieId: Long,
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("language") language: String = "en-US",
+    ): Response<Actors>
 
 
 

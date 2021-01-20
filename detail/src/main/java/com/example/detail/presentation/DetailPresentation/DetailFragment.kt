@@ -32,11 +32,11 @@ const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
 
-    var titleFilm: String? = null
-    var backdropPoster: String? = null
-    var posterPath: String? = null
-    var releaseDate: String? = null
-    var voteAverage: String? = null
+    private var titleFilm: String? = null
+    private var backdropPoster: String? = null
+    private var posterPath: String? = null
+    private var releaseDate: String? = null
+    private var voteAverage: String? = null
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
@@ -79,6 +79,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.titleName.text = titleFilm
         binding.releaseDate.text = releaseDate
         binding.voteAverage.text = voteAverage
@@ -92,12 +93,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         TabLayoutMediator(binding.tabLayout, viewPager){ tab, position ->
             when(position) {
                 0 ->{
-                    tab.text = "Description"
+                    tab.text = getString(R.string.tab1_description_fragment)
                 }
                 1->{
-                    tab.text = "Actors"
+                    tab.text = getString(R.string.tab2_actors_fragment)
                 }
-                else -> tab.text = "Undefined"
+                else -> tab.text = getString(R.string.tab3_undefined_fragment)
             }
         }.attach()
     }
@@ -110,7 +111,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onStop() {
         super.onStop()
-        (activity as? AppCompatActivity)?.supportActionBar?.title = "LoftMovie"
+        (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.action_bar_name_fragment)
     }
 
     override fun onDestroyView() {

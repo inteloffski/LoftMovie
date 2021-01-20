@@ -2,7 +2,9 @@ package com.example.popular.presentation
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -12,9 +14,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.core.navigation.PopularNavigator
-import com.example.core.network.responses.Film
+import com.example.core.network.responses.FilmDTO.Film
 import com.example.popular.R
 import com.example.popular.adapters.PopularFilmAdapter
+import com.example.popular.databinding.FragmentPopularBinding
 import com.example.popular.di.PopularComponent
 import com.example.popular.utils.Resource
 import kotlinx.android.synthetic.main.fragment_popular.*
@@ -22,6 +25,11 @@ import javax.inject.Inject
 
 
 class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.Listener {
+
+
+    private var _binding: FragmentPopularBinding? = null
+    private val binding get() = _binding!!
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -37,6 +45,16 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     override fun onAttach(context: Context) {
         PopularComponent.injectFragment(this)
         super.onAttach(context)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentPopularBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,6 +74,11 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
         }
         swipeToRefresh()
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun initState() {
@@ -86,7 +109,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
 
     private fun setupRecyclerView() {
         adapter = PopularFilmAdapter(this)
-        recycler.apply {
+        binding.recycler.apply {
             this.adapter = this@PopularFragment.adapter
             layoutManager = GridLayoutManager(activity, 3)
         }
@@ -95,7 +118,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     }
 
     private fun hideProgressBar() {
-        progressBar.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.INVISIBLE
         isLoading = false
     }
 
@@ -107,9 +130,9 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
 
     private fun showProgressBar() {
         if (viewModel.getListIsEmpty()) {
-            progressBar.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
         } else {
-            progressBar.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
         }
         isLoading = true
     }
@@ -119,7 +142,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     }
 
     private fun swipeToRefresh() {
-        swipe.setOnRefreshListener {
+        binding.swipe.setOnRefreshListener {
             activity?.let { activity ->
                 if (viewModel.isNetworkAvailable(activity)) {
                     viewModel.refresh()
@@ -127,10 +150,10 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
                         initState()
                         adapter.notifyDataSetChanged()
                         adapter.submitList(response)
-                        swipe.isRefreshing = false
+                        binding.swipe.isRefreshing = false
                     })
                 } else {
-                    swipe.isRefreshing = false
+                    binding.swipe.isRefreshing = false
                     showToast()
                 }
             }

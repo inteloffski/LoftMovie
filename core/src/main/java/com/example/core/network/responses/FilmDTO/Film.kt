@@ -1,4 +1,4 @@
-package com.example.core.network.responses
+package com.example.core.network.responses.FilmDTO
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
