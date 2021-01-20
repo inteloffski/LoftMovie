@@ -2,7 +2,9 @@ package com.example.detail.presentation.DetailPresentation
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.detail.R
 import com.example.detail.adapters.DetailPagerAdapter
+import com.example.detail.databinding.FragmentDetailBinding
 import com.example.detail.di.DetailComponent
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -34,6 +37,10 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     var posterPath: String? = null
     var releaseDate: String? = null
     var voteAverage: String? = null
+
+    private var _binding: FragmentDetailBinding? = null
+    private val binding get() = _binding!!
+
 
     private lateinit var detailPagerAdapter: DetailPagerAdapter
     private lateinit var viewPager: ViewPager2
@@ -59,31 +66,38 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val titleName: TextView = view.findViewById(R.id.titleName)
-        val backdropPosterImage: ImageView = view.findViewById(R.id.backdropPoster)
-        val posterPathImage: ImageView = view.findViewById(R.id.posterPath)
-        val releaseDateText: TextView = view.findViewById(R.id.releaseDate)
-        val voteAverageText: TextView = view.findViewById(R.id.voteAverage)
-        val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
 
-
-        titleName.text = titleFilm
-        releaseDateText.text = releaseDate
-        voteAverageText.text = voteAverage
-        Glide.with(view.context).load(BASE_IMAGE_URL + posterPath).into(posterPathImage)
-        Glide.with(view.context).load(BASE_IMAGE_URL + backdropPoster).into(backdropPosterImage)
+        binding.titleName.text = titleFilm
+        binding.releaseDate.text = releaseDate
+        binding.voteAverage.text = voteAverage
+        Glide.with(view.context).load(BASE_IMAGE_URL + posterPath).into(binding.posterPath)
+        Glide.with(view.context).load(BASE_IMAGE_URL + backdropPoster).into(binding.backdropPoster)
 
         detailPagerAdapter = DetailPagerAdapter(this)
         viewPager = view.findViewById(R.id.viewPager)
         viewPager.adapter = detailPagerAdapter
 
-        TabLayoutMediator(tabLayout, viewPager){ tab, position ->
-            if(position == 1){
-                tab.text = "Description"
-            } else{
-                tab.text = "Actors"
+        TabLayoutMediator(binding.tabLayout, viewPager){ tab, position ->
+            when(position) {
+                0 ->{
+                    tab.text = "Description"
+                }
+                1->{
+                    tab.text = "Actors"
+                }
+                else -> tab.text = "Undefined"
             }
         }.attach()
     }
@@ -97,5 +111,10 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onStop() {
         super.onStop()
         (activity as? AppCompatActivity)?.supportActionBar?.title = "LoftMovie"
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

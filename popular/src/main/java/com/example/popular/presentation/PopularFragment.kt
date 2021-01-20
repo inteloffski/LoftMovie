@@ -144,7 +144,8 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
             "backdropPoster" to film.backdropPath,
             "posterPath" to film.posterPath,
             "releaseDate" to film.releaseDate,
-            "voteAverage" to film.voteAverage
+            "voteAverage" to film.voteAverage,
+            "overview" to film.overview
         )
         navigator.navigateToDetail(navController, bundle)
         

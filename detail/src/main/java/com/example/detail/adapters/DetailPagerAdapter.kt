@@ -11,27 +11,19 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.detail.presentation.DetailActorsPresentation.DetailActorsFragment
 import com.example.detail.presentation.DetailDescriptionPresentation.DetailDescriptionFragment
 
+const val COUNT_TAB = 2
+
 class DetailPagerAdapter(val fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 2
+
+    override fun getItemCount(): Int = COUNT_TAB
 
     override fun createFragment(position: Int): Fragment {
-        val fragmentDescription = DetailDescriptionFragment()
-        val fragmentActors = DetailActorsFragment()
-
-
-        fragmentDescription.arguments = Bundle().apply {
-            putInt("Description", 1)
+        return when(position){
+            0 -> DetailDescriptionFragment.newInstance()
+            1 -> DetailActorsFragment.newInstance()
+            else -> DetailDescriptionFragment.newInstance()
         }
-
-        fragmentActors.arguments = Bundle().apply {
-            putInt("Actors", 2)
-        }
-
-        return if (fragment == fragmentActors) {
-            fragment
-        } else
-            fragmentDescription
     }
 
 }
