@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class PopularNavigatorImpl @Inject constructor(): PopularNavigator {
 
-    override fun navigateToDetail(navController: NavController, bundle: Bundle) {
-        navController.navigate(R.id.action_popularFragment_to_detailFragment, bundle)
+    override fun navigateToDetail(navController: NavController) {
+        navController.navigate(R.id.action_popularFragment_to_detailFragment)
     }
 }

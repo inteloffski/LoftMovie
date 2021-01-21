@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.core.navigation.PopularNavigator
 import com.example.core.network.responses.FilmDTO.Film
 import com.example.popular.R
+import com.example.popular.databinding.ItemPopularBinding
 import javax.inject.Inject
 
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
@@ -58,12 +59,11 @@ class PopularFilmAdapter(private val listener: Listener) :
 
     class FilmViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var title: TextView = itemView.findViewById(R.id.tvTitle)
-        var image: ImageView = itemView.findViewById(R.id.image)
+        private val binding = ItemPopularBinding.bind(itemView)
 
         fun bind(film: Film) {
-            title.text = film.title
-            Glide.with(itemView.context).load(BASE_IMAGE_URL + film.posterPath).into(image)
+            binding.tvTitle.text = film.title
+            Glide.with(itemView.context).load(BASE_IMAGE_URL + film.posterPath).into(binding.image)
         }
 
 

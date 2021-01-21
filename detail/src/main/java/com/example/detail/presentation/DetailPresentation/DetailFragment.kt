@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -17,7 +16,6 @@ import com.example.detail.R
 import com.example.detail.adapters.DetailPagerAdapter
 import com.example.detail.databinding.FragmentDetailBinding
 import com.example.detail.di.DetailComponent
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
 
@@ -38,6 +36,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private var releaseDate: String? = null
     private var voteAverage: String? = null
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
+
+
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -45,9 +48,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private lateinit var detailPagerAdapter: DetailPagerAdapter
     private lateinit var viewPager: ViewPager2
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<DetailFragmentViewModel> { viewModelFactory }
+
+
 
     override fun onAttach(context: Context) {
         DetailComponent.injectFragment(this)
@@ -101,6 +103,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 else -> tab.text = getString(R.string.tab3_undefined_fragment)
             }
         }.attach()
+
+        detailViewModel.getSelectedMovie().observe(viewLifecycleOwner, Observer { film ->
+            detailViewModel.selectedMovieLiveData(film)
+        })
+
     }
 
 

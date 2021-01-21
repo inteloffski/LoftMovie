@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun setupBottomNav(navController: NavController) {
-        binding.bottomNavView?.setupWithNavController(navController)
+        binding.bottomNavView.setupWithNavController(navController)
 
     }
     private fun initDI() {

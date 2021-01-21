@@ -17,12 +17,12 @@ class PopularRepositoryImpl @Inject constructor(
     private val dao: FilmDao,
 ) : PopularRepository {
 
-    var filmDataSourceFactory: FilmDataSourceFactory
+    private var filmDataSourceFactory: FilmDataSourceFactory = FilmDataSourceFactory(service, dao)
+
 
     private var filmList: LiveData<PagedList<Film>>
 
     init {
-        filmDataSourceFactory = FilmDataSourceFactory(service, dao)
         filmList = LivePagedListBuilder(filmDataSourceFactory,
             FilmDataSourceFactory.pagedListConfig()).build()
     }
@@ -34,6 +34,10 @@ class PopularRepositoryImpl @Inject constructor(
 
     override suspend fun fetchTopRatedFilms(page: Int): Response<FilmResultResponse> =
         service.getTopRatedFilms(page)
+
+
+
+
 
 
 

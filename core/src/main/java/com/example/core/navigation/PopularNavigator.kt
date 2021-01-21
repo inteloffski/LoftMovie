@@ -5,6 +5,6 @@ import androidx.navigation.NavController
 
 interface PopularNavigator {
 
-    fun navigateToDetail(navController: NavController, bundle: Bundle)
+    fun navigateToDetail(navController: NavController)
 
 }

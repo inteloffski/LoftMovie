@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,12 +15,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.core.navigation.PopularNavigator
 import com.example.core.network.responses.FilmDTO.Film
+import com.example.detail.presentation.DetailPresentation.DetailFragmentViewModel
 import com.example.popular.R
 import com.example.popular.adapters.PopularFilmAdapter
 import com.example.popular.databinding.FragmentPopularBinding
 import com.example.popular.di.PopularComponent
 import com.example.popular.utils.Resource
-import kotlinx.android.synthetic.main.fragment_popular.*
 import javax.inject.Inject
 
 
@@ -33,7 +33,10 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private val viewModel by viewModels<PopularFragmentViewModel> { viewModelFactory }
+
+    private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
 
     lateinit var adapter: PopularFilmAdapter
 
@@ -162,15 +165,8 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
 
     override fun onMovieClicked(film: Film) {
         val navController = findNavController()
-        val bundle = bundleOf(
-            "titleFilm" to film.title,
-            "backdropPoster" to film.backdropPath,
-            "posterPath" to film.posterPath,
-            "releaseDate" to film.releaseDate,
-            "voteAverage" to film.voteAverage,
-            "overview" to film.overview
-        )
-        navigator.navigateToDetail(navController, bundle)
+        detailViewModel.selectedMovie(film)
+        navigator.navigateToDetail(navController)
         
     }
 

@@ -47,7 +47,7 @@ interface MovieService {
 
     @GET("/movie/{movie_id}/credits")
     suspend fun getListActors(
-        @Path("movie_id") movieId: Long,
+        @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
     ): Response<Actors>
