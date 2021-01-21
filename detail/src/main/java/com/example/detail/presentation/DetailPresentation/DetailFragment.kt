@@ -19,22 +19,11 @@ import com.example.detail.di.DetailComponent
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
-
-    private var titleFilm: String? = null
-    private var backdropPoster: String? = null
-    private var posterPath: String? = null
-    private var releaseDate: String? = null
-    private var voteAverage: String? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -60,11 +49,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        titleFilm = arguments?.getString("titleFilm")
-        backdropPoster = arguments?.getString("backdropPoster")
-        posterPath = arguments?.getString("posterPath")
-        releaseDate = arguments?.getString("releaseDate")
-        voteAverage = arguments?.getDouble("voteAverage").toString()
+
 
     }
 
@@ -82,11 +67,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.titleName.text = titleFilm
-        binding.releaseDate.text = releaseDate
-        binding.voteAverage.text = voteAverage
-        Glide.with(view.context).load(BASE_IMAGE_URL + posterPath).into(binding.posterPath)
-        Glide.with(view.context).load(BASE_IMAGE_URL + backdropPoster).into(binding.backdropPoster)
+
 
         detailPagerAdapter = DetailPagerAdapter(this)
         viewPager = view.findViewById(R.id.viewPager)
@@ -104,16 +85,28 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             }
         }.attach()
 
-        detailViewModel.getSelectedMovie().observe(viewLifecycleOwner, Observer { film ->
-            detailViewModel.selectedMovieLiveData(film)
-        })
+       bindingData(view)
 
+
+
+    }
+
+    private fun bindingData(view: View){
+        detailViewModel.selectedMovieLiveData.observe(viewLifecycleOwner, Observer { film ->
+            binding.titleName.text = film.title
+            binding.releaseDate.text = film.releaseDate
+            binding.voteAverage.text = film.voteAverage.toString()
+            Glide.with(view.context).load(BASE_IMAGE_URL + film.posterPath).into(binding.posterPath)
+            Glide.with(view.context).load(BASE_IMAGE_URL + film.backdropPath).into(binding.backdropPoster)
+            (activity as? AppCompatActivity)?.supportActionBar?.title = film.title
+
+        })
     }
 
 
     override fun onStart() {
         super.onStart()
-        (activity as? AppCompatActivity)?.supportActionBar?.title = titleFilm
+
     }
 
     override fun onStop() {

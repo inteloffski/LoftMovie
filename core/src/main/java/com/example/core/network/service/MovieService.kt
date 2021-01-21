@@ -45,7 +45,7 @@ interface MovieService {
         @Query("language") language: String = "en-US",
     ): Response<FilmResultResponse>
 
-    @GET("/movie/{movie_id}/credits")
+    @GET("3/movie/{movie_id}/credits")
     suspend fun getListActors(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = API_KEY,

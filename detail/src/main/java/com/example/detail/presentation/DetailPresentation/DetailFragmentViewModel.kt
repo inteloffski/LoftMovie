@@ -1,5 +1,6 @@
 package com.example.detail.presentation.DetailPresentation
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,14 +20,19 @@ class DetailFragmentViewModel @Inject constructor(
 
     private val stateListActors: MutableLiveData<Resource<Actors>> = MutableLiveData()
 
-    fun getSelectedMovie() = repository.getSelectedMovie()
 
-    fun selectedMovieLiveData(film: Film) = repository.selectedMovieLiveData(film)
+
+    private val _selectedMovieLiveData: MutableLiveData<Film> = MutableLiveData()
+
+    val selectedMovieLiveData: LiveData<Film> = _selectedMovieLiveData
+
+
 
     fun selectedMovie(film: Film) {
         stateListActors.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                _selectedMovieLiveData.postValue(film)
                 val response = repository.fetchActors(film.id)
                 if (response.isSuccessful) {
                     response.body()?.let { resultResponse ->

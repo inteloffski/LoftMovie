@@ -3,6 +3,8 @@ package com.example.detail.di
 
 import com.example.core_api.providers.AppWithFacade
 import com.example.core_api.providers.ProvidersFacade
+import com.example.detail.presentation.DetailActorsPresentation.DetailActorsFragment
+import com.example.detail.presentation.DetailDescriptionPresentation.DetailDescriptionFragment
 import com.example.detail.presentation.DetailPresentation.DetailFragment
 import dagger.Component
 
@@ -26,7 +28,18 @@ interface DetailComponent {
             component.inject(fragment)
             return component
         }
+
+        fun injectFragment(fragment: DetailDescriptionFragment): DetailComponent  {
+            val component = create((fragment.activity?.application
+                    as AppWithFacade).getFacade())
+            component.inject(fragment)
+            return component
+        }
     }
 
     fun inject(fragment: DetailFragment)
+
+    fun inject(fragment: DetailDescriptionFragment)
+
+    fun inject(fragment: DetailActorsFragment)
 }

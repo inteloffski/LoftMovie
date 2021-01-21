@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.detail.R
 import com.example.detail.databinding.FragmentDetailActorsBinding
-import com.example.detail.databinding.FragmentDetailDescriptionBinding
 
 
 class DetailActorsFragment : Fragment(R.layout.fragment_detail_actors) {
