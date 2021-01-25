@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.network.responses.ActorsDTO.Actors
 import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.utils.Resource
 import com.example.detail.data.DetailRepository
-import com.example.detail.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,18 +18,22 @@ class DetailFragmentViewModel @Inject constructor(
     private val repository: DetailRepository,
 ) : ViewModel() {
 
-    private val stateListActors: MutableLiveData<Resource<Actors>> = MutableLiveData()
+    private val _stateListActors: MutableLiveData<Resource<Actors>> = MutableLiveData()
 
-
+    val stateListActors: LiveData<Resource<Actors>> = _stateListActors
 
     private val _selectedMovieLiveData: MutableLiveData<Film> = MutableLiveData()
 
     val selectedMovieLiveData: LiveData<Film> = _selectedMovieLiveData
 
 
+    fun getState(): LiveData<Resource<Actors>> {
+        return stateListActors
+    }
+
 
     fun selectedMovie(film: Film) {
-        stateListActors.postValue(Resource.Loading())
+        _stateListActors.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _selectedMovieLiveData.postValue(film)
@@ -37,19 +41,21 @@ class DetailFragmentViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { resultResponse ->
                         withContext(Dispatchers.Main) {
-                            stateListActors.postValue(Resource.Success(resultResponse))
+                            _stateListActors.postValue(Resource.Success(resultResponse))
                         }
                     }
                 } else {
-                    stateListActors.postValue(Resource.Error(response.message()))
+                    _stateListActors.postValue(Resource.Error(response.message()))
                 }
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> stateListActors.postValue(Resource.Error("No internet connection"))
+                    is UnknownHostException -> _stateListActors.postValue(Resource.Error("No internet connection"))
                 }
             }
 
         }
 
     }
+
+
 }

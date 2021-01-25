@@ -7,7 +7,7 @@ import com.example.core.db.dao.FilmDao
 import com.example.core.network.responses.FilmDTO.Film
 import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import com.example.core.network.service.MovieService
-import com.example.popular.utils.Resource
+import com.example.core.utils.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

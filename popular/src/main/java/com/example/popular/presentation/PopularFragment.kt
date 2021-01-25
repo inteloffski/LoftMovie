@@ -15,12 +15,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.core.navigation.PopularNavigator
 import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.utils.Resource
 import com.example.detail.presentation.DetailPresentation.DetailFragmentViewModel
 import com.example.popular.R
 import com.example.popular.adapters.PopularFilmAdapter
 import com.example.popular.databinding.FragmentPopularBinding
 import com.example.popular.di.PopularComponent
-import com.example.popular.utils.Resource
 import javax.inject.Inject
 
 

@@ -33,7 +33,7 @@ class DetailDescriptionFragment : Fragment(R.layout.fragment_detail_description)
     }
 
     override fun onAttach(context: Context) {
-        DetailComponent.injectFragment(this)
+        DetailComponent.injectFragmentDescription(this)
         super.onAttach(context)
     }
 

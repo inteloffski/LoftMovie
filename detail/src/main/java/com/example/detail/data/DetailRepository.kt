@@ -11,7 +11,6 @@ interface DetailRepository {
         id:Int
     ): Response<Actors>
 
-    fun getSelectedMovie(): MutableLiveData<Film>
 
     fun selectedMovieLiveData(film: Film)
 

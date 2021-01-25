@@ -1,6 +1,7 @@
 package com.example.core.network.service
 
 import com.example.core.network.responses.ActorsDTO.Actors
+import com.example.core.network.responses.ActorsDTO.Crew
 import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import retrofit2.Response
 import retrofit2.http.GET

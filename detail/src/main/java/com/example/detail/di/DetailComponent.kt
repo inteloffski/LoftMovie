@@ -29,7 +29,14 @@ interface DetailComponent {
             return component
         }
 
-        fun injectFragment(fragment: DetailDescriptionFragment): DetailComponent  {
+        fun injectFragmentDescription(fragment: DetailDescriptionFragment): DetailComponent  {
+            val component = create((fragment.activity?.application
+                    as AppWithFacade).getFacade())
+            component.inject(fragment)
+            return component
+        }
+
+        fun injectFragmentActors(fragment: DetailActorsFragment): DetailComponent  {
             val component = create((fragment.activity?.application
                     as AppWithFacade).getFacade())
             component.inject(fragment)
