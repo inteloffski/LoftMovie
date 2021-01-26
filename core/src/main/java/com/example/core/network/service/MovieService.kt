@@ -1,6 +1,5 @@
 package com.example.core.network.service
 
-import com.example.core.network.responses.ActorsDTO.Actors
 import com.example.core.network.responses.ActorsDTO.Crew
 import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import retrofit2.Response
@@ -51,7 +50,7 @@ interface MovieService {
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
-    ): Response<Actors>
+    ): Response<Crew>
 
 
 

@@ -1,7 +1,7 @@
 package com.example.detail.data
 
 import androidx.lifecycle.MutableLiveData
-import com.example.core.network.responses.ActorsDTO.Actors
+import com.example.core.network.responses.ActorsDTO.Crew
 import com.example.core.network.responses.FilmDTO.Film
 import com.example.core.network.service.MovieService
 import retrofit2.Response
@@ -14,7 +14,7 @@ class DetailRepositoryImpl @Inject constructor(
 
     private var getSelectedMovie: MutableLiveData<Film> = MutableLiveData()
 
-    override suspend fun fetchActors(id: Int): Response<Actors> =
+    override suspend fun fetchActors(id: Int): Response<Crew> =
         service.getListActors(id)
 
 

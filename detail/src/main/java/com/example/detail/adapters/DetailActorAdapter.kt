@@ -7,13 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.core.network.responses.ActorsDTO.Crew
-import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.ActorsDTO.Cast
 import com.example.detail.R
 import com.example.detail.databinding.ItemActorBinding
 import com.example.detail.presentation.DetailPresentation.BASE_IMAGE_URL
 
-class DetailActorAdapter : ListAdapter<Crew, DetailActorAdapter.ActorViewHolder>(actorDiffUtil){
+class DetailActorAdapter : ListAdapter<Cast, DetailActorAdapter.ActorViewHolder>(actorDiffUtil){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActorViewHolder {
@@ -26,12 +25,12 @@ class DetailActorAdapter : ListAdapter<Crew, DetailActorAdapter.ActorViewHolder>
     }
 
     companion object {
-        val actorDiffUtil = object : DiffUtil.ItemCallback<Crew>() {
-            override fun areItemsTheSame(oldItem: Crew, newItem: Crew): Boolean {
+        val actorDiffUtil = object : DiffUtil.ItemCallback<Cast>() {
+            override fun areItemsTheSame(oldItem: Cast, newItem: Cast): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Crew, newItem: Crew): Boolean {
+            override fun areContentsTheSame(oldItem: Cast, newItem: Cast): Boolean {
                 return oldItem == newItem
             }
 
@@ -41,9 +40,11 @@ class DetailActorAdapter : ListAdapter<Crew, DetailActorAdapter.ActorViewHolder>
     class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemActorBinding.bind(itemView)
 
-        fun bind(crew: Crew) {
-            binding.nameActor.text = crew.name
-            Glide.with(itemView.context).load(BASE_IMAGE_URL + crew.profilePath).into(binding.actorPoster)
+
+        fun bind(cast: Cast) {
+            binding.nameActor.text = cast.name
+            binding.nameCharacter.text = cast.character
+            Glide.with(itemView.context).load(BASE_IMAGE_URL + cast.profilePath).into(binding.actorPoster)
         }
 
 

@@ -88,19 +88,29 @@ class DetailActorsFragment : Fragment(R.layout.fragment_detail_actors) {
         detailViewModel.getState().observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    showProgressBar()
                 }
                 is Resource.Success -> {
-                    binding.progressBar.visibility = View.INVISIBLE
-                    adapter.submitList(it.data?.crew)
+                    hideProgressBar()
+                    adapter.submitList(it.data?.cast)
 
                 }
                 is Resource.Error -> {
-                   Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
 
                 }
             }
 
         })
     }
+
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar(){
+        binding.progressBar.visibility = View.GONE
+    }
+
+
 }

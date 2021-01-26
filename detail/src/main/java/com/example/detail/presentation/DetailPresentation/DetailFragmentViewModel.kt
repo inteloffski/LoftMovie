@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.network.responses.ActorsDTO.Actors
+import com.example.core.network.responses.ActorsDTO.Crew
 import com.example.core.network.responses.FilmDTO.Film
 import com.example.core.utils.Resource
 import com.example.detail.data.DetailRepository
@@ -18,16 +18,16 @@ class DetailFragmentViewModel @Inject constructor(
     private val repository: DetailRepository,
 ) : ViewModel() {
 
-    private val _stateListActors: MutableLiveData<Resource<Actors>> = MutableLiveData()
+    private val _stateListActors: MutableLiveData<Resource<Crew>> = MutableLiveData()
 
-    val stateListActors: LiveData<Resource<Actors>> = _stateListActors
+    val stateListActors: LiveData<Resource<Crew>> = _stateListActors
 
     private val _selectedMovieLiveData: MutableLiveData<Film> = MutableLiveData()
 
     val selectedMovieLiveData: LiveData<Film> = _selectedMovieLiveData
 
 
-    fun getState(): LiveData<Resource<Actors>> {
+    fun getState(): LiveData<Resource<Crew>> {
         return stateListActors
     }
 
