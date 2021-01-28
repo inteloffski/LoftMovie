@@ -51,6 +51,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         super.onCreate(savedInstanceState)
 
 
+
+
     }
 
     override fun onCreateView(
@@ -67,20 +69,18 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         super.onViewCreated(view, savedInstanceState)
 
 
-
-
         detailPagerAdapter = DetailPagerAdapter(this)
         viewPager = view.findViewById(R.id.viewPager)
         viewPager.adapter = detailPagerAdapter
 
         TabLayoutMediator(binding.tabLayout, viewPager){ tab, position ->
-            when(position) {
+           when(position) {
                 0 ->{
                     tab.text = getString(R.string.tab1_description_fragment)
                 }
-                1->{
+              1->{
                     tab.text = getString(R.string.tab2_actors_fragment)
-                }
+               }
                 else -> tab.text = getString(R.string.tab3_undefined_fragment)
             }
         }.attach()
