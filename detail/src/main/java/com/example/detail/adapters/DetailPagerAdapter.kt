@@ -20,8 +20,8 @@ class DetailPagerAdapter(val fragment: Fragment) : FragmentStateAdapter(fragment
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            0 -> DetailDescriptionFragment.newInstance()
-            1 -> DetailActorsFragment.newInstance()
+            0 ->  DetailActorsFragment.newInstance()
+            1 -> DetailDescriptionFragment.newInstance()
             else -> DetailDescriptionFragment.newInstance()
         }
     }

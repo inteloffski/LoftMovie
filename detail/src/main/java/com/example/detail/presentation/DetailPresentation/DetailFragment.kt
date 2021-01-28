@@ -38,8 +38,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private lateinit var viewPager: ViewPager2
 
 
-
-
     override fun onAttach(context: Context) {
         DetailComponent.injectFragment(this)
         super.onAttach(context)
@@ -51,14 +49,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         super.onCreate(savedInstanceState)
 
 
-
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -73,31 +69,32 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         viewPager = view.findViewById(R.id.viewPager)
         viewPager.adapter = detailPagerAdapter
 
-        TabLayoutMediator(binding.tabLayout, viewPager){ tab, position ->
-           when(position) {
-                0 ->{
-                    tab.text = getString(R.string.tab1_description_fragment)
-                }
-              1->{
+        TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
+            when (position) {
+                0 -> {
                     tab.text = getString(R.string.tab2_actors_fragment)
-               }
+                }
+                1 -> {
+                    tab.text = getString(R.string.tab1_description_fragment)
+
+                }
                 else -> tab.text = getString(R.string.tab3_undefined_fragment)
             }
         }.attach()
 
-       bindingData(view)
-
+        bindingData(view)
 
 
     }
 
-    private fun bindingData(view: View){
+    private fun bindingData(view: View) {
         detailViewModel.selectedMovieLiveData.observe(viewLifecycleOwner, Observer { film ->
             binding.titleName.text = film.title
             binding.releaseDate.text = film.releaseDate
             binding.voteAverage.text = film.voteAverage.toString()
             Glide.with(view.context).load(BASE_IMAGE_URL + film.posterPath).into(binding.posterPath)
-            Glide.with(view.context).load(BASE_IMAGE_URL + film.backdropPath).into(binding.backdropPoster)
+            Glide.with(view.context).load(BASE_IMAGE_URL + film.backdropPath)
+                .into(binding.backdropPoster)
             (activity as? AppCompatActivity)?.supportActionBar?.title = film.title
 
         })
