@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.network.responses.ActorsDTO.Crew
 import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.videoDTO.ResultVideo
+import com.example.core.network.responses.videoDTO.Video
 import com.example.core.utils.Resource
 import com.example.detail.data.DetailRepository
 import kotlinx.coroutines.Dispatchers
@@ -26,10 +28,37 @@ class DetailFragmentViewModel @Inject constructor(
 
     val selectedMovieLiveData: LiveData<Film> = _selectedMovieLiveData
 
+    private val _videoLiveData: MutableLiveData<Resource<Video>> = MutableLiveData()
 
-    fun getState(): LiveData<Resource<Crew>> {
+    val videoLiveData: LiveData<Resource<Video>> = _videoLiveData
+
+
+    fun getStateActors(): LiveData<Resource<Crew>> {
         return stateListActors
     }
+
+    fun getTrailerVideo(film: Film){
+        _videoLiveData.postValue(Resource.Loading())
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = repository.fetchVideo(film.id)
+                if(response.isSuccessful){
+                    response.body()?.let {
+                        withContext(Dispatchers.Main){
+                            _videoLiveData.postValue(Resource.Success(it))
+                        }
+                    }
+                } else {
+                    _videoLiveData.postValue(Resource.Error(response.message()))
+                }
+            } catch (e: Exception) {
+                when(e){
+                    is UnknownHostException -> _videoLiveData.postValue(Resource.Error("No internet connection"))
+                }
+            }
+        }
+    }
+
 
 
     fun selectedMovie(film: Film) {
@@ -52,9 +81,7 @@ class DetailFragmentViewModel @Inject constructor(
                     is UnknownHostException -> _stateListActors.postValue(Resource.Error("No internet connection"))
                 }
             }
-
         }
-
     }
 
 
