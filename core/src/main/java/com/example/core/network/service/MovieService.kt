@@ -59,7 +59,7 @@ interface MovieService {
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US"
-    ): Response<Video>
+    ): Response<ResultVideo>
 
 
 

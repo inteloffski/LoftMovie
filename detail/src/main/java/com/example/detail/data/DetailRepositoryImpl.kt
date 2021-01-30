@@ -3,6 +3,7 @@ package com.example.detail.data
 import androidx.lifecycle.MutableLiveData
 import com.example.core.network.responses.ActorsDTO.Crew
 import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.videoDTO.ResultVideo
 import com.example.core.network.responses.videoDTO.Video
 import com.example.core.network.service.MovieService
 import retrofit2.Response
@@ -18,7 +19,7 @@ class DetailRepositoryImpl @Inject constructor(
     override suspend fun fetchActors(id: Int): Response<Crew> =
         service.getListActors(id)
 
-    override suspend fun fetchVideo(id: Int): Response<Video> =
+    override suspend fun fetchVideo(id: Int): Response<ResultVideo> =
         service.getListTrailer(id)
 
 

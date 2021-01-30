@@ -28,24 +28,29 @@ class DetailFragmentViewModel @Inject constructor(
 
     val selectedMovieLiveData: LiveData<Film> = _selectedMovieLiveData
 
-    private val _videoLiveData: MutableLiveData<Resource<Video>> = MutableLiveData()
+    private val _videoLiveData: MutableLiveData<Resource<ResultVideo>> = MutableLiveData()
 
-    val videoLiveData: LiveData<Resource<Video>> = _videoLiveData
+    val videoLiveData: LiveData<Resource<ResultVideo>> = _videoLiveData
+
 
 
     fun getStateActors(): LiveData<Resource<Crew>> {
         return stateListActors
     }
 
-    fun getTrailerVideo(film: Film){
+    fun getStateVideo(): LiveData<Resource<ResultVideo>>{
+        return videoLiveData
+    }
+
+    fun getTrailerVideo(){
         _videoLiveData.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = repository.fetchVideo(film.id)
-                if(response.isSuccessful){
-                    response.body()?.let {
+                val response = _selectedMovieLiveData.value?.id?.let { repository.fetchVideo(it) }
+                if(response?.isSuccessful!!){
+                    response.body()?.let {videoResult ->
                         withContext(Dispatchers.Main){
-                            _videoLiveData.postValue(Resource.Success(it))
+                            _videoLiveData.postValue(Resource.Success(videoResult))
                         }
                     }
                 } else {

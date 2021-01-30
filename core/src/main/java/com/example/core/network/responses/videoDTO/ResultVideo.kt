@@ -1,9 +1,14 @@
 package com.example.core.network.responses.videoDTO
 
+import com.google.gson.annotations.SerializedName
+
 data class ResultVideo(
     val id: String,
-    val iso_3166_1: String,
-    val iso_639_1: String,
+    @SerializedName("iso_3166_1")
+    val iso31661: String,
+    @SerializedName("iso_639_1")
+    val iso6391: String,
+    @SerializedName("key")
     val key: String,
     val name: String,
     val site: String,

@@ -1,6 +1,8 @@
 package com.example.detail.presentation.DetailPresentation
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.core.network.responses.videoDTO.Video
+import com.example.core.utils.Resource
 import com.example.detail.R
 import com.example.detail.adapters.DetailPagerAdapter
 import com.example.detail.databinding.FragmentDetailBinding
@@ -21,6 +25,7 @@ import javax.inject.Inject
 
 
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
+const val BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v="
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
@@ -63,6 +68,27 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.playTrailerFilmButton.setOnClickListener {
+            detailViewModel.getTrailerVideo()
+            detailViewModel.videoLiveData.observe(viewLifecycleOwner, Observer {
+                when(it){
+                    is Resource.Loading ->{
+
+                    }
+                    is Resource.Success ->{
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BASE_YOUTUBE_URL + it.data?.key))
+                        startActivity(intent)
+                    }
+                    is Resource.Error ->{
+
+                    }
+                }
+
+            })
+
+
+        }
 
 
         detailPagerAdapter = DetailPagerAdapter(this)
