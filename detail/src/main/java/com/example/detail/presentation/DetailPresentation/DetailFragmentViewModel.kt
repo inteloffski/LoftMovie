@@ -28,9 +28,9 @@ class DetailFragmentViewModel @Inject constructor(
 
     val selectedMovieLiveData: LiveData<Film> = _selectedMovieLiveData
 
-    private val _videoLiveData: MutableLiveData<Resource<ResultVideo>> = MutableLiveData()
+    private val _videoLiveData: MutableLiveData<Resource<Video>> = MutableLiveData()
 
-    val videoLiveData: LiveData<Resource<ResultVideo>> = _videoLiveData
+    val videoLiveData: LiveData<Resource<Video>> = _videoLiveData
 
 
 
@@ -38,7 +38,7 @@ class DetailFragmentViewModel @Inject constructor(
         return stateListActors
     }
 
-    fun getStateVideo(): LiveData<Resource<ResultVideo>>{
+    fun getStateVideo(): LiveData<Resource<Video>>{
         return videoLiveData
     }
 

@@ -19,7 +19,7 @@ class DetailRepositoryImpl @Inject constructor(
     override suspend fun fetchActors(id: Int): Response<Crew> =
         service.getListActors(id)
 
-    override suspend fun fetchVideo(id: Int): Response<ResultVideo> =
+    override suspend fun fetchVideo(id: Int): Response<Video> =
         service.getListTrailer(id)
 
 

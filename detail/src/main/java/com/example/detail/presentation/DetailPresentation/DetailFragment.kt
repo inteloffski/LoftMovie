@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.core.network.responses.videoDTO.ResultVideo
 import com.example.core.network.responses.videoDTO.Video
 import com.example.core.utils.Resource
 import com.example.detail.R
@@ -77,7 +78,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
                     }
                     is Resource.Success ->{
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BASE_YOUTUBE_URL + it.data?.key))
+                        val key = it.data?.results
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BASE_YOUTUBE_URL))
                         startActivity(intent)
                     }
                     is Resource.Error ->{

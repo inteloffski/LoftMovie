@@ -15,7 +15,7 @@ interface DetailRepository {
 
     suspend fun fetchVideo(
         id: Int
-    ): Response<ResultVideo>
+    ): Response<Video>
 
 
     fun selectedMovieLiveData(film: Film)
