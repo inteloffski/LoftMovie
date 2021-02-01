@@ -1,0 +1,9 @@
+<resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab1_description_fragment">Description</string>
+    <string name="tab2_actors_fragment">Actors</string>
+    <string name="action_bar_name_fragment">LoftMovie</string>
+    <string name="tab3_undefined_fragment">Undefined</string>
+
+</resources>

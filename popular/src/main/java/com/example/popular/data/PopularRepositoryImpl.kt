@@ -5,10 +5,10 @@ import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.core.db.dao.FilmDao
-import com.example.core.network.responses.Film
-import com.example.core.network.responses.FilmResultResponse
+import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import com.example.core.network.service.MovieService
-import com.example.popular.utils.Resource
+import com.example.core.utils.Resource
 import javax.inject.Inject
 import retrofit2.Response
 
@@ -17,12 +17,12 @@ class PopularRepositoryImpl @Inject constructor(
     private val dao: FilmDao,
 ) : PopularRepository {
 
-    var filmDataSourceFactory: FilmDataSourceFactory
+    private var filmDataSourceFactory: FilmDataSourceFactory = FilmDataSourceFactory(service, dao)
+
 
     private var filmList: LiveData<PagedList<Film>>
 
     init {
-        filmDataSourceFactory = FilmDataSourceFactory(service, dao)
         filmList = LivePagedListBuilder(filmDataSourceFactory,
             FilmDataSourceFactory.pagedListConfig()).build()
     }

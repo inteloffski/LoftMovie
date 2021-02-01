@@ -2,15 +2,13 @@ package com.example.popular.data
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.example.core.network.responses.Film
-import com.example.core.network.responses.FilmResultResponse
-import com.example.popular.utils.Resource
+import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.FilmDTO.FilmResultResponse
+import com.example.core.utils.Resource
 import retrofit2.Response
 
 
 interface PopularRepository {
-
-
 
     suspend fun fetchPopularFilms(
         page: Int,
@@ -19,6 +17,7 @@ interface PopularRepository {
     suspend fun fetchTopRatedFilms(
         page: Int,
     ): Response<FilmResultResponse>
+
 
     fun getState(): LiveData<Resource<FilmResultResponse>>
 

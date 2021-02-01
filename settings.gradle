@@ -1,3 +1,5 @@
+include ':assets'
+include ':detail'
 include ':splash'
 include ':search'
 include ':favorite'

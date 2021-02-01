@@ -4,10 +4,10 @@ package com.example.popular.data
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.example.core.db.dao.FilmDao
-import com.example.core.network.responses.Film
-import com.example.core.network.responses.FilmResultResponse
+import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import com.example.core.network.service.MovieService
-import com.example.popular.utils.Resource
+import com.example.core.utils.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,6 +20,7 @@ class FilmDataSource @Inject constructor(
 ) : PageKeyedDataSource<Int, Film>() {
 
     val state: MutableLiveData<Resource<FilmResultResponse>> = MutableLiveData()
+
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -40,7 +41,7 @@ class FilmDataSource @Inject constructor(
                 }
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> state.postValue(Resource.Error("Check internet"))
+                    is UnknownHostException -> state.postValue(Resource.Error("No internet connection"))
                 }
             }
 
@@ -66,7 +67,7 @@ class FilmDataSource @Inject constructor(
 
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> state.postValue(Resource.Error("Check internet"))
+                    is UnknownHostException -> state.postValue(Resource.Error("No internet connection"))
                 }
             }
         }

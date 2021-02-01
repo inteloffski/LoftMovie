@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import com.example.core.db.dao.FilmDao
-import com.example.core.network.responses.Film
+import com.example.core.network.responses.FilmDTO.Film
 import com.example.core.network.service.MovieService
 import javax.inject.Inject
 

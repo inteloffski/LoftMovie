@@ -6,7 +6,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.core.network.responses.Film
+import com.example.core.network.responses.FilmDTO.Film
 
 
 @Dao

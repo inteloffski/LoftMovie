@@ -1,24 +1,27 @@
 package com.example.main
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.core_api.providers.AppWithFacade
 import com.example.di.MainActivityComponent
+import com.example.main.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         initDI()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
@@ -33,8 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun setupBottomNav(navController: NavController) {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-        bottomNav?.setupWithNavController(navController)
+        binding.bottomNavView.setupWithNavController(navController)
 
     }
     private fun initDI() {
@@ -44,17 +46,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initNavigation() {
 
-
         val navController = findNavController(R.id.nav_host_fragment)
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.splashFragment -> {
-                    bottomNav.visibility = View.GONE
+                    binding.bottomNavView.visibility = View.GONE
                 }
                 else -> {
-                    bottomNav.visibility = View.VISIBLE
+                    binding.bottomNavView.visibility = View.VISIBLE
 
                 }
 

@@ -1,9 +1,8 @@
 package com.example.core.db
 
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.core.network.responses.Film
+import com.example.core.network.responses.FilmDTO.Film
 
 @Database(entities = [
     Film::class
