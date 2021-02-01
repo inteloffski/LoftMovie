@@ -1,5 +1,6 @@
 package com.example.detail.presentation.DetailPresentation
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.*
@@ -12,8 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.core.utils.Resource
@@ -33,6 +33,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
+
+    private lateinit var intent: Intent
 
 
     private var _binding: FragmentDetailBinding? = null
@@ -69,61 +71,90 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        playTrailerClickButton()
+        observePlayTrailer(view)
+        initViewPager(view)
+        bindingData(view)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        observeTitleActionBar()
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        (activity as? AppCompatActivity)?.supportActionBar?.title =
+            getString(R.string.action_bar_name_fragment)
+
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun playTrailerClickButton(){
         binding.playTrailerFilmButton.setOnClickListener {
             detailViewModel.getTrailerVideo()
-            detailViewModel.videoLiveData.observe(viewLifecycleOwner, Observer {
-                when (it) {
-                    is Resource.Loading -> {
+        }
+    }
 
-                    }
-                    is Resource.Success -> {
-                        it.data?.apply {
-                            if (results.isNotEmpty()) {
-                                val trailerUrl = results.get(0).key
-                                val intent =
-                                    Intent(ACTION_VIEW, Uri.parse(BASE_YOUTUBE_URL + trailerUrl))
-                                intent.flags = FLAG_ACTIVITY_SINGLE_TOP
-                                startActivity(intent)
+    private fun observeTitleActionBar() {
+        detailViewModel.selectedMovieLiveData.observe(viewLifecycleOwner, Observer { film ->
+            (activity as? AppCompatActivity)?.supportActionBar?.title = film.title
+        })
+    }
 
-                            } else {
-                                Toast.makeText(view?.context,
-                                    "К сожалению трейлера нет:(",
-                                    Toast.LENGTH_SHORT).show()
-                            }
+    private fun observePlayTrailer(view: View) {
+        detailViewModel.videoLiveData?.observe(viewLifecycleOwner, Observer { video ->
+            when (video) {
+                is Resource.Loading -> {
+                    showProgress()
+                }
+                is Resource.Success -> {
+                    hideProgress()
+                    video.data?.results?.let { videoResult ->
+                        if (videoResult.isNullOrEmpty()) {
+                            Toast.makeText(view.context,
+                                "К сожалению трейлера нет:(",
+                                Toast.LENGTH_SHORT).show()
+                        } else {
+                            val trailerUrl = videoResult[0].key
+                            intent =
+                                Intent(ACTION_VIEW, Uri.parse(BASE_YOUTUBE_URL + trailerUrl))
+                            intent.flags = FLAG_ACTIVITY_SINGLE_TOP
+                            startActivity(intent)
                         }
                     }
-                    is Resource.Error -> {
-
-                    }
                 }
+                is Resource.Error -> {
+                    hideProgress()
 
-            })
-
-
-
-
-            detailPagerAdapter = DetailPagerAdapter(this)
-            viewPager = view.findViewById(R.id.viewPager)
-            viewPager.adapter = detailPagerAdapter
-
-            TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
-                when (position) {
-                    0 -> {
-                        tab.text = getString(R.string.tab2_actors_fragment)
-                    }
-                    1 -> {
-                        tab.text = getString(R.string.tab1_description_fragment)
-
-                    }
-                    else -> tab.text = getString(R.string.tab3_undefined_fragment)
                 }
-            }.attach()
+            }
+        })
+    }
 
-            bindingData(view)
+    private fun initViewPager(view: View) {
+        detailPagerAdapter = DetailPagerAdapter(this)
+        viewPager = view.findViewById(R.id.viewPager)
+        viewPager.adapter = detailPagerAdapter
 
+        TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = getString(R.string.tab2_actors_fragment)
+                }
+                1 -> {
+                    tab.text = getString(R.string.tab1_description_fragment)
 
-        }
-
+                }
+                else -> tab.text = getString(R.string.tab3_undefined_fragment)
+            }
+        }.attach()
     }
 
     private fun bindingData(view: View) {
@@ -140,23 +171,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         })
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        detailViewModel.selectedMovieLiveData.observe(viewLifecycleOwner, Observer { film ->
-            (activity as? AppCompatActivity)?.supportActionBar?.title = film.title
-        })
+    private fun showProgress() {
+        binding.playTrailerProgress.visibility = View.VISIBLE
     }
 
-
-    override fun onStop() {
-        super.onStop()
-        (activity as? AppCompatActivity)?.supportActionBar?.title =
-            getString(R.string.action_bar_name_fragment)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun hideProgress() {
+        binding.playTrailerProgress.visibility = View.INVISIBLE
     }
 }

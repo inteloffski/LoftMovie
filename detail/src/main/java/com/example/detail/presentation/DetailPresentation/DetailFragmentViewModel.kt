@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.network.responses.ActorsDTO.Crew
 import com.example.core.network.responses.FilmDTO.Film
-import com.example.core.network.responses.videoDTO.ResultVideo
 import com.example.core.network.responses.videoDTO.Video
 import com.example.core.utils.Resource
+import com.example.core.utils.SingleLiveEvent
 import com.example.detail.data.DetailRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,41 +28,34 @@ class DetailFragmentViewModel @Inject constructor(
 
     val selectedMovieLiveData: LiveData<Film> = _selectedMovieLiveData
 
-    private val _videoLiveData: MutableLiveData<Resource<Video>> = MutableLiveData()
+    private val _videoLiveData: MutableLiveData<Resource<Video>>? = SingleLiveEvent()
 
-    val videoLiveData: LiveData<Resource<Video>> = _videoLiveData
+    var videoLiveData: LiveData<Resource<Video>>? = _videoLiveData
 
 
-
-    fun getStateActors(): LiveData<Resource<Crew>> {
-        return stateListActors
-    }
-
-    fun getStateVideo(): LiveData<Resource<Video>>{
-        return videoLiveData
-    }
 
     fun getTrailerVideo(){
-        _videoLiveData.postValue(Resource.Loading())
+        _videoLiveData?.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = _selectedMovieLiveData.value?.id?.let { repository.fetchVideo(it) }
                 if(response?.isSuccessful!!){
                     response.body()?.let {videoResult ->
                         withContext(Dispatchers.Main){
-                            _videoLiveData.postValue(Resource.Success(videoResult))
+                            _videoLiveData?.postValue(Resource.Success(videoResult))
                         }
                     }
                 } else {
-                    _videoLiveData.postValue(Resource.Error(response.message()))
+                    _videoLiveData?.postValue(Resource.Error(response.message()))
                 }
             } catch (e: Exception) {
                 when(e){
-                    is UnknownHostException -> _videoLiveData.postValue(Resource.Error("No internet connection"))
+                    is UnknownHostException -> _videoLiveData?.postValue(Resource.Error("No internet connection"))
                 }
             }
         }
     }
+
 
 
 

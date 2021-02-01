@@ -37,10 +37,6 @@ class PopularRepositoryImpl @Inject constructor(
 
 
 
-
-
-
-
     override fun getState(): LiveData<Resource<FilmResultResponse>> = Transformations.switchMap(
         filmDataSourceFactory.liveData,
         FilmDataSource::state

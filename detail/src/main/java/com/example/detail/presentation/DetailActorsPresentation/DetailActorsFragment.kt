@@ -85,7 +85,7 @@ class DetailActorsFragment : Fragment(R.layout.fragment_detail_actors) {
 
 
     private fun initState() {
-        detailViewModel.getStateActors().observe(viewLifecycleOwner, Observer {
+        detailViewModel.stateListActors.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Loading -> {
                     showProgressBar()

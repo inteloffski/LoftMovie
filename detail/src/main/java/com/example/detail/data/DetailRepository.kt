@@ -18,6 +18,7 @@ interface DetailRepository {
     ): Response<Video>
 
 
+
     fun selectedMovieLiveData(film: Film)
 
 }

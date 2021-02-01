@@ -167,7 +167,6 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     override fun onMovieClicked(film: Film) {
         val navController = findNavController()
         detailViewModel.selectedMovie(film)
-
         navigator.navigateToDetail(navController)
         
     }
