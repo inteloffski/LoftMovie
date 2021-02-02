@@ -17,7 +17,7 @@ interface DetailRepository {
         id: Int
     ): Response<Video>
 
-
+    suspend fun upsertFilm(film: Film)
 
     fun selectedMovieLiveData(film: Film)
 

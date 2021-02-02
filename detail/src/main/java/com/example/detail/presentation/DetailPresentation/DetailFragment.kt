@@ -1,6 +1,5 @@
 package com.example.detail.presentation.DetailPresentation
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.*
@@ -21,6 +20,7 @@ import com.example.detail.R
 import com.example.detail.adapters.DetailPagerAdapter
 import com.example.detail.databinding.FragmentDetailBinding
 import com.example.detail.di.DetailComponent
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
 
@@ -75,6 +75,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         observePlayTrailer(view)
         initViewPager(view)
         bindingData(view)
+        savedFilmOnClickButton(view)
+
+
+
+
     }
 
     override fun onStart() {
@@ -94,6 +99,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun savedFilmOnClickButton(view: View){
+        binding.addFavoriteButton.setOnClickListener {
+            detailViewModel.selectedMovieLiveData.value?.let { detailViewModel.saveFilm(it) }
+            Snackbar.make(view, "Film saved successfully", Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     private fun playTrailerClickButton(){

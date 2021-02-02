@@ -2,29 +2,28 @@ package com.example.favorite.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.navigation.FavoriteNavigator
 import com.example.favorite.R
+import com.example.favorite.adapters.FavoriteAdapter
 import com.example.favorite.databinding.FragmentFavoriteBinding
 import com.example.favorite.di.FavoriteComponent
 import javax.inject.Inject
 
-
-const val TAG = "FavoriteFragment"
 
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var ctx: Context
+    private lateinit var adapter: FavoriteAdapter
 
     @Inject
     lateinit var navigator: FavoriteNavigator
@@ -37,9 +36,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         FavoriteComponent.injectFragment(this)
         super.onAttach(context)
 
-        if (viewModel != null && navigator != null && ctx != null) {
-            Log.d(TAG, "onAttach")
-        }
     }
 
     override fun onCreateView(
@@ -52,9 +48,29 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+
+        viewModel.getSavedFilm().observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun setupRecyclerView() {
+        adapter = FavoriteAdapter()
+        binding.recyclerFavorite.apply {
+            this.adapter = this@FavoriteFragment.adapter
+            layoutManager = LinearLayoutManager(activity)
+        }
+
+
+    }
+
 
 }

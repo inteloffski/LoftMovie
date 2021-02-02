@@ -82,5 +82,9 @@ class DetailFragmentViewModel @Inject constructor(
         }
     }
 
+    fun saveFilm(film: Film) = viewModelScope.launch {
+        repository.upsertFilm(film)
+    }
+
 
 }

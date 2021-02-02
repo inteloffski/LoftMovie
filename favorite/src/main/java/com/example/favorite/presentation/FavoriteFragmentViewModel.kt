@@ -7,4 +7,6 @@ import javax.inject.Inject
 class FavoriteFragmentViewModel @Inject constructor(
     private val repository: FavoriteRepository
 ): ViewModel() {
+
+    fun getSavedFilm() = repository.getSavedFilm()
 }
