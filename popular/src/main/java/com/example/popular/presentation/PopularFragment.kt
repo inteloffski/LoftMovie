@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -15,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.core.navigation.PopularNavigator
-import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.utils.Resource
 import com.example.detail.presentation.DetailPresentation.DetailFragmentViewModel
 import com.example.popular.R
@@ -128,7 +127,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
 
     private fun readFilmDatabase() {
         viewModel.observeLocalPagedSets().observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
+            //adapter.submitList(it)
         })
     }
 
@@ -164,9 +163,9 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
         }
     }
 
-    override fun onMovieClicked(film: Film) {
+    override fun onMovieClicked(filmDTO: FilmDTO) {
         val navController = findNavController()
-        detailViewModel.selectedMovie(film)
+        detailViewModel.selectedMovie(filmDTO)
         navigator.navigateToDetail(navController)
         
     }

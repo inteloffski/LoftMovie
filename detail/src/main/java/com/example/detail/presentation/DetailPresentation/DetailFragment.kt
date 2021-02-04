@@ -13,13 +13,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.*
+import androidx.lifecycle.Transformations.map
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.utils.Resource
 import com.example.detail.R
 import com.example.detail.adapters.DetailPagerAdapter
 import com.example.detail.databinding.FragmentDetailBinding
 import com.example.detail.di.DetailComponent
+import com.example.detail.mapper.Mapper
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
@@ -35,6 +38,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
 
     private lateinit var intent: Intent
+
+    private val mapper = Mapper()
+
 
 
     private var _binding: FragmentDetailBinding? = null
@@ -103,7 +109,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private fun savedFilmOnClickButton(view: View){
         binding.addFavoriteButton.setOnClickListener {
-            detailViewModel.selectedMovieLiveData.value?.let { detailViewModel.saveFilm(it) }
+            detailViewModel.selectedMovieLiveData.value?.let {
+                detailViewModel.saveFilm(mapper.map(it))
+            }
             Snackbar.make(view, "Film saved successfully", Snackbar.LENGTH_SHORT).show()
         }
     }

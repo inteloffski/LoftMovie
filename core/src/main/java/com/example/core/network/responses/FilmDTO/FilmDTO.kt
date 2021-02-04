@@ -1,13 +1,9 @@
 package com.example.core.network.responses.FilmDTO
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-@Entity(
-    tableName = "filmEntity"
-)
-data class Film(
+
+data class FilmDTO(
     @field:SerializedName("adult")
     val adult: Boolean?,
     @field:SerializedName("backdrop_path")
@@ -15,7 +11,6 @@ data class Film(
     //@field:SerializedName("genre_ids")
     //val genreIds: List<Int>,
     @field:SerializedName("id")
-    @PrimaryKey(autoGenerate = true)
     val id: Int,
     @field:SerializedName("original_language")
     val originalLanguage: String?,

@@ -3,14 +3,12 @@ package com.example.popular.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.navigation.PopularNavigator
-import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.popular.R
 import com.example.popular.databinding.ItemPopularBinding
 import javax.inject.Inject
@@ -20,7 +18,7 @@ const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 
 
 class PopularFilmAdapter(private val listener: Listener) :
-    PagedListAdapter<Film, PopularFilmAdapter.FilmViewHolder>(filmDiffUtil) {
+    PagedListAdapter<FilmDTO, PopularFilmAdapter.FilmViewHolder>(filmDiffUtil) {
 
 
     @Inject
@@ -45,12 +43,12 @@ class PopularFilmAdapter(private val listener: Listener) :
 
 
     companion object {
-        val filmDiffUtil = object : DiffUtil.ItemCallback<Film>() {
-            override fun areItemsTheSame(oldItem: Film, newItem: Film): Boolean {
+        val filmDiffUtil = object : DiffUtil.ItemCallback<FilmDTO>() {
+            override fun areItemsTheSame(oldItem: FilmDTO, newItem: FilmDTO): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Film, newItem: Film): Boolean {
+            override fun areContentsTheSame(oldItem: FilmDTO, newItem: FilmDTO): Boolean {
                 return oldItem == newItem
             }
 
@@ -61,9 +59,9 @@ class PopularFilmAdapter(private val listener: Listener) :
 
         private val binding = ItemPopularBinding.bind(itemView)
 
-        fun bind(film: Film) {
-            binding.tvTitle.text = film.title
-            Glide.with(itemView.context).load(BASE_IMAGE_URL + film.posterPath).into(binding.image)
+        fun bind(filmDTO: FilmDTO) {
+            binding.tvTitle.text = filmDTO.title
+            Glide.with(itemView.context).load(BASE_IMAGE_URL + filmDTO.posterPath).into(binding.image)
         }
 
 
@@ -78,7 +76,7 @@ class PopularFilmAdapter(private val listener: Listener) :
     }
 
     interface Listener {
-        fun onMovieClicked(film: Film)
+        fun onMovieClicked(filmDTO: FilmDTO)
 
     }
 

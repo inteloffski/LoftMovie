@@ -18,7 +18,6 @@ class CircleCustomView(context: Context?, attrs: AttributeSet?) : View(context, 
         const val numberConst = 0.70710678118
     }
 
-
     private var firstCirclePaint: Paint
     private var secondCirclePaint: Paint
     private var linePaint: Paint

@@ -5,10 +5,12 @@ import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.core.db.dao.FilmDao
-import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.db.dao.entities.FilmEntity
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import com.example.core.network.service.MovieService
 import com.example.core.utils.Resource
+import com.example.popular.mapper.Mapper
 import javax.inject.Inject
 import retrofit2.Response
 
@@ -19,11 +21,13 @@ class PopularRepositoryImpl @Inject constructor(
 
     private var filmDataSourceFactory: FilmDataSourceFactory = FilmDataSourceFactory(service, dao)
 
+    private val mapper = Mapper()
 
-    private var filmList: LiveData<PagedList<Film>>
+
+    private var filmDTOList: LiveData<PagedList<FilmDTO>>
 
     init {
-        filmList = LivePagedListBuilder(filmDataSourceFactory,
+        filmDTOList = LivePagedListBuilder(filmDataSourceFactory,
             FilmDataSourceFactory.pagedListConfig()).build()
     }
 
@@ -44,16 +48,17 @@ class PopularRepositoryImpl @Inject constructor(
 
 
     override fun listIsEmpty(): Boolean {
-        return filmList.value?.isEmpty() ?: true
+        return filmDTOList.value?.isEmpty() ?: true
     }
 
-    override fun getFilmList(): LiveData<PagedList<Film>> {
-        return filmList
+    override fun getFilmList(): LiveData<PagedList<FilmDTO>> {
+        return filmDTOList
     }
 
-    override fun observeLocalPagedSets(): LiveData<PagedList<Film>> {
+    override fun observeLocalPagedSets(): LiveData<PagedList<FilmEntity>> {
         val dataSourceFactory =
             dao.getPagedFilm()
+
 
         return LivePagedListBuilder(
             dataSourceFactory,

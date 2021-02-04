@@ -2,9 +2,10 @@ package com.example.core.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.db.dao.entities.FilmEntity
+
 
 @Database(entities = [
-    Film::class
+    FilmEntity::class
 ], version = 1)
 abstract class LoftMovieDB: RoomDatabase(), LoftMovieDBContract

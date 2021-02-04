@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.db.dao.entities.FilmEntity
 import com.example.core.network.responses.ActorsDTO.Crew
-import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.network.responses.videoDTO.Video
 import com.example.core.utils.Resource
 import com.example.core.utils.SingleLiveEvent
@@ -24,9 +25,9 @@ class DetailFragmentViewModel @Inject constructor(
 
     val stateListActors: LiveData<Resource<Crew>> = _stateListActors
 
-    private val _selectedMovieLiveData: MutableLiveData<Film> = MutableLiveData()
+    private val _selectedMovieLiveData: MutableLiveData<FilmDTO> = MutableLiveData()
 
-    val selectedMovieLiveData: LiveData<Film> = _selectedMovieLiveData
+    val selectedMovieLiveData: LiveData<FilmDTO> = _selectedMovieLiveData
 
     private val _videoLiveData: MutableLiveData<Resource<Video>>? = SingleLiveEvent()
 
@@ -59,12 +60,12 @@ class DetailFragmentViewModel @Inject constructor(
 
 
 
-    fun selectedMovie(film: Film) {
+    fun selectedMovie(filmDTO: FilmDTO) {
         _stateListActors.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _selectedMovieLiveData.postValue(film)
-                val response = repository.fetchActors(film.id)
+                _selectedMovieLiveData.postValue(filmDTO)
+                val response = repository.fetchActors(filmDTO.id)
                 if (response.isSuccessful) {
                     response.body()?.let { resultResponse ->
                         withContext(Dispatchers.Main) {
@@ -82,8 +83,8 @@ class DetailFragmentViewModel @Inject constructor(
         }
     }
 
-    fun saveFilm(film: Film) = viewModelScope.launch {
-        repository.upsertFilm(film)
+    fun saveFilm(filmEntity: FilmEntity) = viewModelScope.launch {
+        repository.upsertFilm(filmEntity)
     }
 
 

@@ -53,7 +53,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         setupRecyclerView()
 
         viewModel.getSavedFilm().observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
+            //adapter.submitList(it)
         })
     }
 

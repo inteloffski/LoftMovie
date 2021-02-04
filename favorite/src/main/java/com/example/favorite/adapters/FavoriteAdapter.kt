@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.favorite.R
 import com.example.favorite.databinding.CellFavoriteBinding
 
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 
-class FavoriteAdapter : ListAdapter<Film, FavoriteAdapter.FilmViewHolder>(filmDiffUtil){
+class FavoriteAdapter : ListAdapter<FilmDTO, FavoriteAdapter.FilmViewHolder>(filmDiffUtil){
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
@@ -26,12 +26,12 @@ class FavoriteAdapter : ListAdapter<Film, FavoriteAdapter.FilmViewHolder>(filmDi
 
 
     companion object {
-        val filmDiffUtil = object : DiffUtil.ItemCallback<Film>() {
-            override fun areItemsTheSame(oldItem: Film, newItem: Film): Boolean {
+        val filmDiffUtil = object : DiffUtil.ItemCallback<FilmDTO>() {
+            override fun areItemsTheSame(oldItem: FilmDTO, newItem: FilmDTO): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Film, newItem: Film): Boolean {
+            override fun areContentsTheSame(oldItem: FilmDTO, newItem: FilmDTO): Boolean {
                 return oldItem == newItem
             }
 
@@ -42,9 +42,9 @@ class FavoriteAdapter : ListAdapter<Film, FavoriteAdapter.FilmViewHolder>(filmDi
 
         private val binding = CellFavoriteBinding.bind(itemView)
 
-        fun bind(film: Film) {
-            binding.tilteFilm.text = film.title
-            Glide.with(itemView.context).load(BASE_IMAGE_URL + film.posterPath).into(binding.filmPoster)
+        fun bind(filmDTO: FilmDTO) {
+            binding.tilteFilm.text = filmDTO.title
+            Glide.with(itemView.context).load(BASE_IMAGE_URL + filmDTO.posterPath).into(binding.filmPoster)
         }
 
 
