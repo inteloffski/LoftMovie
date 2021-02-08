@@ -104,11 +104,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private fun savedFilmOnClickButton(view: View) {
         binding.addFavoriteButton.setOnClickListener {
-            detailViewModel.selectedMovieLiveData.value?.let {
-                detailViewModel.saveFilm(mapper.map(it).also {
-                    it.isFavorite = true
-                })
-            }
+            detailViewModel.savedFilm()
             Snackbar.make(view, "Film saved successfully", Snackbar.LENGTH_SHORT).show()
         }
     }

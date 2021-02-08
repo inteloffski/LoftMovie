@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.db.dao.entities.FilmEntity
+import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.network.responses.ActorsDTO.Crew
 import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.network.responses.videoDTO.Video
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 class DetailFragmentViewModel @Inject constructor(
     private val repository: DetailRepository,
+    private val mapper: FilmDTOFilmEntityMapper
 ) : ViewModel() {
 
     private val _stateListActors: MutableLiveData<Resource<Crew>> = MutableLiveData()
@@ -83,8 +85,16 @@ class DetailFragmentViewModel @Inject constructor(
         }
     }
 
-    fun saveFilm(filmEntity: FilmEntity) = viewModelScope.launch {
+    private fun saveFilm(filmEntity: FilmEntity) = viewModelScope.launch {
         repository.upsertFilm(filmEntity)
+    }
+
+    fun savedFilm(){
+        selectedMovieLiveData.value?.let {filmDto ->
+            saveFilm(mapper.map(filmDto).also { filmEntity ->
+                filmEntity.isFavorite = true
+            })
+        }
     }
 
 
