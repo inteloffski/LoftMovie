@@ -13,16 +13,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.*
-import androidx.lifecycle.Transformations.map
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.utils.Resource
 import com.example.detail.R
 import com.example.detail.adapters.DetailPagerAdapter
 import com.example.detail.databinding.FragmentDetailBinding
 import com.example.detail.di.DetailComponent
-import com.example.detail.mapper.Mapper
+import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
@@ -39,8 +37,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private lateinit var intent: Intent
 
-    private val mapper = Mapper()
-
+    private val mapper = FilmDTOFilmEntityMapper()
 
 
     private var _binding: FragmentDetailBinding? = null
@@ -84,8 +81,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         savedFilmOnClickButton(view)
 
 
-
-
     }
 
     override fun onStart() {
@@ -107,16 +102,18 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         _binding = null
     }
 
-    private fun savedFilmOnClickButton(view: View){
+    private fun savedFilmOnClickButton(view: View) {
         binding.addFavoriteButton.setOnClickListener {
             detailViewModel.selectedMovieLiveData.value?.let {
-                detailViewModel.saveFilm(mapper.map(it))
+                detailViewModel.saveFilm(mapper.map(it).also {
+                    it.isFavorite = true
+                })
             }
             Snackbar.make(view, "Film saved successfully", Snackbar.LENGTH_SHORT).show()
         }
     }
 
-    private fun playTrailerClickButton(){
+    private fun playTrailerClickButton() {
         binding.playTrailerFilmButton.setOnClickListener {
             detailViewModel.getTrailerVideo()
         }

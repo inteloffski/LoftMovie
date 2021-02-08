@@ -23,5 +23,6 @@ data class FilmEntity(
     var title: String?,
     val video: Boolean?,
     val voteAverage: Double?,
-    val voteCount: Int?
+    val voteCount: Int?,
+    var isFavorite: Boolean = false
 ): Serializable

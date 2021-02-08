@@ -7,5 +7,5 @@ import com.example.core.db.dao.entities.FilmEntity
 
 @Database(entities = [
     FilmEntity::class
-], version = 1)
+], version = 2)
 abstract class LoftMovieDB: RoomDatabase(), LoftMovieDBContract

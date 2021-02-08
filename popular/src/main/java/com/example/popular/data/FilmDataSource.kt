@@ -4,12 +4,11 @@ package com.example.popular.data
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.example.core.db.dao.FilmDao
-import com.example.core.db.dao.entities.FilmEntity
+import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import com.example.core.network.service.MovieService
 import com.example.core.utils.Resource
-import com.example.popular.mapper.Mapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,11 +18,12 @@ import javax.inject.Inject
 class FilmDataSource @Inject constructor(
     private val service: MovieService,
     private val dao: FilmDao,
+    private val mapper: FilmDTOFilmEntityMapper
 ) : PageKeyedDataSource<Int, FilmDTO>() {
 
     val state: MutableLiveData<Resource<FilmResultResponse>> = MutableLiveData()
 
-    private val mapper = Mapper()
+
 
 
     override fun loadInitial(

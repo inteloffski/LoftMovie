@@ -1,10 +1,11 @@
-package com.example.detail.mapper
+package com.example.core.db.dao.mapper
 
 import com.example.core.db.dao.entities.FilmEntity
 import com.example.core.db.dao.mapper.BaseMapper
 import com.example.core.network.responses.FilmDTO.FilmDTO
+import javax.inject.Inject
 
-class Mapper : BaseMapper<FilmDTO, FilmEntity>() {
+class FilmDTOFilmEntityMapper @Inject constructor() : BaseMapper<FilmDTO, FilmEntity>() {
 
     override fun map(model: FilmDTO): FilmEntity {
         val entityList = FilmEntity(
@@ -20,7 +21,8 @@ class Mapper : BaseMapper<FilmDTO, FilmEntity>() {
             title = model.title,
             video = model.video,
             voteAverage = model.voteAverage,
-            voteCount = model.voteCount
+            voteCount = model.voteCount,
+            isFavorite = false
         )
         return entityList
     }

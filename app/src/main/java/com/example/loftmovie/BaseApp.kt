@@ -17,7 +17,8 @@ class BaseApp: Application(), AppWithFacade {
     }
 
     override fun getFacade(): ProvidersFacade {
-        return facadeComponent ?: FacadeComponent.init(this).also { facadeComponent = it }
+        return facadeComponent ?: FacadeComponent.init(this).also {
+            facadeComponent = it }
     }
 
 

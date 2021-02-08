@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.navigation.FavoriteNavigator
 import com.example.favorite.R
 import com.example.favorite.adapters.FavoriteAdapter
@@ -27,6 +28,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     @Inject
     lateinit var navigator: FavoriteNavigator
+
+    @Inject
+    lateinit var mapper : FilmDTOFilmEntityMapper
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -53,7 +57,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         setupRecyclerView()
 
         viewModel.getSavedFilm().observe(viewLifecycleOwner, Observer {
-            //adapter.submitList(it)
+            val list = mapper.reverseMap(it)
+            adapter.submitList(list)
         })
     }
 

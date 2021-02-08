@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.navigation.PopularNavigator
 import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.utils.Resource
@@ -39,6 +40,9 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
 
     lateinit var adapter: PopularFilmAdapter
+
+    @Inject
+    lateinit var mapper: FilmDTOFilmEntityMapper
 
     @Inject
     lateinit var navigator: PopularNavigator
@@ -127,6 +131,8 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
 
     private fun readFilmDatabase() {
         viewModel.observeLocalPagedSets().observe(viewLifecycleOwner, Observer {
+
+
             //adapter.submitList(it)
         })
     }
@@ -167,8 +173,14 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
         val navController = findNavController()
         detailViewModel.selectedMovie(filmDTO)
         navigator.navigateToDetail(navController)
-        
+
     }
 
 
 }
+
+
+
+
+
+
