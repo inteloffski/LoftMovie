@@ -23,9 +23,6 @@ class FilmDataSource @Inject constructor(
 
     val state: MutableLiveData<Resource<FilmResultResponse>> = MutableLiveData()
 
-
-
-
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, FilmDTO>,
@@ -37,9 +34,16 @@ class FilmDataSource @Inject constructor(
                 if (response.isSuccessful) {
                     response.body()?.let { resultResponse ->
                         state.postValue(Resource.Success(resultResponse))
-                        dao.insertAll(resultResponse.items.let {
-                            mapper.map(it)
-                        })
+                        mapper.map(resultResponse.items).forEach {
+                            if(it.isFavorite){
+
+                            } else{
+                                dao.getFilmById()
+                            }
+
+                        }
+
+
                         callback.onResult(resultResponse.items, null, 2)
                     }
                 } else {
@@ -60,12 +64,17 @@ class FilmDataSource @Inject constructor(
             try {
                 val response = service.getPopularFilms(page = params.key)
                 if (response.isSuccessful) {
-
                     response.body()?.let { resultResponse ->
                         state.postValue(Resource.Success(resultResponse))
-                        dao.insertAll(resultResponse.items.let {
-                            mapper.map(it)
-                        })
+                        mapper.map(resultResponse.items).forEach {
+                            if(it.isFavorite){
+
+                            } else{
+                                dao.getFilmById()
+                            }
+
+                        }
+
                         callback.onResult(resultResponse.items, params.key + 1)
                     }
                 } else {

@@ -16,10 +16,16 @@ interface FilmDao {
     fun getPagedFilm(): DataSource.Factory<Int, FilmEntity>
 
     @Query("SELECT * FROM filmEntity WHERE isFavorite = 1")
+    fun getFilmAllisFavorite(): LiveData<List<FilmEntity>>
+
+    @Query("SELECT * FROM filmEntity")
     fun getFilmAll(): LiveData<List<FilmEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertFilm(filmEntity: FilmEntity): Long
+    suspend fun insertFilm(filmEntity: FilmEntity): Long
+
+    @Query("SELECT * FROM filmEntity WHERE id")
+    fun getFilmById():  LiveData<List<FilmEntity>>
 
     @Delete
     suspend fun deleteFilm(filmEntity: FilmEntity)

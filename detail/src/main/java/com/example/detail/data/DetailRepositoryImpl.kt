@@ -25,7 +25,7 @@ class DetailRepositoryImpl @Inject constructor(
         service.getListTrailer(id)
 
     override suspend fun upsertFilm(filmEntity: FilmEntity) {
-        dao.upsertFilm(filmEntity)
+        dao.insertFilm(filmEntity)
     }
 
 

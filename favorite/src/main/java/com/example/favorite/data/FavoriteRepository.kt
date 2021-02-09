@@ -6,4 +6,6 @@ import com.example.core.db.dao.entities.FilmEntity
 interface FavoriteRepository {
 
     fun getSavedFilm(): LiveData<List<FilmEntity>>
+
+    suspend fun deleteFilm(filmEntity: FilmEntity)
 }

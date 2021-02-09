@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.core.db.dao.entities.FilmEntity
 import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.favorite.R
 import com.example.favorite.databinding.CellFavoriteBinding
 
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 
-class FavoriteAdapter : ListAdapter<FilmDTO, FavoriteAdapter.FilmViewHolder>(filmDiffUtil){
+class FavoriteAdapter : ListAdapter<FilmDTO, FavoriteAdapter.FilmViewHolder>(filmDiffUtil) {
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
