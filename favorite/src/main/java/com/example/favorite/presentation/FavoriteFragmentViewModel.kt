@@ -10,21 +10,17 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FavoriteFragmentViewModel @Inject constructor(
-    private val repository: FavoriteRepository
-): ViewModel() {
+    private val repository: FavoriteRepository,
+) : ViewModel() {
 
     fun getSavedFilm() = repository.getSavedFilm()
 
     fun deleteFilm(filmEntity: FilmEntity) = viewModelScope.launch(Dispatchers.IO) {
-        withContext(Dispatchers.Main){
-            repository.deleteFilm(filmEntity)
-        }
+        repository.deleteFilm(filmEntity)
     }
 
     fun saveFilm(filmEntity: FilmEntity) = viewModelScope.launch(Dispatchers.IO) {
-        withContext(Dispatchers.Main){
-            repository.upsertFilm(filmEntity)
-        }
+        repository.upsertFilm(filmEntity)
     }
 
 
