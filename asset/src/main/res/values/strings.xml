@@ -14,6 +14,9 @@
 
     <string name="action_bar_name_fragment">LoftMovie</string>
 
+    <string name="delete_film">Successfully deleted film</string>
+    <string name="undo_button">Undo</string>
+
     <string name="tab1_description_fragment">Description</string>
     <string name="tab2_actors_fragment">Actors</string>
     <string name="tab3_undefined_fragment">Undefined</string>
