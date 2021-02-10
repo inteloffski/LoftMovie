@@ -9,13 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.navigation.FavoriteNavigator
 import com.example.favorite.R
 import com.example.favorite.adapters.FavoriteAdapter
 import com.example.favorite.databinding.FragmentFavoriteBinding
 import com.example.favorite.di.FavoriteComponent
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 
@@ -30,7 +33,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     lateinit var navigator: FavoriteNavigator
 
     @Inject
-    lateinit var mapper : FilmDTOFilmEntityMapper
+    lateinit var mapper: FilmDTOFilmEntityMapper
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -45,7 +48,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -60,6 +63,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             val list = mapper.reverseMap(it)
             adapter.submitList(list)
         })
+
+        swipeToDelete(view)
     }
 
     override fun onDestroyView() {
@@ -75,6 +80,39 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         }
 
 
+    }
+
+    private fun swipeToDelete(view: View) {
+        val helper = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder,
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val entity = adapter.currentList[position]
+                viewModel.deleteFilm(mapper.map(entity))
+                Snackbar.make(view, "Successfully deleted film", Snackbar.LENGTH_SHORT).apply {
+                    setAction("Undo") {
+                        viewModel.saveFilm(mapper.map(entity).also {
+                            it.isFavorite = true
+                        })
+                    }
+                }.show()
+            }
+
+        }
+
+        ItemTouchHelper(helper).apply {
+            attachToRecyclerView(binding.recyclerFavorite)
+        }
     }
 
 

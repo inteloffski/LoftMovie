@@ -14,4 +14,8 @@ class FavoriteRepositoryImpl @Inject constructor(
     override suspend fun deleteFilm(filmEntity: FilmEntity) {
         dao.deleteFilm(filmEntity)
     }
+
+    override suspend fun upsertFilm(filmEntity: FilmEntity) {
+        dao.insertFilm(filmEntity)
+    }
 }

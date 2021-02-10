@@ -20,10 +20,8 @@ const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
 class PopularFilmAdapter(private val listener: Listener) :
     PagedListAdapter<FilmDTO, PopularFilmAdapter.FilmViewHolder>(filmDiffUtil) {
 
-
     @Inject
     lateinit var navigator: PopularNavigator
-
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }

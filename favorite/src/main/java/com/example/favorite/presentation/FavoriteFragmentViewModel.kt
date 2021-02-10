@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.db.dao.entities.FilmEntity
 import com.example.favorite.data.FavoriteRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FavoriteFragmentViewModel @Inject constructor(
@@ -13,7 +15,17 @@ class FavoriteFragmentViewModel @Inject constructor(
 
     fun getSavedFilm() = repository.getSavedFilm()
 
-    fun deleteFilm(filmEntity: FilmEntity) = viewModelScope.launch {
-        repository.deleteFilm(filmEntity)
+    fun deleteFilm(filmEntity: FilmEntity) = viewModelScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.Main){
+            repository.deleteFilm(filmEntity)
+        }
     }
+
+    fun saveFilm(filmEntity: FilmEntity) = viewModelScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.Main){
+            repository.upsertFilm(filmEntity)
+        }
+    }
+
+
 }

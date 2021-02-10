@@ -21,10 +21,6 @@ class PopularRepositoryImpl @Inject constructor(
 ) : PopularRepository {
 
     private var filmDataSourceFactory: FilmDataSourceFactory = FilmDataSourceFactory(service, dao, filmDTOFilmEntityMapper)
-
-    //private val mapper = Mapper()
-
-
     private var filmDTOList: LiveData<PagedList<FilmDTO>>
 
     init {
@@ -36,17 +32,13 @@ class PopularRepositoryImpl @Inject constructor(
     override suspend fun fetchPopularFilms(page: Int): Response<FilmResultResponse> =
         service.getPopularFilms(page)
 
-
     override suspend fun fetchTopRatedFilms(page: Int): Response<FilmResultResponse> =
         service.getTopRatedFilms(page)
-
-
 
     override fun getState(): LiveData<Resource<FilmResultResponse>> = Transformations.switchMap(
         filmDataSourceFactory.liveData,
         FilmDataSource::state
     )
-
 
     override fun listIsEmpty(): Boolean {
         return filmDTOList.value?.isEmpty() ?: true
@@ -59,9 +51,6 @@ class PopularRepositoryImpl @Inject constructor(
     override fun observeLocalPagedSets(): LiveData<PagedList<FilmEntity>> {
         val dataSourceFactory =
             dao.getPagedFilm()
-
-
-
         return LivePagedListBuilder(
             dataSourceFactory,
             FilmDataSourceFactory.pagedListConfig()

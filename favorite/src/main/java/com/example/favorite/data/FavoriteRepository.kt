@@ -8,4 +8,6 @@ interface FavoriteRepository {
     fun getSavedFilm(): LiveData<List<FilmEntity>>
 
     suspend fun deleteFilm(filmEntity: FilmEntity)
+
+    suspend fun upsertFilm(filmEntity: FilmEntity)
 }

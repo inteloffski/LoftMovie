@@ -59,9 +59,6 @@ class DetailFragmentViewModel @Inject constructor(
         }
     }
 
-
-
-
     fun selectedMovie(filmDTO: FilmDTO) {
         _stateListActors.postValue(Resource.Loading())
         viewModelScope.launch(Dispatchers.IO) {
@@ -85,8 +82,10 @@ class DetailFragmentViewModel @Inject constructor(
         }
     }
 
-    private fun saveFilm(filmEntity: FilmEntity) = viewModelScope.launch {
-        repository.upsertFilm(filmEntity)
+    private fun saveFilm(filmEntity: FilmEntity) = viewModelScope.launch(Dispatchers.IO) {
+        withContext(Dispatchers.Main){
+            repository.upsertFilm(filmEntity)
+        }
     }
 
     fun savedFilm(){
