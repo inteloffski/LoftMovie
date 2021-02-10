@@ -2,9 +2,9 @@ package com.example.detail.data
 
 
 
+import com.example.core.db.dao.entities.FilmEntity
 import com.example.core.network.responses.ActorsDTO.Crew
-import com.example.core.network.responses.FilmDTO.Film
-import com.example.core.network.responses.videoDTO.ResultVideo
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.network.responses.videoDTO.Video
 import retrofit2.Response
 
@@ -17,8 +17,8 @@ interface DetailRepository {
         id: Int
     ): Response<Video>
 
+    suspend fun upsertFilm(filmEntity: FilmEntity)
 
-
-    fun selectedMovieLiveData(film: Film)
+    fun selectedMovieLiveData(filmDTO: FilmDTO)
 
 }

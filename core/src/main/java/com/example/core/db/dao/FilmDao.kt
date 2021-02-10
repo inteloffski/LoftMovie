@@ -2,24 +2,33 @@ package com.example.core.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.example.core.network.responses.FilmDTO.Film
+import androidx.room.*
+import com.example.core.db.dao.entities.FilmEntity
 
 
 @Dao
 interface FilmDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(film: List<Film>)
+    suspend fun insertAll(filmEntityDTO: List<FilmEntity>)
 
     @Query("SELECT * FROM filmEntity")
-    fun getPagedFilm(): DataSource.Factory<Int, Film>
+    fun getPagedFilm(): DataSource.Factory<Int, FilmEntity>
+
+    @Query("SELECT * FROM filmEntity WHERE isFavorite = 1")
+    fun getFilmAllisFavorite(): LiveData<List<FilmEntity>>
 
     @Query("SELECT * FROM filmEntity")
-    fun getFilmAll(): LiveData<List<Film>>
+    fun getFilmAll(): LiveData<List<FilmEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFilm(filmEntity: FilmEntity): Long
+
+    @Query("SELECT * FROM filmEntity WHERE id")
+    fun getFilmById():  LiveData<List<FilmEntity>>
+
+    @Delete
+    suspend fun deleteFilm(filmEntity: FilmEntity)
 
 
 

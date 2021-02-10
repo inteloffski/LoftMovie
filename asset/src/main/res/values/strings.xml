@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="film_saved_successfully">Film saved successfully</string>
+
+    <string name="trailer_not_found">Unfortunately, the trailer will not find :(</string>
+    <string name="play_trailer_button">Play trailer</string>
+    <string name="add_favorite_film_button">Add favorite film</string>
+
+    <string name="item_popular">Popular</string>
+    <string name="item_favorite">Favorite</string>
+    <string name="item_search">Search</string>
+
+
+
+    <string name="action_bar_name_fragment">LoftMovie</string>
+
+    <string name="delete_film">Successfully deleted film</string>
+    <string name="undo_button">Undo</string>
+
+    <string name="tab1_description_fragment">Description</string>
+    <string name="tab2_actors_fragment">Actors</string>
+    <string name="tab3_undefined_fragment">Undefined</string>
+
+    <string name="no_internet_connection">"No internet connection:("</string>
+    <string name="loading_error">An error occurred while loading, please try again</string>
+
+</resources>

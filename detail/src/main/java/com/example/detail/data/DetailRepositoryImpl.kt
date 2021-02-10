@@ -1,9 +1,10 @@
 package com.example.detail.data
 
 import androidx.lifecycle.MutableLiveData
+import com.example.core.db.dao.FilmDao
+import com.example.core.db.dao.entities.FilmEntity
 import com.example.core.network.responses.ActorsDTO.Crew
-import com.example.core.network.responses.FilmDTO.Film
-import com.example.core.network.responses.videoDTO.ResultVideo
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.network.responses.videoDTO.Video
 import com.example.core.network.service.MovieService
 import retrofit2.Response
@@ -12,9 +13,10 @@ import javax.inject.Inject
 
 class DetailRepositoryImpl @Inject constructor(
     private val service: MovieService,
+    private val dao: FilmDao
 ) : DetailRepository {
 
-    private var getSelectedMovie: MutableLiveData<Film> = MutableLiveData()
+    private var getSelectedMovie: MutableLiveData<FilmDTO> = MutableLiveData()
 
     override suspend fun fetchActors(id: Int): Response<Crew> =
         service.getListActors(id)
@@ -22,9 +24,13 @@ class DetailRepositoryImpl @Inject constructor(
     override suspend fun fetchVideo(id: Int): Response<Video> =
         service.getListTrailer(id)
 
+    override suspend fun upsertFilm(filmEntity: FilmEntity) {
+        dao.insertFilm(filmEntity)
+    }
 
-    override fun selectedMovieLiveData(film: Film) {
-        getSelectedMovie.postValue(film)
+
+    override fun selectedMovieLiveData(filmDTO: FilmDTO) {
+        getSelectedMovie.postValue(filmDTO)
     }
 
 

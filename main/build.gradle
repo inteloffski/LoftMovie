@@ -53,6 +53,7 @@ dependencies {
     implementation project(':popular')
     implementation project(':favorite')
     implementation project(':splash')
+    implementation project(':asset')
     implementation project(':detail')
 
 

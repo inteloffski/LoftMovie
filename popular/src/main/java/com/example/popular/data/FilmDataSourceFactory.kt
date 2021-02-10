@@ -4,20 +4,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import com.example.core.db.dao.FilmDao
-import com.example.core.network.responses.FilmDTO.Film
+import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.network.service.MovieService
 import javax.inject.Inject
 
 class FilmDataSourceFactory @Inject constructor(
     private val service: MovieService,
-    private val dao: FilmDao
-): DataSource.Factory<Int, Film>() {
+    private val dao: FilmDao,
+    private val mapper: FilmDTOFilmEntityMapper
+): DataSource.Factory<Int, FilmDTO>() {
 
 
     val liveData = MutableLiveData<FilmDataSource>()
 
-    override fun create(): DataSource<Int, Film> {
-        val filmDataSource = FilmDataSource(service, dao)
+    override fun create(): DataSource<Int, FilmDTO> {
+        val filmDataSource = FilmDataSource(service, dao, mapper)
         liveData.postValue(filmDataSource)
         return  filmDataSource
     }
