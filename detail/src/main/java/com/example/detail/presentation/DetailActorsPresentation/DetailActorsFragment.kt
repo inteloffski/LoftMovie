@@ -97,7 +97,7 @@ class DetailActorsFragment : Fragment(R.layout.fragment_detail_actors) {
                 }
                 is Resource.Error -> {
                     hideProgressBar()
-                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, R.string.loading_error, Toast.LENGTH_SHORT).show()
 
                 }
             }

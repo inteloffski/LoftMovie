@@ -11,6 +11,7 @@ import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.network.responses.videoDTO.Video
 import com.example.core.utils.Resource
 import com.example.core.utils.SingleLiveEvent
+import com.example.detail.R
 import com.example.detail.data.DetailRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,7 +54,7 @@ class DetailFragmentViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 when(e){
-                    is UnknownHostException -> _videoLiveData?.postValue(Resource.Error("No internet connection"))
+                    is UnknownHostException -> _videoLiveData?.postValue(Resource.Error(R.string.no_internet_connection.toString()))
                 }
             }
         }
@@ -76,7 +77,7 @@ class DetailFragmentViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> _stateListActors.postValue(Resource.Error("No internet connection"))
+                    is UnknownHostException -> _stateListActors.postValue(Resource.Error(R.string.no_internet_connection.toString()))
                 }
             }
         }

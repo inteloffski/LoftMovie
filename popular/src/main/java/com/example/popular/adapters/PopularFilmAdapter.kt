@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.navigation.PopularNavigator
 import com.example.core.network.responses.FilmDTO.FilmDTO
+import com.example.core.utils.BaseStrings.BASE_IMAGE_URL
 import com.example.popular.R
 import com.example.popular.databinding.ItemPopularBinding
 import javax.inject.Inject
 
-const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
+
 
 
 

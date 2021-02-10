@@ -40,27 +40,27 @@ class CircleCustomView(context: Context?, attrs: AttributeSet?) : View(context, 
         firstCirclePaint = Paint().apply {
             setFlags(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
             setAntiAlias(true)
-            setColor(Color.BLACK)
+            setColor(Color.GRAY)
             setStyle(Paint.Style.STROKE)
             setStrokeWidth(10f)
         }
 
         blackStrokePaint = Paint().apply {
-            color = Color.RED
+            color = Color.BLUE
             strokeWidth = 6f
             setAlpha(60)
         }
         secondCirclePaint = Paint().apply {
             setFlags(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
             setAntiAlias(true)
-            setColor(Color.BLACK)
+            setColor(Color.GRAY)
             setStyle(Paint.Style.STROKE)
             setStrokeWidth(40f)
         }
         linePaint = Paint().apply {
             setFlags(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG)
             setAntiAlias(true)
-            setColor(Color.BLACK)
+            setColor(Color.GRAY)
             setStrokeWidth(6f)
             textSize = 240F
             textAlign = Paint.Align.CENTER

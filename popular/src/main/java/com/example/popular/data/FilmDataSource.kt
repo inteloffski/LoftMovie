@@ -9,6 +9,7 @@ import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import com.example.core.network.service.MovieService
 import com.example.core.utils.Resource
+import com.example.popular.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,7 +52,7 @@ class FilmDataSource @Inject constructor(
                 }
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> state.postValue(Resource.Error("No internet connection"))
+                    is UnknownHostException -> state.postValue(Resource.Error(R.string.no_internet_connection.toString()))
                 }
             }
 
@@ -84,7 +85,7 @@ class FilmDataSource @Inject constructor(
 
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> state.postValue(Resource.Error("No internet connection"))
+                    is UnknownHostException -> state.postValue(Resource.Error(R.string.no_internet_connection.toString()))
                 }
             }
         }

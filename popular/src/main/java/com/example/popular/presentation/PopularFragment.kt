@@ -136,7 +136,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     }
 
     private fun showSnackbarCheckInternet(view: View) {
-        Snackbar.make(view, "No internet connection:(", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(view, R.string.no_internet_connection, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun swipeToRefresh(view: View) {

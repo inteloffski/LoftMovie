@@ -21,13 +21,12 @@ import com.example.detail.adapters.DetailPagerAdapter
 import com.example.detail.databinding.FragmentDetailBinding
 import com.example.detail.di.DetailComponent
 import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
+import com.example.core.utils.BaseStrings.BASE_IMAGE_URL
+import com.example.core.utils.BaseStrings.BASE_YOUTUBE_URL
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
 
-
-const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
-const val BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v="
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
@@ -105,7 +104,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private fun savedFilmOnClickButton(view: View) {
         binding.addFavoriteButton.setOnClickListener {
             detailViewModel.savedFilm()
-            Snackbar.make(view, "Film saved successfully", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(view, R.string.film_saved_successfully, Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -132,7 +131,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     video.data?.results?.let { videoResult ->
                         if (videoResult.isNullOrEmpty()) {
                             Toast.makeText(view.context,
-                                "К сожалению трейлера нет:(",
+                                R.string.trailer_not_found,
                                 Toast.LENGTH_SHORT).show()
                         } else {
                             val trailerUrl = videoResult[0].key

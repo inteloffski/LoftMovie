@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_not_available">#666666</color>
+    <color name="dark_purple">#031F37</color>
+    <color name="light_pink">#FADADD</color>
+    <color name="black_purple">#99000000</color>
+    <color name="dark_gray_text">FF888888</color>
+</resources>

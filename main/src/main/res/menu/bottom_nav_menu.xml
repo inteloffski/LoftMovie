@@ -5,19 +5,19 @@
     <item
         android:id="@+id/popularFragment"
         android:icon="@drawable/ic_popular"
-        android:title="Popular"
+        android:title="@string/item_popular"
         />
 
     <item
         android:id="@+id/favoriteFragment"
         android:icon="@drawable/ic_favorite"
-        android:title="Favorite"
+        android:title="@string/item_favorite"
         />
 
     <item
         android:id="@+id/searchFragment"
         android:icon="@drawable/ic_search"
-        android:title="Search"
+        android:title="@string/item_search"
         />
 
 </menu>

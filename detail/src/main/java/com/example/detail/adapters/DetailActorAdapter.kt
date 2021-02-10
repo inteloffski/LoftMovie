@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.network.responses.ActorsDTO.Cast
+import com.example.core.utils.BaseStrings.BASE_IMAGE_URL
 import com.example.detail.R
 import com.example.detail.databinding.ItemActorBinding
-import com.example.detail.presentation.DetailPresentation.BASE_IMAGE_URL
 
 class DetailActorAdapter : ListAdapter<Cast, DetailActorAdapter.ActorViewHolder>(actorDiffUtil){
 
