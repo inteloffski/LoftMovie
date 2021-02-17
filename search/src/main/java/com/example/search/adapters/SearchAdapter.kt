@@ -1,4 +1,4 @@
-package com.example.favorite.adapters
+package com.example.search.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,24 +9,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.core.utils.BaseStrings.BASE_IMAGE_URL
-import com.example.favorite.R
-import com.example.favorite.databinding.CellFavoriteBinding
+import com.example.search.R
+import com.example.search.databinding.CellSearchBinding
+
+class SearchAdapter : ListAdapter<FilmDTO, SearchAdapter.FilmSearchViewHolder>(searchDiffUtil) {
 
 
-class FavoriteAdapter : ListAdapter<FilmDTO, FavoriteAdapter.FilmViewHolder>(filmDiffUtil) {
-
-    override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmSearchViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_search, parent, false)
+        return FilmSearchViewHolder(view)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.cell_favorite, parent, false)
-        return FilmViewHolder(view)
+    override fun onBindViewHolder(holderSearch: FilmSearchViewHolder, position: Int) {
+        getItem(position).let {
+            holderSearch.bind(it)
+        }
     }
-
 
     companion object {
-        val filmDiffUtil = object : DiffUtil.ItemCallback<FilmDTO>() {
+        val searchDiffUtil = object : DiffUtil.ItemCallback<FilmDTO>() {
             override fun areItemsTheSame(oldItem: FilmDTO, newItem: FilmDTO): Boolean {
                 return oldItem.id == newItem.id
             }
@@ -38,23 +39,24 @@ class FavoriteAdapter : ListAdapter<FilmDTO, FavoriteAdapter.FilmViewHolder>(fil
         }
     }
 
-    class FilmViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val binding = CellFavoriteBinding.bind(itemView)
+    class FilmSearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val binding = CellSearchBinding.bind(itemView)
 
         fun bind(filmDTO: FilmDTO) {
             binding.tilteFilm.text = filmDTO.title
             Glide.with(itemView.context).load(BASE_IMAGE_URL + filmDTO.posterPath).into(binding.filmPoster)
         }
 
-
         companion object {
-            fun create(parent: ViewGroup): FilmViewHolder {
+            fun create(parent: ViewGroup): FilmSearchViewHolder {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.cell_favorite, parent, false)
-                return FilmViewHolder(view)
+                    .inflate(R.layout.cell_search, parent, false)
+                return FilmSearchViewHolder(view)
             }
         }
 
     }
 }
+

@@ -70,10 +70,10 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
-
+    //pagination library
     implementation "androidx.paging:paging-runtime-ktx:2.1.2"
 
-
+    //swipe to refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 
