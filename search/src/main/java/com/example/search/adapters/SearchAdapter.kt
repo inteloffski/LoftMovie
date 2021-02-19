@@ -12,7 +12,7 @@ import com.example.core.utils.BaseStrings.BASE_IMAGE_URL
 import com.example.search.R
 import com.example.search.databinding.CellSearchBinding
 
-class SearchAdapter : ListAdapter<FilmDTO, SearchAdapter.FilmSearchViewHolder>(searchDiffUtil) {
+class SearchAdapter(private val listener: Listener) : ListAdapter<FilmDTO, SearchAdapter.FilmSearchViewHolder>(searchDiffUtil) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmSearchViewHolder {
@@ -21,8 +21,11 @@ class SearchAdapter : ListAdapter<FilmDTO, SearchAdapter.FilmSearchViewHolder>(s
     }
 
     override fun onBindViewHolder(holderSearch: FilmSearchViewHolder, position: Int) {
-        getItem(position).let {
-            holderSearch.bind(it)
+        getItem(position).let { holderSearch.bind(it) }
+        holderSearch.itemView.setOnClickListener {
+            getItem(position)?.let {
+                listener.onMovieClicked(it)
+            }
         }
     }
 
@@ -46,6 +49,8 @@ class SearchAdapter : ListAdapter<FilmDTO, SearchAdapter.FilmSearchViewHolder>(s
 
         fun bind(filmDTO: FilmDTO) {
             binding.tilteFilm.text = filmDTO.title
+            binding.voteAverage.text = filmDTO.voteAverage.toString()
+            binding.releaseDate.text = filmDTO.releaseDate.toString()
             Glide.with(itemView.context).load(BASE_IMAGE_URL + filmDTO.posterPath).into(binding.filmPoster)
         }
 
@@ -57,6 +62,10 @@ class SearchAdapter : ListAdapter<FilmDTO, SearchAdapter.FilmSearchViewHolder>(s
             }
         }
 
+    }
+
+    interface Listener{
+        fun onMovieClicked(filmDTO: FilmDTO)
     }
 }
 

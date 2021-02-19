@@ -38,6 +38,7 @@ class SearchFragmentViewModel @Inject constructor(
                     val searchResult: Response<FilmResultResponse> = withContext(Dispatchers.IO) {
                         repository.searchFilm(queryString)
                     }
+
                     searchResult.body()?.items?.let {filmList ->
                         SearchResult.SuccessResult(filmList) }
                 } else {
@@ -58,7 +59,6 @@ class SearchFragmentViewModel @Inject constructor(
     @FlowPreview
     @ExperimentalCoroutinesApi
     val searchResultLiveData: LiveData<SearchResult> = internalSearchResult.asLiveData()
-
 
 }
 

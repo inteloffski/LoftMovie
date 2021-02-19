@@ -7,11 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.core.navigation.SearchNavigator
+import com.example.core.network.responses.FilmDTO.FilmDTO
+import com.example.detail.presentation.DetailPresentation.DetailFragmentViewModel
 import com.example.search.R
 import com.example.search.adapters.SearchAdapter
 import com.example.search.databinding.FragmentSearchBinding
@@ -23,14 +28,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.Listener {
 
-class SearchFragment : Fragment(R.layout.fragment_search) {
+    private var adapter = SearchAdapter(this)
 
-    private var adapter = SearchAdapter()
+    @Inject
+    lateinit var navigator: SearchNavigator
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<SearchFragmentViewModel> { viewModelFactory }
+    private val viewModel by activityViewModels<SearchFragmentViewModel> { viewModelFactory }
+    private val detailViewModel by activityViewModels<DetailFragmentViewModel>() { viewModelFactory }
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -45,7 +53,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -72,21 +80,26 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    private fun handleSearchResult(it: SearchResult){
+    private fun handleSearchResult(it: SearchResult) {
         when (it) {
+            is SearchResult.LoadingResult -> {
+                binding.progress.visibility = View.VISIBLE
+            }
+
             is SearchResult.SuccessResult -> {
+                binding.progress.visibility = View.INVISIBLE
                 adapter.submitList(it.result)
             }
         }
     }
+
     private fun setupRecyclerView() {
-        adapter = SearchAdapter()
+        adapter = SearchAdapter(this)
         binding.recycler.apply {
             this.adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(activity)
@@ -95,6 +108,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     }
 
+    override fun onMovieClicked(filmDTO: FilmDTO) {
+        val navController = findNavController()
+        detailViewModel.selectedMovie(filmDTO)
+        navigator.navigateToDetail(navController)
+
+    }
 
 
 }
