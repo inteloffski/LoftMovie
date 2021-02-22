@@ -9,14 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.navigation.FavoriteNavigator
+import com.example.core.navigation.PopularNavigator
+import com.example.core.network.responses.FilmDTO.FilmDTO
+import com.example.detail.presentation.DetailPresentation.DetailFragmentViewModel
 import com.example.favorite.R
 import com.example.favorite.adapters.FavoriteAdapter
 import com.example.favorite.databinding.FragmentFavoriteBinding
@@ -25,10 +30,13 @@ import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 
-class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
+class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.Listener {
 
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var navigatorToDetail: FavoriteNavigator
 
     val clearPaint =
         Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
@@ -45,6 +53,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by viewModels<FavoriteFragmentViewModel> { viewModelFactory }
+    private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
 
     override fun onAttach(context: Context) {
         FavoriteComponent.injectFragment(this)
@@ -80,7 +89,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     }
 
     private fun setupRecyclerView() {
-        adapter = FavoriteAdapter()
+        adapter = FavoriteAdapter(this)
         binding.recyclerFavorite.apply {
             this.adapter = this@FavoriteFragment.adapter
             layoutManager = LinearLayoutManager(activity)
@@ -194,6 +203,13 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     private fun clearCanvas(c: Canvas?, left: Float, top: Float, right: Float, bottom: Float) {
         c?.drawRect(left, top, right, bottom, clearPaint)
+    }
+
+    override fun onMovieClicked(filmDTO: FilmDTO) {
+        val navController = findNavController()
+        detailViewModel.selectedMovie(filmDTO)
+        navigatorToDetail.navigateToDetail(navController)
+
     }
 
 

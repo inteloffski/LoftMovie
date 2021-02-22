@@ -16,11 +16,19 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.search.presentation.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.favorite.presentation.FavoriteFragment"
-        android:label="FavoriteFragment" />
+        android:label="FavoriteFragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.example.splash.presentation.SplashFragment"
@@ -35,6 +43,9 @@
         android:id="@+id/detailFragment"
         android:name="com.example.detail.presentation.DetailPresentation.DetailFragment"
         android:label="DetailFragment">
+        <action
+            android:id="@+id/action_detailFragment_to_popularFragment"
+            app:destination="@id/popularFragment" />
     </fragment>
 
 </navigation>

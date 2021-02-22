@@ -13,16 +13,6 @@ const val API_KEY = "a567c4221f7842460a3aad764f4243f4"
 
 interface MovieService {
 
-    //Search for movies.
-    @GET("/search/movie")
-    suspend fun searchFilm(
-        @Query("query") query: String,
-        @Query("page") page: Int,
-        @Query("api_key") apiKey: String = API_KEY,
-        @Query("language") language: String = "en-US"
-
-    ): Response<FilmResultResponse>
-
     //Get a list of the current popular movies on TMDb. This list updates daily.
     @GET("3/movie/popular/")
     suspend fun getPopularFilms(
@@ -60,6 +50,13 @@ interface MovieService {
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US"
     ): Response<Video>
+
+    @GET("3/search/movie")
+    suspend fun searchFilm(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("language") language: String = "en-US",
+        @Query("query") query: String
+    ): Response<FilmResultResponse>
 
 
 

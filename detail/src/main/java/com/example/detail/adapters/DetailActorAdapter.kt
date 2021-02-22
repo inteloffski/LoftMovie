@@ -46,15 +46,6 @@ class DetailActorAdapter : ListAdapter<Cast, DetailActorAdapter.ActorViewHolder>
             binding.nameCharacter.text = cast.character
             Glide.with(itemView.context).load(BASE_IMAGE_URL + cast.profilePath).into(binding.actorPoster)
         }
-
-
-        companion object {
-            fun create(parent: ViewGroup): ActorViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_actor, parent, false)
-                return ActorViewHolder(view)
-            }
-        }
     }
 
 

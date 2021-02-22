@@ -4,4 +4,6 @@ import androidx.navigation.NavController
 
 interface FavoriteNavigator {
 
+    fun navigateToDetail(navController: NavController)
+
 }

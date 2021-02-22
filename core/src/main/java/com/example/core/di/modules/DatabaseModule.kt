@@ -13,7 +13,6 @@ import javax.inject.Singleton
 @Module
 class DatabaseModule {
     companion object{
-
         @Provides
         @Singleton
         fun provideLoftMovieDatabase(context: Context): LoftMovieDBContract{

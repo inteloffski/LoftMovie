@@ -34,8 +34,9 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     @Inject
     lateinit var navigator: PopularNavigator
 
-    private val viewModel by viewModels<PopularFragmentViewModel> { viewModelFactory }
+    private val viewModel by activityViewModels<PopularFragmentViewModel> { viewModelFactory }
     private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
+
     private lateinit var adapter: PopularFilmAdapter
     private var _binding: FragmentPopularBinding? = null
     private val binding get() = _binding!!
