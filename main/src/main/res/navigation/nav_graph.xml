@@ -43,6 +43,9 @@
         android:id="@+id/detailFragment"
         android:name="com.example.detail.presentation.DetailPresentation.DetailFragment"
         android:label="DetailFragment">
+        <action
+            android:id="@+id/action_detailFragment_to_popularFragment"
+            app:destination="@id/popularFragment" />
     </fragment>
 
 </navigation>

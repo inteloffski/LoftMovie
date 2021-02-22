@@ -50,6 +50,8 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.Listene
 
     }
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

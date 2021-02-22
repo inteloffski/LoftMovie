@@ -20,6 +20,4 @@ class BaseApp: Application(), AppWithFacade {
         return facadeComponent ?: FacadeComponent.init(this).also {
             facadeComponent = it }
     }
-
-
 }
