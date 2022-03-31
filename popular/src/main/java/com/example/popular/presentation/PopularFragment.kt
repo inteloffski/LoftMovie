@@ -34,6 +34,8 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     @Inject
     lateinit var navigator: PopularNavigator
 
+    private val mockChanges: String = ""
+
     private val viewModel by activityViewModels<PopularFragmentViewModel> { viewModelFactory }
     private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
 
