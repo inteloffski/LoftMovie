@@ -13,7 +13,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/Theme.LoftMovie">
-        <activity android:name="com.example.main.MainActivity">
+        <activity android:name="com.example.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
