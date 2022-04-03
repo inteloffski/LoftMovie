@@ -71,6 +71,9 @@ dependencies {
     //pagination library
     implementation "androidx.paging:paging-runtime-ktx:2.1.2"
 
+    //viewdelegate
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.3'
+
     //swipe to refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 

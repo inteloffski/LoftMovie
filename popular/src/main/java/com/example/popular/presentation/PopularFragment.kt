@@ -2,16 +2,14 @@ package com.example.popular.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.navigation.PopularNavigator
 import com.example.core.network.responses.FilmDTO.FilmDTO
@@ -38,24 +36,12 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
 
     private lateinit var adapter: PopularFilmAdapter
-    private var _binding: FragmentPopularBinding? = null
-    private val binding get() = _binding!!
 
-
+    private val viewBinding: FragmentPopularBinding by viewBinding()
 
     override fun onAttach(context: Context) {
         PopularComponent.injectFragment(this)
         super.onAttach(context)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentPopularBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,11 +61,6 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
         }
         swipeToRefresh(view)
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun initState(view: View) {
@@ -110,7 +91,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
 
     private fun setupRecyclerView() {
         adapter = PopularFilmAdapter(this)
-        binding.recycler.apply {
+        viewBinding.recycler.apply {
             this.adapter = this@PopularFragment.adapter
             layoutManager = GridLayoutManager(activity, 3)
         }
@@ -119,7 +100,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     }
 
     private fun hideProgressBar() {
-        binding.progressBar.visibility = View.INVISIBLE
+        viewBinding.progressBar.visibility = View.INVISIBLE
     }
 
     private fun readFilmDatabase() {
@@ -130,9 +111,9 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
 
     private fun showProgressBar() {
         if (viewModel.getListIsEmpty()) {
-            binding.progressBar.visibility = View.VISIBLE
+            viewBinding.progressBar.visibility = View.VISIBLE
         } else {
-            binding.progressBar.visibility = View.GONE
+            viewBinding.progressBar.visibility = View.GONE
         }
     }
 
@@ -141,7 +122,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     }
 
     private fun swipeToRefresh(view: View) {
-        binding.swipe.setOnRefreshListener {
+        viewBinding.swipe.setOnRefreshListener {
             activity?.let { activity ->
                 if (viewModel.isNetworkAvailable(activity)) {
                     viewModel.refresh()
@@ -149,10 +130,10 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
                         initState(view)
                         adapter.notifyDataSetChanged()
                         adapter.submitList(response)
-                        binding.swipe.isRefreshing = false
+                        viewBinding.swipe.isRefreshing = false
                     })
                 } else {
-                    binding.swipe.isRefreshing = false
+                    viewBinding.swipe.isRefreshing = false
                     showSnackbarCheckInternet(view)
                 }
             }
@@ -165,8 +146,6 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
         navigator.navigateToDetail(navController)
 
     }
-
-
 }
 
 

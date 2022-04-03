@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.navigation.SearchNavigator
 import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.detail.presentation.DetailPresentation.DetailFragmentViewModel
@@ -40,26 +41,13 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.Listene
     private val viewModel by activityViewModels<SearchFragmentViewModel> { viewModelFactory }
     private val detailViewModel by activityViewModels<DetailFragmentViewModel>() { viewModelFactory }
 
-    private var _binding: FragmentSearchBinding? = null
-    private val binding get() = _binding!!
+    private val viewBinding: FragmentSearchBinding by viewBinding()
 
 
     override fun onAttach(context: Context) {
         SearchComponent.injectFragment(this)
         super.onAttach(context)
 
-    }
-
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
     }
 
     @FlowPreview
@@ -73,7 +61,7 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.Listene
             handleSearchResult(it)
         })
 
-        binding.searchRepo.doAfterTextChanged {
+        viewBinding.searchRepo.doAfterTextChanged {
             lifecycleScope.launch {
                 viewModel.queryChannel.send(it.toString())
             }
@@ -82,19 +70,16 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.Listene
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 
     private fun handleSearchResult(it: SearchResult) {
         when (it) {
             is SearchResult.LoadingResult -> {
-                binding.progress.visibility = View.VISIBLE
+                viewBinding.progress.visibility = View.VISIBLE
             }
 
             is SearchResult.SuccessResult -> {
-                binding.progress.visibility = View.INVISIBLE
+                viewBinding.progress.visibility = View.INVISIBLE
                 adapter.submitList(it.result)
             }
         }
@@ -102,12 +87,10 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.Listene
 
     private fun setupRecyclerView() {
         adapter = SearchAdapter(this)
-        binding.recycler.apply {
+        viewBinding.recycler.apply {
             this.adapter = this@SearchFragment.adapter
             layoutManager = LinearLayoutManager(activity)
         }
-
-
     }
 
     override fun onMovieClicked(filmDTO: FilmDTO) {
@@ -116,6 +99,4 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.Listene
         navigator.navigateToDetail(navController)
 
     }
-
-
 }

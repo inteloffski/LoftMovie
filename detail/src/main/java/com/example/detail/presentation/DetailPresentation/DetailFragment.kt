@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.*
 import androidx.viewpager2.widget.ViewPager2
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.core.utils.Resource
 import com.example.detail.R
@@ -23,6 +24,7 @@ import com.example.detail.di.DetailComponent
 import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.utils.BaseStrings.BASE_IMAGE_URL
 import com.example.core.utils.BaseStrings.BASE_YOUTUBE_URL
+import com.example.detail.databinding.FragmentDetailActorsBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
@@ -38,9 +40,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val mapper = FilmDTOFilmEntityMapper()
 
-
-    private var _binding: FragmentDetailBinding? = null
-    private val binding get() = _binding!!
+    private val viewBinding: FragmentDetailBinding by viewBinding()
 
 
     private lateinit var detailPagerAdapter: DetailPagerAdapter
@@ -58,16 +58,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         super.onCreate(savedInstanceState)
 
 
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,24 +82,17 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         super.onStop()
         (activity as? AppCompatActivity)?.supportActionBar?.title =
             getString(R.string.action_bar_name_fragment)
-
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun savedFilmOnClickButton(view: View) {
-        binding.addFavoriteButton.setOnClickListener {
+        viewBinding.addFavoriteButton.setOnClickListener {
             detailViewModel.savedFilm()
             Snackbar.make(view, R.string.film_saved_successfully, Snackbar.LENGTH_SHORT).show()
         }
     }
 
     private fun playTrailerClickButton() {
-        binding.playTrailerFilmButton.setOnClickListener {
+        viewBinding.playTrailerFilmButton.setOnClickListener {
             detailViewModel.getTrailerVideo()
         }
     }
@@ -155,7 +138,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         viewPager = view.findViewById(R.id.viewPager)
         viewPager.adapter = detailPagerAdapter
 
-        TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
+        TabLayoutMediator(viewBinding.tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> {
                     tab.text = getString(R.string.tab2_actors_fragment)
@@ -171,23 +154,23 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private fun bindingData(view: View) {
         detailViewModel.selectedMovieLiveData.observe(viewLifecycleOwner, Observer { film ->
-            binding.titleName.text = film.title
-            binding.releaseDate.text = film.releaseDate
-            binding.voteAverage.text = film.voteAverage.toString()
+            viewBinding.titleName.text = film.title
+            viewBinding.releaseDate.text = film.releaseDate
+            viewBinding.voteAverage.text = film.voteAverage.toString()
             Glide.with(view.context).load(BASE_IMAGE_URL + film.posterPath)
-                .into(binding.posterPath)
+                .into(viewBinding.posterPath)
             Glide.with(view.context).load(BASE_IMAGE_URL + film.backdropPath)
-                .into(binding.backdropPoster)
+                .into(viewBinding.backdropPoster)
             (activity as? AppCompatActivity)?.supportActionBar?.title = film.title
 
         })
     }
 
     private fun showProgress() {
-        binding.playTrailerProgress.visibility = View.VISIBLE
+        viewBinding.playTrailerProgress.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-        binding.playTrailerProgress.visibility = View.INVISIBLE
+        viewBinding.playTrailerProgress.visibility = View.INVISIBLE
     }
 }
