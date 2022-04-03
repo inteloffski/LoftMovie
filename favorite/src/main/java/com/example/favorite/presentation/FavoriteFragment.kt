@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.navigation.FavoriteNavigator
 import com.example.core.navigation.PopularNavigator
@@ -32,8 +33,7 @@ import javax.inject.Inject
 
 class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.Listener {
 
-    private var _binding: FragmentFavoriteBinding? = null
-    private val binding get() = _binding!!
+    private val viewBinding: FragmentFavoriteBinding by viewBinding()
 
     @Inject
     lateinit var navigatorToDetail: FavoriteNavigator
@@ -61,16 +61,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.L
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
@@ -83,14 +73,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.L
         swipeToDelete(view)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun setupRecyclerView() {
         adapter = FavoriteAdapter(this)
-        binding.recyclerFavorite.apply {
+        viewBinding.recyclerFavorite.apply {
             this.adapter = this@FavoriteFragment.adapter
             layoutManager = LinearLayoutManager(activity)
         }
@@ -197,10 +182,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.L
         }
 
         ItemTouchHelper(helper).apply {
-            attachToRecyclerView(binding.recyclerFavorite)
+            attachToRecyclerView(viewBinding.recyclerFavorite)
         }
     }
-
     private fun clearCanvas(c: Canvas?, left: Float, top: Float, right: Float, bottom: Float) {
         c?.drawRect(left, top, right, bottom, clearPaint)
     }
@@ -209,8 +193,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.L
         val navController = findNavController()
         detailViewModel.selectedMovie(filmDTO)
         navigatorToDetail.navigateToDetail(navController)
-
     }
-
 
 }

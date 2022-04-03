@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.utils.Resource
 import com.example.detail.R
 import com.example.detail.adapters.DetailActorAdapter
@@ -22,8 +23,7 @@ import javax.inject.Inject
 
 class DetailActorsFragment : Fragment(R.layout.fragment_detail_actors) {
 
-    private var _binding: FragmentDetailActorsBinding? = null
-    private val binding get() = _binding!!
+    private val viewBinding: FragmentDetailActorsBinding by viewBinding()
 
     lateinit var adapter: DetailActorAdapter
 
@@ -44,36 +44,16 @@ class DetailActorsFragment : Fragment(R.layout.fragment_detail_actors) {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        _binding = FragmentDetailActorsBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initState()
-
-
-
-
-
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun initRecyclerView() {
         adapter = DetailActorAdapter()
-        binding.recycler.apply {
+        viewBinding.recycler.apply {
             this.adapter = this@DetailActorsFragment.adapter
             layoutManager = LinearLayoutManager(activity)
 
@@ -106,11 +86,11 @@ class DetailActorsFragment : Fragment(R.layout.fragment_detail_actors) {
     }
 
     private fun hideProgressBar() {
-        binding.progressBar.visibility = View.INVISIBLE
+        viewBinding.progressBar.visibility = View.INVISIBLE
     }
 
     private fun showProgressBar(){
-        binding.progressBar.visibility = View.VISIBLE
+        viewBinding.progressBar.visibility = View.VISIBLE
     }
 
 
