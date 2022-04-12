@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
@@ -20,6 +21,9 @@ import com.example.popular.adapters.PopularFilmAdapter
 import com.example.popular.databinding.FragmentPopularBinding
 import com.example.popular.di.PopularComponent
 import com.google.android.material.snackbar.Snackbar
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -31,6 +35,8 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
     lateinit var mapper: FilmDTOFilmEntityMapper
     @Inject
     lateinit var navigator: PopularNavigator
+
+    private val mDisposable = CompositeDisposable()
 
     private val viewModel by activityViewModels<PopularFragmentViewModel> { viewModelFactory }
     private val detailViewModel by activityViewModels<DetailFragmentViewModel> { viewModelFactory }
@@ -48,45 +54,18 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
-        activity?.let {
-            if (viewModel.isNetworkAvailable(it)) {
-                initPagingList()
-                initState(view)
-            } else {
-                readFilmDatabase()
-                showSnackbarCheckInternet(view)
-            }
-
-
-        }
-        swipeToRefresh(view)
-
-    }
-
-    private fun initState(view: View) {
-        viewModel.getState().observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is Resource.Loading -> {
-                    showProgressBar()
-                }
-                is Resource.Success -> {
-                    hideProgressBar()
-
-                }
-                is Resource.Error -> {
-                    hideProgressBar()
-                    showSnackbarCheckInternet(view)
-
-                }
-            }
-
+        mDisposable.add(
+            viewModel.getMovie()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe{ pagingFilm ->
+            success(pagingFilm)
         })
     }
 
-    private fun initPagingList() {
-        viewModel.getFilmList().observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
-        })
+    override fun onDestroyView() {
+        mDisposable.dispose()
+        super.onDestroyView()
     }
 
     private fun setupRecyclerView() {
@@ -96,49 +75,20 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
             layoutManager = GridLayoutManager(activity, 3)
         }
 
-
     }
 
+    private fun success(pagingData: PagingData<FilmDTO>){
+        adapter.submitData(lifecycle, pagingData)
+    }
     private fun hideProgressBar() {
         viewBinding.progressBar.visibility = View.INVISIBLE
     }
 
-    private fun readFilmDatabase() {
-        viewModel.observeLocalPagedSets().observe(viewLifecycleOwner, Observer {
-            //adapter.submitList(it)
-        })
-    }
-
-    private fun showProgressBar() {
-        if (viewModel.getListIsEmpty()) {
-            viewBinding.progressBar.visibility = View.VISIBLE
-        } else {
-            viewBinding.progressBar.visibility = View.GONE
-        }
-    }
 
     private fun showSnackbarCheckInternet(view: View) {
         Snackbar.make(view, R.string.no_internet_connection, Snackbar.LENGTH_SHORT).show()
     }
 
-    private fun swipeToRefresh(view: View) {
-        viewBinding.swipe.setOnRefreshListener {
-            activity?.let { activity ->
-                if (viewModel.isNetworkAvailable(activity)) {
-                    viewModel.refresh()
-                    viewModel.getFilmList().observe(viewLifecycleOwner, Observer { response ->
-                        initState(view)
-                        adapter.notifyDataSetChanged()
-                        adapter.submitList(response)
-                        viewBinding.swipe.isRefreshing = false
-                    })
-                } else {
-                    viewBinding.swipe.isRefreshing = false
-                    showSnackbarCheckInternet(view)
-                }
-            }
-        }
-    }
 
     override fun onMovieClicked(filmDTO: FilmDTO) {
         val navController = findNavController()
