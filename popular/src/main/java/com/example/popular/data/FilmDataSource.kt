@@ -30,7 +30,7 @@ class FilmDataSource @Inject constructor(
                 toLoadResult(
                     listFilm = response.items,
                     prevKey = if(page == 1) null else page - 1,
-                    nextKey = if(response.items.size ==  page) null else page + 1
+                    nextKey = if(response.totalPages == page) null else page + 1
                 )
             }
             .onErrorReturn { exception ->
