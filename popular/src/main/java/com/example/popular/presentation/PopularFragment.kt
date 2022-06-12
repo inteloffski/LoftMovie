@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
@@ -14,16 +13,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
 import com.example.core.navigation.PopularNavigator
 import com.example.core.network.responses.FilmDTO.FilmDTO
-import com.example.core.utils.Resource
 import com.example.detail.presentation.DetailPresentation.DetailFragmentViewModel
 import com.example.popular.R
 import com.example.popular.adapters.PopularFilmAdapter
 import com.example.popular.databinding.FragmentPopularBinding
 import com.example.popular.di.PopularComponent
 import com.google.android.material.snackbar.Snackbar
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -54,13 +50,9 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
-        mDisposable.add(
-            viewModel.getMovie()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe{ pagingFilm ->
-            success(pagingFilm)
-        })
+        mDisposable.addAll(
+            viewModel.getMovie().subscribe(::success)
+        )
     }
 
     override fun onDestroyView() {

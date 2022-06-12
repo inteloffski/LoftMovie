@@ -8,7 +8,6 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.*
 import androidx.paging.PagingData
-import androidx.paging.rxjava2.cachedIn
 import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.popular.data.PopularRepository
 import io.reactivex.Observable
@@ -21,6 +20,8 @@ class PopularFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun getMovie(): Observable<PagingData<FilmDTO>> = repository.fetchPopularFilms()
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
         .flatMap (::onFetchMovieStateSuccess)
         .onErrorResumeNext(::onFetchMovieStateError)
 
@@ -51,9 +52,6 @@ class PopularFragmentViewModel @Inject constructor(
         }
         return false
     }
-
-
-
 }
 
 
