@@ -7,20 +7,30 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import com.example.core.network.responses.FilmDTO.FilmDTO
 import com.example.popular.data.PopularRepository
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class PopularFragmentViewModel @Inject constructor(
     private val repository: PopularRepository
 ) : ViewModel() {
 
-    fun getState() = repository.getState()
+    fun getMovie(): Observable<PagingData<FilmDTO>> = repository.fetchPopularFilms()
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .flatMap (::onFetchMovieStateSuccess)
+        .onErrorResumeNext(::onFetchMovieStateError)
 
-    fun getListIsEmpty(): Boolean  = repository.listIsEmpty()
+    private fun onFetchMovieStateSuccess(pagingData: PagingData<FilmDTO>): Observable<PagingData<FilmDTO>> =
+        Observable.just(pagingData)
 
-    fun getFilmList() = repository.getFilmList()
+    private fun onFetchMovieStateError(error: Throwable): Observable<PagingData<FilmDTO>> =
+        Observable.error(error)
 
-    fun observeLocalPagedSets() = repository.observeLocalPagedSets()
 
     fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -42,12 +52,6 @@ class PopularFragmentViewModel @Inject constructor(
         }
         return false
     }
-
-    fun refresh() = repository.refresh()
-
-
-
-
 }
 
 

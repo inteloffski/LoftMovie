@@ -1,100 +1,54 @@
 package com.example.popular.data
 
 
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.PageKeyedDataSource
-import com.example.core.db.dao.FilmDao
-import com.example.core.db.dao.mapper.FilmDTOFilmEntityMapper
+
+import androidx.paging.PagingState
+import androidx.paging.rxjava2.RxPagingSource
 import com.example.core.network.responses.FilmDTO.FilmDTO
-import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import com.example.core.network.service.MovieService
-import com.example.core.utils.Resource
-import com.example.popular.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.net.UnknownHostException
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class FilmDataSource @Inject constructor(
-    private val service: MovieService,
-    private val dao: FilmDao,
-    private val mapper: FilmDTOFilmEntityMapper
-) : PageKeyedDataSource<Int, FilmDTO>() {
+    private val service: MovieService
+) : RxPagingSource<Int, FilmDTO>() {
 
-    val state: MutableLiveData<Resource<FilmResultResponse>> = MutableLiveData()
-
-    override fun loadInitial(
-        params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, FilmDTO>,
-    ) {
-        state.postValue(Resource.Loading())
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = service.getPopularFilms(page = 1)
-                if (response.isSuccessful) {
-                    response.body()?.let { resultResponse ->
-                        state.postValue(Resource.Success(resultResponse))
-                        mapper.map(resultResponse.items).forEach {
-                            if(it.isFavorite){
-
-                            } else{
-                                dao.getFilmById()
-                            }
-
-                        }
+    override fun getRefreshKey(state: PagingState<Int, FilmDTO>): Int? {
+        val anchorPosition = state.anchorPosition ?: return null
+        val anchorPage = state.closestPageToPosition(anchorPosition) ?: return null
+        return anchorPage.prevKey?.plus(1) ?: anchorPage.nextKey?.minus(1)
+    }
 
 
-                        callback.onResult(resultResponse.items, null, 2)
-                    }
-                } else {
-                    state.postValue(Resource.Error(response.message()))
-                }
-            } catch (e: Exception) {
-                when (e) {
-                    is UnknownHostException -> state.postValue(Resource.Error(R.string.no_internet_connection.toString()))
-                }
+    override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, FilmDTO>> {
+        val page = params.key ?: 1
+
+        return service.getPopularFilms(page)
+            .subscribeOn(Schedulers.io())
+            .map { response ->
+                toLoadResult(
+                    listFilm = response.items,
+                    prevKey = if(page == 1) null else page - 1,
+                    nextKey = if(response.totalPages == page) null else page + 1
+                )
+            }
+            .onErrorReturn { exception ->
+                LoadResult.Error(exception)
             }
 
-        }
-    }
-
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, FilmDTO>) {
-        state.postValue(Resource.Loading())
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = service.getPopularFilms(page = params.key)
-                if (response.isSuccessful) {
-                    response.body()?.let { resultResponse ->
-                        state.postValue(Resource.Success(resultResponse))
-                        mapper.map(resultResponse.items).forEach {
-                            if(it.isFavorite){
-
-                            } else{
-                                dao.getFilmById()
-                            }
-
-                        }
-
-                        callback.onResult(resultResponse.items, params.key + 1)
-                    }
-                } else {
-                    state.postValue(Resource.Error(response.message()))
-                }
-
-
-            } catch (e: Exception) {
-                when (e) {
-                    is UnknownHostException -> state.postValue(Resource.Error(R.string.no_internet_connection.toString()))
-                }
-            }
-        }
-    }
-
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, FilmDTO>) {
-
 
     }
 
+    private fun toLoadResult(
+        listFilm: List<FilmDTO>,
+        prevKey: Int?,
+        nextKey: Int?
+    ): LoadResult<Int, FilmDTO> =
+        LoadResult.Page(
+            data = listFilm,
+            prevKey = prevKey,
+            nextKey = nextKey
+        )
 
 }

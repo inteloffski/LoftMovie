@@ -4,6 +4,8 @@ import com.example.core.network.responses.ActorsDTO.Crew
 import com.example.core.network.responses.FilmDTO.FilmResultResponse
 import com.example.core.network.responses.videoDTO.ResultVideo
 import com.example.core.network.responses.videoDTO.Video
+import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,11 +17,11 @@ interface MovieService {
 
     //Get a list of the current popular movies on TMDb. This list updates daily.
     @GET("3/movie/popular/")
-    suspend fun getPopularFilms(
+    fun getPopularFilms(
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
-    ): Response<FilmResultResponse>
+    ): Single<FilmResultResponse>
 
     //Get the top rated movies on TMDb.
     @GET("/movie/top_rated")
