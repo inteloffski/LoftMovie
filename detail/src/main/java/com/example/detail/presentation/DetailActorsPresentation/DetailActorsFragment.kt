@@ -19,6 +19,7 @@ import com.example.detail.databinding.FragmentDetailActorsBinding
 import com.example.detail.di.DetailComponent
 import com.example.detail.presentation.DetailPresentation.DetailFragmentViewModel
 import javax.inject.Inject
+import com.example.asset.R as Asset
 
 
 class DetailActorsFragment : Fragment(R.layout.fragment_detail_actors) {
@@ -77,7 +78,7 @@ class DetailActorsFragment : Fragment(R.layout.fragment_detail_actors) {
                 }
                 is Resource.Error -> {
                     hideProgressBar()
-                    Toast.makeText(activity, R.string.loading_error, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, getString(Asset.string.loading_error), Toast.LENGTH_SHORT).show()
 
                 }
             }

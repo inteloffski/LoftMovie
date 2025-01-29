@@ -29,6 +29,7 @@ import com.example.favorite.databinding.FragmentFavoriteBinding
 import com.example.favorite.di.FavoriteComponent
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
+import com.example.asset.R as Asset
 
 
 class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.Listener {
@@ -106,7 +107,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.L
             ) {
 
                 val deleteIcon =
-                    ContextCompat.getDrawable(recyclerView.context, R.drawable.ic__delete_white_24)
+                    ContextCompat.getDrawable(recyclerView.context, Asset.drawable.ic__delete_white_24)
                 val intrinsicWidth = deleteIcon?.intrinsicWidth
                 val intrinsicHeight = deleteIcon?.intrinsicHeight
                 val background = ColorDrawable()
@@ -170,8 +171,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.L
                 val position = viewHolder.adapterPosition
                 val entity = adapter.currentList[position]
                 viewModel.deleteFilm(mapper.map(entity))
-                Snackbar.make(view, R.string.delete_film, Snackbar.LENGTH_SHORT).apply {
-                    setAction(R.string.undo_button) {
+                Snackbar.make(view, Asset.string.delete_film, Snackbar.LENGTH_SHORT).apply {
+                    setAction(Asset.string.undo_button) {
                         viewModel.saveFilm(mapper.map(entity).also {
                             it.isFavorite = true
                         })

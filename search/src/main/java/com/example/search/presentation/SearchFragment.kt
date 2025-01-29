@@ -82,6 +82,11 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.Listene
                 viewBinding.progress.visibility = View.INVISIBLE
                 adapter.submitList(it.result)
             }
+
+            SearchResult.EmptyQuery -> TODO()
+            SearchResult.EmptyResult -> TODO()
+            is SearchResult.ErrorResult -> TODO()
+            SearchResult.TerminalError -> TODO()
         }
     }
 
