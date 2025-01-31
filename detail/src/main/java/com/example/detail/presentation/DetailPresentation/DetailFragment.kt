@@ -28,6 +28,7 @@ import com.example.detail.databinding.FragmentDetailActorsBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
+import com.example.asset.R as Asset
 
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
@@ -81,13 +82,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onStop() {
         super.onStop()
         (activity as? AppCompatActivity)?.supportActionBar?.title =
-            getString(R.string.action_bar_name_fragment)
+            getString(Asset.string.action_bar_name_fragment)
     }
 
     private fun savedFilmOnClickButton(view: View) {
         viewBinding.addFavoriteButton.setOnClickListener {
             detailViewModel.savedFilm()
-            Snackbar.make(view, R.string.film_saved_successfully, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(view, Asset.string.film_saved_successfully, Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -114,7 +115,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     video.data?.results?.let { videoResult ->
                         if (videoResult.isNullOrEmpty()) {
                             Toast.makeText(view.context,
-                                R.string.trailer_not_found,
+                                Asset.string.trailer_not_found,
                                 Toast.LENGTH_SHORT).show()
                         } else {
                             val trailerUrl = videoResult[0].key
@@ -141,13 +142,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         TabLayoutMediator(viewBinding.tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = getString(R.string.tab2_actors_fragment)
+                    tab.text = getString(Asset.string.tab2_actors_fragment)
                 }
                 1 -> {
-                    tab.text = getString(R.string.tab1_description_fragment)
+                    tab.text = getString(Asset.string.tab1_description_fragment)
 
                 }
-                else -> tab.text = getString(R.string.tab3_undefined_fragment)
+                else -> tab.text = getString(Asset.string.tab3_undefined_fragment)
             }
         }.attach()
     }

@@ -15,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.core_api.providers.AppWithFacade
 import com.example.di.MainActivityComponent
 import com.example.main.databinding.ActivityMainBinding
+import com.example.asset.R as Asset
 
 const val TAG = "MainActivity"
 
@@ -38,13 +39,14 @@ class MainActivity : AppCompatActivity() {
         setupBottomNav(navController)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.dark_purple));
+            getWindow().setNavigationBarColor(getResources().getColor(Asset.color.dark_purple));
         }
 
 
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         val navController = findNavController(R.id.nav_host_fragment)
 
         val currentId = navController.currentDestination?.id
@@ -100,11 +102,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun showExitApplicationDialog(){
         val builder = AlertDialog.Builder(this)
-        builder.setMessage(R.string.alert_dialog_message)
-            .setPositiveButton(R.string.alert_dialog_positive_button) { dialog, which ->
+        builder.setMessage(Asset.string.alert_dialog_message)
+            .setPositiveButton(Asset.string.alert_dialog_positive_button) { dialog, which ->
                 finish()
             }
-            .setNegativeButton(R.string.alert_dialog_negative_button) {dialog, which ->
+            .setNegativeButton(Asset.string.alert_dialog_negative_button) {dialog, which ->
                 dialog.dismiss()
             }
         builder.create()

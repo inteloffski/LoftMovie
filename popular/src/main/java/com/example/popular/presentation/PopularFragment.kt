@@ -21,6 +21,7 @@ import com.example.popular.di.PopularComponent
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
+import com.example.asset.R as Asset
 
 
 class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.Listener {
@@ -78,7 +79,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular), PopularFilmAdapter.
 
 
     private fun showSnackbarCheckInternet(view: View) {
-        Snackbar.make(view, R.string.no_internet_connection, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(view, Asset.string.no_internet_connection, Snackbar.LENGTH_SHORT).show()
     }
 
 

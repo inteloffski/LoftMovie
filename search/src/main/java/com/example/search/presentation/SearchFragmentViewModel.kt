@@ -23,16 +23,16 @@ class SearchFragmentViewModel @Inject constructor(
 
     @ExperimentalCoroutinesApi
     @VisibleForTesting
-    internal val queryChannel = BroadcastChannel<String>(Channel.CONFLATED)
+    internal val queryChannel = Channel<String>(Channel.CONFLATED)
 
 
     @FlowPreview
     @ExperimentalCoroutinesApi
     @VisibleForTesting
     val internalSearchResult: Flow<SearchResult> = queryChannel
-        .asFlow()
+        .receiveAsFlow()
         .debounce(SEARCH_DELAY_MS)
-        .mapLatest {queryString ->
+        .mapLatest { queryString ->
             try {
                 if (queryString.length >= MIN_QUERY_LENGTH) {
                     val searchResult: Response<FilmResultResponse> = withContext(Dispatchers.IO) {

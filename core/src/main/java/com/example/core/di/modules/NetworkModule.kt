@@ -1,6 +1,5 @@
 package com.example.core.di.modules
 
-import com.example.core.BuildConfig
 import com.example.core.network.service.MovieService
 import dagger.Module
 import dagger.Provides
@@ -27,9 +26,7 @@ class NetworkModule {
     @Provides
     fun provideHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) {
-            clientBuilder.addInterceptor(interceptor)
-        }
+        clientBuilder.addInterceptor(interceptor)
         return clientBuilder.build()
     }
 

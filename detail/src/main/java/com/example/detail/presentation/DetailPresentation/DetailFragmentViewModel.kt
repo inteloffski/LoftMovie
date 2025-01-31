@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 import javax.inject.Inject
+import com.example.asset.R as Asset
 
 class DetailFragmentViewModel @Inject constructor(
     private val repository: DetailRepository,
@@ -54,7 +55,7 @@ class DetailFragmentViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 when(e){
-                    is UnknownHostException -> _videoLiveData?.postValue(Resource.Error(R.string.no_internet_connection.toString()))
+                    is UnknownHostException -> _videoLiveData?.postValue(Resource.Error(Asset.string.no_internet_connection.toString()))
                 }
             }
         }
@@ -77,7 +78,7 @@ class DetailFragmentViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> _stateListActors.postValue(Resource.Error(R.string.no_internet_connection.toString()))
+                    is UnknownHostException -> _stateListActors.postValue(Resource.Error(Asset.string.no_internet_connection.toString()))
                 }
             }
         }
