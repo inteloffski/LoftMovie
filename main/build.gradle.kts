@@ -19,12 +19,16 @@ dependencies {
 
     implementation(Dependencies.MATERIAL)
     implementation(Dependencies.DAGGER)
-    implementation(Dependencies.DAGGER_COMPILER)
+    kapt(Dependencies.DAGGER_COMPILER)
     implementation(Dependencies.VIEW_BINDING_DELEGATE)
     implementation(Dependencies.RETROFIT_CONVERTER_GSON)
     implementation(Dependencies.ANDROID_CORE)
     implementation(Dependencies.APP_COMPAT)
     implementation(Dependencies.CONSTRAINT_LAYOUT)
     Dependencies.navigations.forEach(::implementation)
+
+    testImplementation(Dependencies.JUNIT)
+    androidTestImplementation(Dependencies.ANDROID_JUNIT)
+    androidTestImplementation(Dependencies.ANDROID_ESPRESSO)
 
 }

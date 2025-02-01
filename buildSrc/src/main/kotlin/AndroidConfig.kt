@@ -4,12 +4,9 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
 object AndroidConfig {
-    const val compileSdk = 34
-    const val minSdk = 21
-    const val targetSdk = 34
-    const val jvmTarget = "17"
-
-
+    const val COMPILE_SDK = 34
+    const val MIN_SDK = 21
+    const val TARGET_SDK = 34
 }
 
 fun Project.configureAndroidLibrary(namespace: String) {
@@ -19,11 +16,15 @@ fun Project.configureAndroidLibrary(namespace: String) {
 
     extensions.configure<LibraryExtension> {
         this.namespace = namespace
-        compileSdk = AndroidConfig.compileSdk
+        compileSdk = AndroidConfig.COMPILE_SDK
+
+        buildFeatures {
+            viewBinding = true
+        }
 
         defaultConfig {
-            minSdk = AndroidConfig.minSdk
-            targetSdk = AndroidConfig.targetSdk
+            minSdk = AndroidConfig.MIN_SDK
+            targetSdk = AndroidConfig.TARGET_SDK
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
