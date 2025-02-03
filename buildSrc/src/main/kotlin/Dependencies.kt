@@ -10,6 +10,8 @@ object Dependencies {
 
     const val RETROFIT_CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:2.8.1"
     const val RETROFIT = "com.squareup.retrofit2:retrofit:2.9.0"
+    const val RETROFIT_MOCK = "com.squareup.retrofit2:retrofit-mock:2.7.2"
+    const val INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
     const val VIEW_BINDING_DELEGATE = "com.github.kirich1409:viewbindingpropertydelegate:1.5.3"
 
@@ -31,6 +33,11 @@ object Dependencies {
         "androidx.navigation:navigation-fragment-ktx:2.8.5",
         "androidx.navigation:navigation-ui-ktx:2.8.5",
     )
+    const val LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    const val LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:2.8.7"
+    const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7"
+    const val LIFECYCLE_LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:2.8.7"
 
-
+    const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+    const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 }
