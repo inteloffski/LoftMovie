@@ -5,12 +5,27 @@ object Dependencies {
     const val DAGGER = "com.google.dagger:dagger:2.54"
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:2.54"
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:2.2.0"
+    const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:1.4.0"
+    const val CARD_VIEW = "androidx.cardview:cardview:1.0.0"
+
     const val RETROFIT_CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:2.8.1"
+    const val RETROFIT = "com.squareup.retrofit2:retrofit:2.9.0"
+
     const val VIEW_BINDING_DELEGATE = "com.github.kirich1409:viewbindingpropertydelegate:1.5.3"
 
     const val JUNIT = "junit:junit:4.13.2"
     const val ANDROID_JUNIT = "androidx.test.ext:junit:1.2.1"
     const val ANDROID_ESPRESSO = "androidx.test.espresso:espresso-core:3.6.1"
+
+    const val GLIDE = "com.github.bumptech.glide:glide:4.11.0"
+    const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:4.11.0"
+
+    const val PAGING = "androidx.paging:paging-runtime-ktx:3.3.5"
+    const val PAGING_RX = "androidx.paging:paging-rxjava2-ktx:3.3.5"
+    const val RX_ANDROID = "io.reactivex.rxjava2:rxandroid:2.1.1"
+
+    const val SWIPE_REFRESH_LAYOUT = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
 
      val navigations = listOf(
         "androidx.navigation:navigation-fragment-ktx:2.8.5",
