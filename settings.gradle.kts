@@ -10,6 +10,7 @@ val modules = listOf(
     ":main",
     ":core",
     ":app",
+    ":auth",
 )
 
 modules.forEach { module -> include(module) }
