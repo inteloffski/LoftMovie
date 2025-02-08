@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    configureAndroidLibrary(namespace = "com.example.detail")
+    configureAndroidLibrary(namespace = "com.samarbaeffruslan.detail")
 }
 
 dependencies {

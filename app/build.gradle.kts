@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    configureApplication(namespace = "com.example.loftmovie")
+    configureApplication(namespace = "com.samarbaeffruslan.loftmovie")
 }
 
 dependencies {

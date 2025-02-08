@@ -7,7 +7,7 @@
     android:background="@color/dark_purple"
     tools:context=".presentation.SplashFragment">
 
-    <com.example.splash.presentation.CircleCustomView
+    <com.samarbaeffruslan.splash.presentation.CircleCustomView
         android:id="@+id/circleCustomView"
         android:layout_width="150dp"
         android:layout_height="150dp"

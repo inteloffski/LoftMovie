@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    configureAndroidLibrary(namespace = "com.example.asset")
+    configureAndroidLibrary(namespace = "com.samarbaeffruslan.asset")
 }
 
 dependencies {
