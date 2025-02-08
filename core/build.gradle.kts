@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    configureAndroidLibrary(namespace = "com.example.core")
+    configureAndroidLibrary(namespace = "com.samarbaeffruslan.core")
 }
 
 

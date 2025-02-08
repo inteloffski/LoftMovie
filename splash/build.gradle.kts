@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    configureAndroidLibrary(namespace = "com.example.splash")
+    configureAndroidLibrary(namespace = "com.samarbaeffruslan.splash")
 }
 
 dependencies {

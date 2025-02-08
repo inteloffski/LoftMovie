@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    configureAndroidLibrary(namespace = "com.example.search")
+    configureAndroidLibrary(namespace = "com.samarbaeffruslan.search")
 }
 
 dependencies {
