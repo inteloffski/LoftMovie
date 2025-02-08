@@ -8,7 +8,6 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-
     modules = [MainActivityModule::class],
     dependencies = [ProvidersFacade::class]
 )
