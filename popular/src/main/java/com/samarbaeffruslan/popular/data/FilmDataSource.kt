@@ -24,7 +24,7 @@ class FilmDataSource @Inject constructor(
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, FilmDTO>> {
         val page = params.key ?: 1
 
-        return service.getPopularFilms(page)
+        return service.getPopularFilms(page = page)
             .subscribeOn(Schedulers.io())
             .map { response ->
                 toLoadResult(
