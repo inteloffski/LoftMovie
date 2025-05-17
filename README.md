@@ -32,7 +32,7 @@ splash/ — Splash screen feature-module
 
 ## ⚙️ Getting Started
 
-1. Clone the repository: 
+1. Clone the repository. 
 2. Open the project in Android Studio.
 3. Sync Gradle dependencies.
 4. Run the app on an emulator or physical device.
